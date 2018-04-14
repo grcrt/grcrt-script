@@ -1,0 +1,7 @@
+# directories and files created by script builder are not needed in repo
+# as with each repo update they'd have to be re-created
+dist/
+node_modules/
+tmp/
+
+package-lock.json

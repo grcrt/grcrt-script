@@ -32,7 +32,9 @@
   },
   "release": {
     "npmPublish": false,
-    "assets": ["dist/*.js"],
+    "assets": [
+      "dist/*.js"
+    ],
     "prepare": [
       {
         "path": "@semantic-release/changelog",

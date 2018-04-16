@@ -1,11 +1,12 @@
 function _GRCRTOceanNumbers(){
+    var _cookie = RepConv._cookie + "_oceanNumber";
     function oceanNumbers(){
         if ($('#map_move_container').length == 0) {
             setTimeout(function(){
                 oceanNumbers();
             }, 100);
         } else {
-            if (!RepConv.active.oceanNumber) {
+            if (!RepConv.settings[_cookie]) {
                 $('div#grcrt_oceanNumbers').remove()
             } else {
                 if ($('div#grcrt_oceanNumbers').length == 0) {
@@ -25,6 +26,12 @@ function _GRCRTOceanNumbers(){
             }
         }
     }
+
+    RepConv.sChbxs[_cookie] = { 
+        label : 'CHKOCEANNUMBER',
+        default : true
+    }
+
     $.Observer(GameEvents.grcrt.settings.load)
         .subscribe('GRCRTOceanNumbers_settings_load', function() {
             oceanNumbers();

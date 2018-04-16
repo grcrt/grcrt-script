@@ -6,45 +6,23 @@ function _RepConvTool() {
     this.checkSettings = function(){
         var defData = {}, setOK = true;
         defData[RepConv.CookieCmdImg] = true,
-        defData[RepConv.CookiePower] = true,
-        defData[RepConv.CookieForumTabs] = true,
         defData[RepConv.CookieStatsGRCL] = 'potusek',
-        defData[RepConv.CookieUnitsCost] = true,
-        defData[RepConv.CookieOceanNumber] = true,
-        defData[RepConv.CookieReportFormat] = true,
         defData[RepConv.CookieSounds] = { mute: false, volume: 100, url:'', loop:true};
         
         RepConv.settings = RepConv.settings || {}
         
-        if(RepConv.settings[RepConv.CookiePower] == undefined){
-            RepConv.settings[RepConv.CookiePower] = JSON.parse(RepConvTool.getSettings(RepConv.CookiePower, defData[RepConv.CookiePower])),
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.CookiePower)
-        }
-        if(RepConv.settings[RepConv.CookieForumTabs] == undefined){
-            RepConv.settings[RepConv.CookieForumTabs] = JSON.parse(RepConvTool.getSettings(RepConv.CookieForumTabs, defData[RepConv.CookieForumTabs])),
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.CookieForumTabs)
-        }
+        $.each(RepConv.sChbxs, function(opt, optData){
+            if(RepConv.settings[opt] == undefined){
+                RepConv.settings[opt] = JSON.parse(RepConvTool.getSettings(opt, optData.default)),
+                setOK = false;
+                RepConv.Debug && console.log(RepConv.CookieReportFormat)
+            }
+        })
+
         if(RepConv.settings[RepConv.CookieStatsGRCL] == undefined){
             RepConv.settings[RepConv.CookieStatsGRCL] = RepConvTool.getSettings(RepConv.CookieStatsGRCL, defData[RepConv.CookieStatsGRCL]),
             setOK = false;
             RepConv.Debug && console.log(RepConv.CookieStatsGRCL)
-        }
-        if(RepConv.settings[RepConv.CookieUnitsCost] == undefined){
-            RepConv.settings[RepConv.CookieUnitsCost] = JSON.parse(RepConvTool.getSettings(RepConv.CookieUnitsCost,defData[RepConv.CookieUnitsCost])),
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.CookieUnitsCost)
-        }
-        if(RepConv.settings[RepConv.CookieOceanNumber] == undefined){
-            RepConv.settings[RepConv.CookieOceanNumber] = JSON.parse(RepConvTool.getSettings(RepConv.CookieOceanNumber, defData[RepConv.CookieOceanNumber])),
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.CookieOceanNumber)
-        }
-        if(RepConv.settings[RepConv.CookieReportFormat] == undefined){
-            RepConv.settings[RepConv.CookieReportFormat] = JSON.parse(RepConvTool.getSettings(RepConv.CookieReportFormat, defData[RepConv.CookieReportFormat])),
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.CookieReportFormat)
         }
         if(RepConv.settings[RepConv.CookieUnitsABH] == undefined){
             RepConv.settings[RepConv.CookieUnitsABH] = RepConvTool.getSettings(RepConv.CookieUnitsABH, "{}"),
@@ -76,40 +54,10 @@ function _RepConvTool() {
             setOK = false;
             RepConv.Debug && console.log(RepConv.CookieEmots)
         }
-        if(RepConv.settings[RepConv.Cookie+'_idle'] == undefined){
-            RepConv.settings[RepConv.Cookie+'_idle'] = true;//!(typeof QT_saveValue == 'function')
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.Cookie+'_idle')
-        }
         if(RepConv.settings[RepConv.CookieSounds] == undefined){
             RepConv.settings[RepConv.CookieSounds] = JSON.parse(RepConvTool.getSettings(RepConv.CookieSounds, JSON.stringify(defData[RepConv.CookieSounds]))),
             setOK = false;
             RepConv.Debug && console.log(RepConv.CookieSounds)
-        }
-        if(RepConv.settings[RepConv.Cookie+'_wonder_trade'] == undefined){
-            RepConv.settings[RepConv.Cookie+'_wonder_trade'] = (RepConv.settings[RepConv.Cookie+'_wonder_trade']==undefined)?true:RepConv.settings[RepConv.Cookie+'_wonder_trade'],
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.Cookie+'_wonder_trade')
-        }
-        if(RepConv.settings[RepConv.Cookie+'_town_popup'] == undefined){
-            RepConv.settings[RepConv.Cookie+'_town_popup'] = (RepConv.settings[RepConv.Cookie+'_town_popup']==undefined)?true:RepConv.settings[RepConv.Cookie+'_town_popup'],
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.Cookie+'_town_popup')
-        }
-        if(RepConv.settings[RepConv.Cookie+'_tacl'] == undefined){
-            RepConv.settings[RepConv.Cookie+'_tacl'] = (RepConv.settings[RepConv.Cookie+'_tacl']==undefined)?true:RepConv.settings[RepConv.Cookie+'_tacl'],
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.Cookie+'_tacl')
-        }
-        if(RepConv.settings[RepConv.Cookie+'_mcol'] == undefined){
-            RepConv.settings[RepConv.Cookie+'_mcol'] = (RepConv.settings[RepConv.Cookie+'_mcol']==undefined)?true:RepConv.settings[RepConv.Cookie+'_mcol'],
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.Cookie+'_mcol')
-        }
-        if(RepConv.settings[RepConv.Cookie+'_bupo'] == undefined){
-            RepConv.settings[RepConv.Cookie+'_bupo'] = (RepConv.settings[RepConv.Cookie+'_bupo']==undefined)?true:RepConv.settings[RepConv.Cookie+'_bupo'],
-            setOK = false;
-            RepConv.Debug && console.log(RepConv.Cookie+'_bupo')
         }
 
         if(!setOK){
@@ -132,7 +80,7 @@ function _RepConvTool() {
             RepConv.active.ftabs = RepConv.settings[RepConv.CookieForumTabs],//, defData[RepConv.CookieForumTabs]),
             RepConv.active.statsGRCL = RepConv.settings[RepConv.CookieStatsGRCL],//, defData[RepConv.CookieStatsGRCL]),
             RepConv.active.unitsCost = RepConv.settings[RepConv.CookieUnitsCost],//,defData[RepConv.CookieUnitsCost]),
-            RepConv.active.oceanNumber = RepConv.settings[RepConv.CookieOceanNumber],//, defData[RepConv.CookieOceanNumber]),
+            // RepConv.active.oceanNumber = RepConv.settings[RepConv.CookieOceanNumber],//, defData[RepConv.CookieOceanNumber]),
             RepConv.active.reportFormat = RepConv.settings[RepConv.CookieReportFormat],//, defData[RepConv.CookieReportFormat]);
             RepConv.audioSupport && (RepConv.active.sounds = RepConv.settings[RepConv.CookieSounds]),
             this.useSettings()

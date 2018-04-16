@@ -401,6 +401,7 @@ function _GRCRTMain(){
         ga('create', 'UA-6635454-10', 'auto');
         ga('send', 'pageview');                
     }
+    this.sChbxs = {};
     this.init = function() {
         if (typeof Game != 'object' && typeof MousePopup != 'function' && typeof GameEvents != 'object') {
             setTimeout(function(){RepConv.init();},1000);
@@ -432,7 +433,7 @@ function _GRCRTMain(){
                 this.CookieStatsGRC2 = this._cookie + "_statsGRC2",
                 this.CookieStatsGRCL = this._cookie + "_statsGRCL",
                 this.CookieUnitsCost = this._cookie + "_unitsCost",
-                this.CookieOceanNumber = this._cookie + "_oceanNumber",
+                // this.CookieOceanNumber = this._cookie + "_oceanNumber",
                 this.CookieReportFormat = this._cookie + "_repFormat",
                 this.CookieUnitsRecr = this._cookie + "_unitsRecr",
                 this.CookieUnitsABH = this._cookie + "_unitsRecrABH",
@@ -441,6 +442,16 @@ function _GRCRTMain(){
                 this.CookieWall = this._cookie + "_wall",
                 this.hash = $.md5(this._cookie);
                 
+                this.sChbxs[RepConv.CookiePower]            = { label : 'CHKPOWERNAME'      , default : true},
+                this.sChbxs[RepConv.CookieForumTabs]        = { label : 'CHKFORUMTABS'      , default : true},
+                this.sChbxs[RepConv.CookieUnitsCost]        = { label : 'CHKUNITSCOST'      , default : true},
+                this.sChbxs[RepConv.CookieReportFormat]     = { label : 'CHKREPORTFORMAT'   , default : true},
+                this.sChbxs[RepConv.Cookie+'_idle']         = { label : 'STATS.CHKINACTIVE' , default : true},
+                this.sChbxs[RepConv.Cookie+'_wonder_trade'] = { label : 'CHKWONDERTRADE'    , default : true},
+                this.sChbxs[RepConv.Cookie+'_town_popup']   = { label : 'CHKTOWNPOPUP'      , default : true},
+                this.sChbxs[RepConv.Cookie+'_mcol']         = { label : 'CHKMCOL'           , default : true},
+                this.sChbxs[RepConv.Cookie+'_bupo']         = { label : 'CHKBUPO'           , default : true},
+
                 RepConvLangArray = new _GRCRTRepConvLangArray()
 
                 if (RepConvLangArray[Game.locale_lang.substring(0,2)] == undefined) {

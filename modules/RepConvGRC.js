@@ -1985,20 +1985,27 @@ function _RepConvGRC() {
                         .append(resChk)
                 ),
             resEmo = $('<fieldset/>', {'style': 'float:right; width:370px; min-height: 250px;'})
-            cPower = genCheckBox(RepConv.CookiePower, RepConv.active.power, 'CHKPOWERNAME'),
-            cFTabs = genCheckBox(RepConv.CookieForumTabs, RepConv.active.ftabs, 'CHKFORUMTABS'),
-            cUCost = genCheckBox(RepConv.CookieUnitsCost, RepConv.active.unitsCost, 'CHKUNITSCOST'),
-            cOcean = genCheckBox(RepConv.CookieOceanNumber, RepConv.active.oceanNumber, 'CHKOCEANNUMBER'),
-            cRForm = genCheckBox(RepConv.CookieReportFormat, RepConv.active.reportFormat, 'CHKREPORTFORMAT'),
+
+            var chbx = {}
+            $.each(RepConv.sChbxs, function(opt, optData){
+                chbx[opt] = genCheckBox(opt, RepConv.settings[opt], optData.label)
+            })
+
+            // cPower = genCheckBox(RepConv.CookiePower, RepConv.active.power, 'CHKPOWERNAME'),
+            // cFTabs = genCheckBox(RepConv.CookieForumTabs, RepConv.active.ftabs, 'CHKFORUMTABS'),
+            // cUCost = genCheckBox(RepConv.CookieUnitsCost, RepConv.active.unitsCost, 'CHKUNITSCOST'),
+            // cOcean = genCheckBox(RepConv.CookieOceanNumber, RepConv.active.oceanNumber, 'CHKOCEANNUMBER'),
+            // cRForm = genCheckBox(RepConv.CookieReportFormat, RepConv.active.reportFormat, 'CHKREPORTFORMAT'),
+            // cIdle  = genCheckBox(RepConv.Cookie+'_idle', RepConv.settings[RepConv.Cookie+'_idle'], 'STATS.CHKINACTIVE'),
+            // cWTrad = genCheckBox(RepConv.Cookie+'_wonder_trade', RepConv.settings[RepConv.Cookie+'_wonder_trade'], 'CHKWONDERTRADE'),
+            // cTnPop = genCheckBox(RepConv.Cookie+'_town_popup', RepConv.settings[RepConv.Cookie+'_town_popup'], 'CHKTOWNPOPUP'),
+            // cbTacl = genCheckBox(RepConv.Cookie+'_tacl', RepConv.settings[RepConv.Cookie+'_tacl'], 'CHKTACL'),
+            // cbMCol = genCheckBox(RepConv.Cookie+'_mcol', RepConv.settings[RepConv.Cookie+'_mcol'], 'CHKMCOL'),
+
+            // cbBuPo = genCheckBox(RepConv.Cookie+'_bupo', RepConv.settings[RepConv.Cookie+'_bupo'], 'CHKBUPO'),
+
             cSLoop = genCheckBox('GRCRTsoundLoop',RepConv.active.sounds.loop, 'CHKSOUNDLOOP'),
             cSMute = genCheckBox('GRCRTsoundMute',RepConv.active.sounds.mute, 'POPSOUNDMUTE'),
-            cIdle  = genCheckBox(RepConv.Cookie+'_idle', RepConv.settings[RepConv.Cookie+'_idle'], 'STATS.CHKINACTIVE'),
-            cOTrad = genCheckBox(RepConv.Cookie+'_trade', RepConv.settings[RepConv.Cookie+'_trade'], 'CHKOLDTRADE'),
-            cWTrad = genCheckBox(RepConv.Cookie+'_wonder_trade', RepConv.settings[RepConv.Cookie+'_wonder_trade'], 'CHKWONDERTRADE'),
-            cTnPop = genCheckBox(RepConv.Cookie+'_town_popup', RepConv.settings[RepConv.Cookie+'_town_popup'], 'CHKTOWNPOPUP'),
-            cbTacl = genCheckBox(RepConv.Cookie+'_tacl', RepConv.settings[RepConv.Cookie+'_tacl'], 'CHKTACL'),
-            cbMCol = genCheckBox(RepConv.Cookie+'_mcol', RepConv.settings[RepConv.Cookie+'_mcol'], 'CHKMCOL'),
-            cbBuPo = genCheckBox(RepConv.Cookie+'_bupo', RepConv.settings[RepConv.Cookie+'_bupo'], 'CHKBUPO'),
             sStats = $('<div/>',{'id':'statsGRC2Sel','class':'dropdown default','style':'margin-left:5px;width: 150px;'})
 			    .dropdown({
 				    list_pos : 'left',
@@ -2011,19 +2018,22 @@ function _RepConvGRC() {
 				    ]
 			    })
         ;
+        $.each(chbx, function(name,_chbx){
+            $(resChk).append(_chbx)
+        })
         $(resChk)
-            .append(cPower)
-            .append(cFTabs)
-            .append(cUCost)
-            .append(cOcean)
-            .append(cRForm )
-            .append(cIdle)
-            //.append(cOTrad)
-            .append(cWTrad)
-            .append(cTnPop)
-            .append(cbTacl)
-            .append(cbMCol)
-            .append(cbBuPo)
+            // .append(cPower)
+            // .append(cFTabs)
+            // .append(cUCost)
+            // .append(cOcean)
+            // .append(cRForm )
+            // .append(cIdle)
+            // //.append(cOTrad)
+            // .append(cWTrad)
+            // .append(cTnPop)
+            // .append(cbTacl)
+            // .append(cbMCol)
+            // .append(cbBuPo)
             .append(
                 $('<div/>', {'style': 'padding: 5px'})
                     .append(
@@ -2151,22 +2161,25 @@ function _RepConvGRC() {
             .append(
                 (RepConvTool.AddBtn('BTNSAVE')).click(function() {
                     try {
-                        RepConv.settings[RepConv.CookiePower] = cPower.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.CookieForumTabs] = cFTabs.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.CookieUnitsCost] = cUCost.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.CookieOceanNumber] = cOcean.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.Cookie+'_idle'] = cIdle.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.Cookie+'_trade'] = cOTrad.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.Cookie+'_wonder_trade'] = cWTrad.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.Cookie+'_town_popup'] = cTnPop.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.Cookie+'_tacl'] = cbTacl.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.Cookie+'_mcol'] = cbMCol.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.Cookie+'_bupo'] = cbBuPo.isChecked() ? !0 : !1,
-                        RepConv.settings[RepConv.CookieReportFormat] = cRForm.isChecked() ? !0 : !1,
+                        $.each(chbx, function(name,_chbx){
+                            RepConv.settings[name] = _chbx.isChecked() ? !0 : !1
+                        })
+                        // RepConv.settings[RepConv.CookiePower] = cPower.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.CookieForumTabs] = cFTabs.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.CookieUnitsCost] = cUCost.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.CookieOceanNumber] = cOcean.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.Cookie+'_idle'] = cIdle.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.Cookie+'_trade'] = cOTrad.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.Cookie+'_wonder_trade'] = cWTrad.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.Cookie+'_town_popup'] = cTnPop.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.Cookie+'_tacl'] = cbTacl.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.Cookie+'_mcol'] = cbMCol.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.Cookie+'_bupo'] = cbBuPo.isChecked() ? !0 : !1,
+                        // RepConv.settings[RepConv.CookieReportFormat] = cRForm.isChecked() ? !0 : !1,
                         RepConv.settings[RepConv.CookieStatsGRCL] = sStats.getValue(),
                         RepConv.settings[RepConv.CookieEmots] = $('#GRCRTEmots').val();//$('#GRCRTEmots').attr('value');
 
-			if (RepConv.audioSupport){
+            			if (RepConv.audioSupport){
                             RepConv.settings[RepConv.CookieSounds] = {
                                 mute : cSMute.isChecked() ? !0 : !1,
                                 loop : cSLoop.isChecked() ? !0 : !1,
@@ -2183,8 +2196,7 @@ function _RepConvGRC() {
                                     .append($('<source/>',{'src':RepConv.Const.defAlarmM+'.ogg'}))
                             }
                             RepConv.audio.alarm = _aSound.get(0);
-			}						
-                        RepConvTool.saveRemote(),
+            			}						
                         // TODO
                         RepConv.active.power = RepConvTool.getSettings(RepConv.CookiePower),
                         RepConv.active.ftabs = RepConvTool.getSettings(RepConv.CookieForumTabs),
@@ -2193,6 +2205,8 @@ function _RepConvGRC() {
                         RepConv.active.oceanNumber = RepConvTool.getSettings(RepConv.CookieOceanNumber),
                         RepConv.active.reportFormat = RepConvTool.getSettings(RepConv.CookieReportFormat),
                         RepConv.active.sounds = RepConvTool.getSettings(RepConv.CookieSounds);
+
+                        RepConvTool.saveRemote(),
 /*
                         $.each(chckboxs, function(ind, elem) {
                             if(elem.rel != 'statsGRCL'){
@@ -2233,31 +2247,48 @@ function _RepConvGRC() {
 			}						
 */
                         setTimeout(function(){
-							HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
-						},0)
+    						HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
+    					},0)
                     } catch (err) {
-						setTimeout(function(){
-							HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
-						},0)
+    					setTimeout(function(){
+    						HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
+    					},0)
                     }
-                })
-            );
+            })
+        );
         return result;
     }
 
     function townPopup(){
         if (RepConv.settings[RepConv.Cookie+'_town_popup']){
-            $.each($('#town_groups_list .item.town_group_town:not(.grcrtPopup)'), function(it,et){
-            //console.log($(et).data('townid'))
-                var cc = ITowns.towns[$(et).data('townid')];
+            var acc = {}, alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName()
+            $.each(ITowns.towns, function(ind,town){
+                var cc = town;
                 cc.points = cc.getPoints();
                 cc.player_name = Game.player_name
-                cc.alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName()
-                $(et).find($('.town_name')).mousePopup(new MousePopup(WMap.createTownTooltip('town',cc)))
+                cc.alliance_name = alliance_name
+                cc.tooltip = new MousePopup(WMap.createTownTooltip('town',cc))
+                acc[ind]=cc
+            })
+            $.each($('#town_groups_list .item.town_group_town:not(.grcrtPopup)'), function(it,et){
+                var cc = acc[$(et).data('townid')];
+                // $(et).find($('.town_name')).mousePopup(new MousePopup(WMap.createTownTooltip('town',cc)))
+                $(et).find($('.town_name')).mousePopup(cc.tooltip)
                 $(et).addClass('grcrtPopup')
             })
         }
     }
+
+var acc = {}, alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName()
+$.each(ITowns.towns, function(ind,town){
+    var cc = town;
+    cc.points = cc.getPoints();
+    cc.player_name = Game.player_name
+    cc.alliance_name = alliance_name
+    acc[ind]=cc
+})
+
+
 
     function emotsTabs(wndType, action){//insertArea){
         var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px;'}),
@@ -3184,46 +3215,46 @@ function _RepConvGRC() {
         }
     }
 
-    function activity_commands_list(){
-        if($('#toolbar_activity_commands_list').length==0){
-            setTimeout(function(){
-                activity_commands_list()
-            },500);
-            return;
-        }
-        // command list
-        if($('#grcrt_taclWrap').length==0){
-            $('#toolbar_activity_commands_list').wrap($('<div/>',{'class':'grcrt_taclWrap', 'id':'grcrt_taclWrap'}))
-            if(RepConv.settings[RepConv.Cookie+'_tacl']){
-                $('#toolbar_activity_commands_list').addClass('grcrt_tacl')
-                $('#grcrt_taclWrap').draggable().draggable('enable')
-            } else {
-                $('#toolbar_activity_commands_list').removeClass('grcrt_tacl')
-                $('#grcrt_taclWrap').draggable().draggable('disable').removeAttr('style')
-            }
-        }
+    // function activity_commands_list(){
+    //     if($('#toolbar_activity_commands_list').length==0){
+    //         setTimeout(function(){
+    //             activity_commands_list()
+    //         },500);
+    //         return;
+    //     }
+    //     // command list
+    //     if($('#grcrt_taclWrap').length==0){
+    //         $('#toolbar_activity_commands_list').wrap($('<div/>',{'class':'grcrt_taclWrap', 'id':'grcrt_taclWrap'}))
+    //         if(RepConv.settings[RepConv.Cookie+'_tacl']){
+    //             $('#toolbar_activity_commands_list').addClass('grcrt_tacl')
+    //             $('#grcrt_taclWrap').draggable().draggable('enable')
+    //         } else {
+    //             $('#toolbar_activity_commands_list').removeClass('grcrt_tacl')
+    //             $('#grcrt_taclWrap').draggable().draggable('disable').removeAttr('style')
+    //         }
+    //     }
 
-        var 
-            tacl_id = '#toolbar_activity_commands_list',
-            tacl_clk = '.activity.commands',
-            target_tacl = document.querySelector(tacl_id),
-            observer_tacl = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if($(target_tacl).hasClass('grcrt_tacl') && ($('#grcrt_taclWrap').attr('style') && $(target_tacl).css('display')=="none")){
-                        $(tacl_clk).trigger('mouseenter')
-                    }
-                });
-            });
-        $(tacl_id+">.js-dropdown-list")
-            .append(
-                $('<a/>',{'href':'#n','class':'cancel', 'style':'display:none;'})
-                    .click(function(){
-                        $('#grcrt_taclWrap').removeAttr('style')
-                    })
-            )
-        observer_tacl.observe(target_tacl, { attributes: true, childList: false, characterData: false });
-        // $(tacl_id).draggable().draggable('disable')
-    }
+    //     var 
+    //         tacl_id = '#toolbar_activity_commands_list',
+    //         tacl_clk = '.activity.commands',
+    //         target_tacl = document.querySelector(tacl_id),
+    //         observer_tacl = new MutationObserver(function(mutations) {
+    //             mutations.forEach(function(mutation) {
+    //                 if($(target_tacl).hasClass('grcrt_tacl') && ($('#grcrt_taclWrap').attr('style') && $(target_tacl).css('display')=="none")){
+    //                     $(tacl_clk).trigger('mouseenter')
+    //                 }
+    //             });
+    //         });
+    //     $(tacl_id+">.js-dropdown-list")
+    //         .append(
+    //             $('<a/>',{'href':'#n','class':'cancel', 'style':'display:none;'})
+    //                 .click(function(){
+    //                     $('#grcrt_taclWrap').removeAttr('style')
+    //                 })
+    //         )
+    //     observer_tacl.observe(target_tacl, { attributes: true, childList: false, characterData: false });
+    //     // $(tacl_id).draggable().draggable('disable')
+    // }
 
     function town_groups_list_chg(){
         if(uw.layout_main_controller && uw.layout_main_controller.sub_controllers){
@@ -3523,22 +3554,6 @@ function _RepConvGRC() {
                     '.grcrt_brackets:before { content: "("}\n'+
                     '.grcrt_brackets:after { content: ")"}'
                 )
-                .append( // frozen lists
-                    $('<style/>')
-                        .append('#grcrt_taclWrap { left:312px; position: absolute; top: 29px;}')
-                        .append('#grcrt_taclWrap>#toolbar_activity_commands_list { left: 0 !important; top: 0 !important;}')
-                        .append('.grcrt_tacl { z-index:5000 !important;}')
-                        .append('.grcrt_tacl>.js-dropdown-list>a.cancel { position: relative; float: right; margin-bottom: 11px;display:none; opacity: 0; visibility: hidden; transition: visibility 0s, opacity 0.5s linear;}')
-                        .append('.grcrt_tacl>.js-dropdown-list:hover>a.cancel { display: block !important; visibility: visible; opacity: 0.5;}')
-                        .append('.grcrt_tacl>.js-dropdown-list>a.cancel:hover { opacity: 1;}')
-                        // .append('.grcrt_tarl>a.cancel,.grcrt_tacl>a.cancel,.grcrt_tatl>a.cancel { position: relative; float: right; margin-bottom: 0px;display:none; opacity: 0; visibility: hidden; transition: visibility 0s, opacity 0.5s linear;}')
-                        // .append('.grcrt_tarl:hover>a.cancel,.grcrt_tacl:hover>a.cancel,.grcrt_tatl:hover>a.cancel { display: block !important; visibility: visible; opacity: 0.5;}')
-                        // .append('.grcrt_tarl>a.cancel:hover,.grcrt_tacl>a.cancel:hover,.grcrt_tatl>a.cancel:hover { opacity: 1;}')
-                        // .append('.grcrt_tacl>.js-dropdown-list:after {content: "___"; float: right; height: 30px; background: transparent url(https://cdn1.iconfinder.com/data/icons/interface-4/96/Cursor-Move-16.png) no-repeat top right; color: transparent;position:relative}')
-                        // .append('.grcrt_tacl>.js-dropdown-list:after:hover {height: 30px;}')
-                        // .append('.grcrt_tacl>.js-dropdown-item-list:after {content: "___"; float: right; height: 19px; background: transparent url(https://cdn1.iconfinder.com/data/icons/interface-4/96/Cursor-Move-16.png) no-repeat top right; color: transparent;position:relative}')
-                        // .append('.grcrt_tacl>.js-dropdown-item-list:after:hover {height: 30px;}')
-                )
         );
     // obsługa YT
     $('#ui_box')
@@ -3622,7 +3637,7 @@ function _RepConvGRC() {
             RepConv.idleInterval = setInterval(function(){getIdleData();},idleInterval);
         }
         town_groups_list_chg();
-        activity_commands_list();
+        // activity_commands_list();
         construction_queue_chg();
     }
     // -- okienka

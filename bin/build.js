@@ -91,7 +91,6 @@ try {
 function write2file(fileNameIn, fileNameOut, append){
   var data = fs.readFileSync(fileNameIn, 'utf8');
   var result = data
-    .replace(/{GRCRT_VERSION}/g, GRCRT_VERSION)
     .replace(/{GRCRT_NAME}/g, GRCRT_NAME)
     .replace(/{GRCRT_URL}/g, GRCRT_URL)
     .replace(/\r\n/g,'\n')

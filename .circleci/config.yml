@@ -69,7 +69,7 @@ jobs:
           name: Deploy Github release
           command: npm run semantic-release
       - run:
-          name: Push to server
+          name: Push to GRCRT server
           command: scp -o "StrictHostKeyChecking no" dist/* CHANGELOG.md $GRCRT_USER@$GRCRT_SERVER:$GRCRT_PATH
 
 workflows:

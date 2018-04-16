@@ -1,3 +1,16 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/grcrt/grcrt-script/compare/v3.15.3...v4.0.0) (2018-04-16)
+
+
+### Performance Improvements
+
+* **optimization:** code tweaks ([957de40](https://github.com/grcrt/grcrt-script/commit/957de40))
+
+
+### BREAKING CHANGES
+
+* **optimization:** we now moved to GitHub
+
 <a name="3.15.3"></a>
 ## [3.15.3](https://github.com/grcrt/grcrt) (2018-04-04)
 

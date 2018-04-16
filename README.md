@@ -9,7 +9,7 @@
 
 
 [![GitHub version](https://img.shields.io/github/release/grcrt/grcrt-script.svg?label=version&colorB=ff69b4)](https://github.com/grcrt/grcrt-script/releases/latest)
-[![buddy pipeline](https://app.buddy.works/grcrt/script/pipelines/pipeline/133205/badge.svg?token=9a090dced74585ccd02323c8987f4abfb051842e459e8037d51882ebbe43338b "buddy pipeline")](https://app.buddy.works/grcrt/script/pipelines/pipeline/133205)
+[![CircleCI](https://img.shields.io/circleci/project/github/grcrt/grcrt-script.svg)](https://circleci.com/gh/grcrt/grcrt-script/tree/master)
 [![GitHub issues](https://img.shields.io/github/issues-raw/grcrt/grcrt-script.svg)](https://github.com/grcrt/grcrt-script/issues?q=is%3Aopen)
 [![GitHub contributors](https://img.shields.io/github/contributors/grcrt/grcrt-script.svg)](https://github.com/grcrt/grcrt-script/graphs/contributors)
 [![license](https://img.shields.io/github/license/grcrt/grcrt-script.svg)](https://github.com/grcrt/grcrt-script/blob/master/LICENSE)

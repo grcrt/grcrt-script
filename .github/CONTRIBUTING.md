@@ -29,7 +29,7 @@ Below you will find a set of guidelines for contributing to the GRCRT project. T
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the GRCRT [Code of Conduct](https://github.com/grcrt/script/blob/docs/.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [developer@grcrt.net](mailto:developer@grcrt.net).
+This project and everyone participating in it is governed by the GRCRT [Code of Conduct](https://github.com/grcrt/grcrt-script/blob/docs/.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [developer@grcrt.net](mailto:developer@grcrt.net).
 
 
 ## What should I know before I get started?
@@ -60,8 +60,8 @@ You'll find final script (with *.meta.js file) inside ./dist directory
 
 ### Reporting a bug
 
-  - make sure the bug is not already reported, by checking our [issues page](https://github.com/grcrt/sript/issues) :mag_right:
-  - if you're unable to find an open issue addressing the problem, [create one](https://github.com/grcrt/sript/issues/new) :pencil:
+  - make sure the bug is not already reported, by checking our [issues page](https://github.com/grcrt/grcrt-script/issues) :mag_right:
+  - if you're unable to find an open issue addressing the problem, [create one](https://github.com/grcrt/grcrt-script/issues/new) :pencil:
   - please use the template, we provided, and fill it in as thoroughly as possible :pray: - the more details you provide, the more it help us to solve it 
 
 ### Fixing a bug
@@ -101,7 +101,7 @@ Alternatively, you can share your improvements on our [our Gitter chat](https://
     - create new repo on your GitHub account. For example GRCRT-wiki
     - clone our wiki, by running following command
       ```
-      $ git clone https://github.com/GRCRT/script.wiki.git
+      $ git clone https://github.com/grcrt/grcrt-script.wiki.git
       ```
     - change the remote
       ```

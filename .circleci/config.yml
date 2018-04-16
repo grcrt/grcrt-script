@@ -1,0 +1,92 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:9-browsers
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - node-cache-{{ checksum "package.json" }}
+          - node-cache-
+
+          - git-cache-{{ .Branch }}-{{ .Revision }}
+          - git-cache-{{ .Branch }}-
+          - git-cache-
+      - run:
+          name: Install JDK
+          command: npm install jdk --save-dev
+      - run:
+          name: Install symantic-release
+          command: |
+            npm install semantic-release --save-dev
+            npm install @semantic-release/exec --save-dev
+            npm install @semantic-release/changelog --save-dev
+            npm install @semantic-release/git --save-dev
+      - run:
+          name: Install node_modules with npm
+          command: npm install
+      - save_cache:
+          key: node-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - save_cache:
+          key: git-cache-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ".git"
+      - run:
+          name: Build temporary script
+          command: npm run build
+      - persist_to_workspace:
+          root: ~/repo
+          paths: 
+            - ./
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Run Google Closure Compiler
+          command: npm run test
+      - persist_to_workspace:
+          root: ~/repo
+          paths: 
+            - ./
+
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Deploy Github release
+          command: npm run semantic-release
+      - run:
+          name: Push to server
+          command: scp -o "StrictHostKeyChecking no" dist/* CHANGELOG.md $GRCRT_USER@$GRCRT_SERVER:$GRCRT_PATH
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - test:
+          requires: 
+            - build
+      - deploy:
+          requires: 
+            - test
+
+notify:
+  webhooks:
+    - url: https://webhooks.gitter.im/e/4ded253c643be4ece1d5

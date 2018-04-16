@@ -1,0 +1,54 @@
+{
+  "name": "grcrt",
+  "version": "0.0.0-development",
+  "description": "GRCRTools",
+  "main": "GrepolisReportConverterV2.user.js",
+  "author": "Potusek, anpu",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/grcrt/grcrt-script#README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grcrt/grcrt-script.git"
+  },
+  "bugs": {
+    "url": "https://github.com/grcrt/grcrt-script/issues"
+  },
+  "grcrtdata": {
+    "name": "Grepolis Report Converter",
+    "host": "www.grcrt.net",
+    "file": "GrepolisReportConverterV2"
+  },
+  "dependencies": {
+    "google-closure-compiler": "^20180204.0.0"
+  },
+  "devDependencies": {
+    "semantic-release": "^15.1.5"
+  },
+  "scripts": {
+    "test": "google-closure-compiler --js=tmp/GrepolisReportConverterV2.user.js --language_in ECMASCRIPT5 --formatting pretty_print --js_output_file=tmp/_GrepolisReportConverterV2.user.js",
+    "build": "node bin/build.js",
+    "dist": "node bin/dist.js",
+    "semantic-release": "semantic-release"
+  },
+  "release": {
+    "npmPublish": false,
+    "assets": ["dist/*.js"],
+    "prepare": [
+      {
+        "path": "@semantic-release/changelog",
+        "changelogFile": "CHANGELOG.md"
+      },
+      {
+        "path": "@semantic-release/git",
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "assets": ["CHANGELOG.md"]
+      },
+      "@semantic-release/npm",
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "npm run dist"
+      }
+    ]
+  }
+  
+}

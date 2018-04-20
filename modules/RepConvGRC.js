@@ -1986,10 +1986,10 @@ function _RepConvGRC() {
                 ),
             resEmo = $('<fieldset/>', {'style': 'float:right; width:370px; min-height: 250px;'})
 
-            var chbx = {}
-            $.each(RepConv.sChbxs, function(opt, optData){
-                chbx[opt] = genCheckBox(opt, RepConv.settings[opt], optData.label)
-            })
+        var chbx = {}
+        $.each(RepConv.sChbxs, function(opt, optData){
+            chbx[opt] = genCheckBox(opt, RepConv.settings[opt], optData.label)
+        })
 
             // cPower = genCheckBox(RepConv.CookiePower, RepConv.active.power, 'CHKPOWERNAME'),
             // cFTabs = genCheckBox(RepConv.CookieForumTabs, RepConv.active.ftabs, 'CHKFORUMTABS'),
@@ -2004,6 +2004,7 @@ function _RepConvGRC() {
 
             // cbBuPo = genCheckBox(RepConv.Cookie+'_bupo', RepConv.settings[RepConv.Cookie+'_bupo'], 'CHKBUPO'),
 
+        var
             cSLoop = genCheckBox('GRCRTsoundLoop',RepConv.active.sounds.loop, 'CHKSOUNDLOOP'),
             cSMute = genCheckBox('GRCRTsoundMute',RepConv.active.sounds.mute, 'POPSOUNDMUTE'),
             sStats = $('<div/>',{'id':'statsGRC2Sel','class':'dropdown default','style':'margin-left:5px;width: 150px;'})

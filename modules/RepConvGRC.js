@@ -1,6 +1,6 @@
 function _RepConvGRC() {
     "use strict";
-    
+
     var _IdS = 'grcrt';
     var windowIds = require("game/windows/ids");//||GameData.windows_factory.windows;
     var idleTimeout = 30;//*60;
@@ -66,7 +66,7 @@ function _RepConvGRC() {
                         _classAdd = ' active_animation extendable';
                     }
                 })
-                ;    
+                ;
             RCGP.getJQElement().find($('.game_inner_box'))
                 .append(
                     $('<div/>', {'class' : "grcrt_power"})
@@ -143,7 +143,7 @@ function _RepConvGRC() {
                         )
                 }
         }
-                
+
     }
     function addSettings(RCGP){
         if ((RCGP.getJQElement()).find('#GRCRTSetupLink').length == 0) {
@@ -167,12 +167,12 @@ function _RepConvGRC() {
                         )
                 )
         }
-        
+
     }
     function addBuildingPoints(RCGP){
         if (RepConv.settings[RepConv.Cookie+'_bupo']){
             $.each(RCGP.getJQElement().find($('.building>.image.bold')), function(ind, build){
-              var 
+              var
                 _name = $(build).parent().parent().attr('id').replace(/building_main_(.*)/,'$1'),
                 _build = BuildingMain.buildings[_name],
                 _pointsPlus = Math.round(_build.building.points*Math.pow(_build.building.points_factor,_build.next_level))-Math.round(_build.building.points*Math.pow(_build.building.points_factor,_build.level)),
@@ -194,7 +194,7 @@ function _RepConvGRC() {
             })
 
             $.each(RCGP.getJQElement().find($('.building_special>div.image')), function(ind, build){
-              var 
+              var
                 _name = $(build).attr('id').replace(/special_building_(.*)/,'$1'),
                 _build = BuildingMain.special_buildings_combined_group[_name],
                 _pointsPlus = Math.round(_build.building.points*Math.pow(_build.building.points_factor,_build.next_level)),
@@ -295,12 +295,12 @@ function _RepConvGRC() {
                 $(Q_DivWrapper).find($('div.fade_right')).remove(),
                 $(Q_DivWrapper).parent().find($('a.next')).remove(),
                 $(Q_DivWrapper).parent().find($('a.prev')).remove();
-                
+
                 var
                     Q_Mnoznik = $($('ul.menu_inner li')[$('ul.menu_inner li').length-1]).position().top / 22 + 1,//Math.ceil(Q_DivWrapperUl.width() / Q_DivWrapper.width());
                     Q_zindex = $('#gptop'+Q_Mnoznik).css('z-index');
-                
-                
+
+
                 (RCGP.getJQElement()).find($('div.gpwindow_content')).css('top', Q_DivWrapper.height() * (Q_Mnoznik + 1)),
                 Q_DivWrapper.height(Q_DivWrapper.height() * Q_Mnoznik),
 		RCGP.setHeight(RCGP.getOptions().maxHeight+22*(Q_Mnoznik - 1));
@@ -352,7 +352,7 @@ function _RepConvGRC() {
                                     btoa(
                                         JSON.stringify({"name":etown.player,"id":etown.pid})
                                             .replace(/[\u007f-\uffff]/g,
-                                                function(c) { 
+                                                function(c) {
                                                   return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
                                                 }
                                             )
@@ -390,7 +390,7 @@ function _RepConvGRC() {
                                         btoa(
                                             JSON.stringify({"name":etown.player,"id":etown.pid})
                                                 .replace(/[\u007f-\uffff]/g,
-                                                    function(c) { 
+                                                    function(c) {
                                                       return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
                                                     }
                                                 )
@@ -409,7 +409,7 @@ function _RepConvGRC() {
                                                 hCommon.alliance(
                                                     'n',
                                                     RepConvTool.getAllianceData(RepConvTool.getPlayerData(etown.pid).alliance_id).name,
-                                                    RepConvTool.getPlayerData(etown.pid).alliance_id 
+                                                    RepConvTool.getPlayerData(etown.pid).alliance_id
                                                 )
                                             )
                                     )
@@ -483,7 +483,7 @@ function _RepConvGRC() {
             RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).parent().parent()
                 .append(_link);
         }
-        
+
         // radar dla miast gracza
         if ( (RCGP.getJQElement()).find($(WndId+'RepConvRadarPlayer')).length == 0) {
             var
@@ -505,15 +505,15 @@ function _RepConvGRC() {
                         })
                     );
         }
-        
+
         //idlePlayer(RCGP); // czas nieaktywności gracza
         if ((RepConv.settings[RepConv.Cookie+'_idle']||false) && RCGP.getJQElement().find($('.grcrt_idle')).length == 0){
             $('<div/>',{'class':'grcrt_idle'}).insertAfter(RCGP.getJQElement().find($('#player_info>h3')).next()),
             //$('<div/>',{'class':'grcrt_idle'}).insertBefore(RCGP.getJQElement().find($('#player_info>a'))),
             addIdleDays(RCGP);//getIdleData(RCGP)
         }
-        
-        
+
+
     }
     function allianceProfilBBCode(RCGP){ // info o graczach w sojuszu - dodanie listy w BBCode
         var
@@ -824,7 +824,7 @@ function _RepConvGRC() {
                         .append(
                             $('<div/>', {'class': 'grcrt_wall_diff'})
                                 .html("-"));
-    
+
                 RepConv.Debug && console.log('Load wall...');
                 var unitDiff;
                 $.each(RCGP.getJQElement().find($('div#building_wall li.odd')), function(indLi, elemLi) {
@@ -922,7 +922,7 @@ function _RepConvGRC() {
             }),
             loadWall(listSaved.getValue());
         }
-        
+
         function fillOptions(timestamp, current){
             var
                 opt = [],
@@ -959,7 +959,7 @@ function _RepConvGRC() {
                                 listWall.hide();
 			    })
                     ),
-            listWall  = 
+            listWall  =
                     register(
                         'grcrt_wall',
                         $('<div/>',{'id':'grcrtListWall','class':'dropdown default'})
@@ -985,7 +985,7 @@ function _RepConvGRC() {
                                 template: "empty"
                             }).on("btn:click", function() {
                                 hOpenWindow.showConfirmDialog(RepConvTool.GetLabel('QUESTION'),RepConvTool.GetLabel('WALL.WANTDELETECURRENT'), function(){dellCurrentSavedWall()});
-                                
+
                             })
                             .mousePopup(
                                 new MousePopup(RepConvTool.GetLabel('WALL.DELETECURRENT'))
@@ -1017,14 +1017,14 @@ function _RepConvGRC() {
                         )
                 )
         }
-        
+
         function dellCurrentSavedWall(){
             /* RepConvTool.setItem(RepConv.CookieWall,(RepConvTool.getItem(RepConv.CookieWall+'_bck'))) */
             try {
                 var
                     _value = CM.get({main:'GRCRT',sub:'grcrt_saved'},'grcrt_saved').getValue(),
                     _walls = RepConvTool.getItem(RepConv.CookieWall) || [];
-                    
+
                 $.each(_walls, function(iii,eee){
                     if(eee.saved == _value){
                         _walls.remove(iii,0);
@@ -1046,7 +1046,7 @@ function _RepConvGRC() {
 				},0)
             }
         }
-        
+
         if ((RCGP.getJQElement()).find($('#building_wall div.game_border #BTNCONV' + WndName)).length == 0) {
             (RCGP.getJQElement()).find('#building_wall ul.game_list').css('max-height', '455px');
             //konwersja
@@ -1387,7 +1387,7 @@ function _RepConvGRC() {
     function register(id,component){
         if (!cmGet(id)) {
             RepConv.Debug && console.log('register: '+id);
-            CM.register(defCtx(id),id,component)        
+            CM.register(defCtx(id),id,component)
         }
         return cmGet(id);
     }
@@ -1551,7 +1551,7 @@ function _RepConvGRC() {
                             .css({'position': 'absolute','top': '-2px','right': '-2px'})
                         );
         }
-        
+
     }
     function statsLink(RCGP){ // info o graczu - dodanie linku do statystyk
         var
@@ -1701,13 +1701,17 @@ function _RepConvGRC() {
         //     var website = getStatsLink(what, who_id, who_name);
         //     RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 975px; height: 480px;'}));
         //     Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 975, 480, null, false).setPosition("center", "center");
-        // } else 
+        // } else
         if (RepConv.active.statsGRCL == 'grepointel') {
             if (what == 'player') {
                 what = 'pn';
             } else if (what == 'alliance') {
                 what = 'an'
             }
+            var website = getStatsLink(what, who_id, who_name);
+            RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 1020px; height: 580px;'}));
+            Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 1020, 580, null, false).setPosition("center", "center");
+        } else if (RepConv.active.statsGRCL == 'grepolife') {
             var website = getStatsLink(what, who_id, who_name);
             RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 1020px; height: 580px;'}));
             Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 1020, 580, null, false).setPosition("center", "center");
@@ -1731,7 +1735,7 @@ function _RepConvGRC() {
         var website;
         // if (RepConv.active.statsGRCL == 'grepostats') {
         //     website = 'http://' + Game.market_id + '.grepostats.com/world/' + Game.world_id + '/'+what+'/' + who_id;
-        // } else 
+        // } else
         if (RepConv.active.statsGRCL == 'grepointel') {
             if (what == 'player') {
                 what = 'pn';
@@ -1739,6 +1743,8 @@ function _RepConvGRC() {
                 what = 'an'
             }
             website = 'http://grepointel.com/track.php?server='+Game.world_id+'&'+what+'='+who_name+'&rt=overview';
+        } else if (RepConv.active.statsGRCL == 'grepolife') {
+            website = 'http://grepolife.com/' + Game.world_id.slice(0, 2) + '/' + Game.world_id.slice(2, Game.world_id.length) + '/' + what + '/' + who_id ;
         } else {
             website = RepConv.Scripts_url + Game.locale_lang + '/' + what +'/' + Game.world_id + '/' + who_id ;
         }
@@ -1791,7 +1797,7 @@ function _RepConvGRC() {
 			}
 		} catch (e){}
     }
-	
+
 	//function wonderLinks(RCGP) {
 	//	if (RCGP.getJQElement().find($('.grcrt_linkbox')).length == 0) {
 	//		RCGP.setHeight(540)
@@ -1857,7 +1863,7 @@ function _RepConvGRC() {
         //         'async':true
         //     });
     }
-    
+
     function posibleSpell(RCGP){
         if (RepConv.active.power) {
             switch (RCGP.getContext().sub) {
@@ -2015,7 +2021,9 @@ function _RepConvGRC() {
 					    //{value: 'potusek', name: 'grepolis.potusek.eu'},
 					    {value: 'potusek', name: 'www.grcrt.net'},
 					    //{value: 'grepostats', name: "grepostats.com"},
-					    {value: 'grepointel', name: "grepointel.com"}
+					    {value: 'grepointel', name: "grepointel.com"},
+              //{value: 'grepolife', name: "grepolife.com"}
+              {value: 'grepolife', name: "grepolife.com"}
 				    ]
 			    })
         ;
@@ -2197,7 +2205,7 @@ function _RepConvGRC() {
                                     .append($('<source/>',{'src':RepConv.Const.defAlarmM+'.ogg'}))
                             }
                             RepConv.audio.alarm = _aSound.get(0);
-            			}						
+            			}
                         // TODO
                         RepConv.active.power = RepConvTool.getSettings(RepConv.CookiePower),
                         RepConv.active.ftabs = RepConvTool.getSettings(RepConv.CookieForumTabs),
@@ -2217,7 +2225,7 @@ function _RepConvGRC() {
                             }
                             RepConvTool.setItem(elem.cookie, RepConv.active[elem.rel]);
                         });
-			// emotki			
+			// emotki
 			RepConvTool.setItem(RepConv.CookieEmots, $('#GRCRTEmots').attr('value'));
 			var _posEmot = 0;
 			RepConvAdds.emots = {}
@@ -2228,7 +2236,7 @@ function _RepConvGRC() {
 			    RepConvAdds.emots[_posEmot++] = {'img':elem,'title':''};
 			})
 			// /emotki
-			
+
 			if (RepConv.audioSupport){
                             RepConv.active.sounds.mute = ($('#CHKSOUNDMUTE').attr('checked') != null),
                             RepConv.active.sounds.loop = ($('#CHKSOUNDLOOP').attr('checked') != null),
@@ -2245,7 +2253,7 @@ function _RepConvGRC() {
                                     .append($('<source/>',{'src':RepConv.Const.defAlarmM+'.ogg'}))
                             }
                             RepConv.audio.alarm = _aSound.get(0);
-			}						
+			}
 */
                         setTimeout(function(){
     						HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
@@ -2294,7 +2302,7 @@ $.each(ITowns.towns, function(ind,town){
     function emotsTabs(wndType, action){//insertArea){
         var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px;'}),
             contentLinks = $('<ul/>', {'class':'menu_inner grcrt_menu_inner', 'style':'padding: 0px;left:0px;'}),
-            tabs = 
+            tabs =
             $('<div/>', {'id': 'emots_popup_' + wndType, 'style': 'display:none; z-index: 5000; min-height: 180px;max-height: 265px;'})
                 .append(
                     $('<div/>', {'class': 'menu_wrapper', 'style':"left: -10px;"})
@@ -2384,7 +2392,7 @@ $.each(ITowns.towns, function(ind,town){
     function addBtnPasteReportOld(RCGP, wraper, area) {
         if ((RCGP.getJQElement()).find('#emots_popup_' + RCGP.type).length == 0) {
             (RCGP.getJQElement()).find($('.bb_button_wrapper')).append(
-                emotsTabs(RCGP.type, 
+                emotsTabs(RCGP.type,
                     // (RCGP.getJQElement()).find(area)
                     function() {
                         RepConvTool.insertBBcode('[img]' + $(this).attr('src') + '[/img]', '', (RCGP.getJQElement()).find(area)[0]);
@@ -2408,7 +2416,7 @@ $.each(ITowns.towns, function(ind,town){
                                 $('<div/>', {'class': 'bbcode_box content clearfix', 'style': 'overflow-y:auto !important; max-height: 185px;'})
                                     .append($('<ul/>'))
                             )
-                            
+
                     ).css({'position': 'absolute', 'top': '27px', 'left': '525px', 'width': '120px'})
             ),
             $.each(RepConv.__repconvValueArray, function(ind, line) {
@@ -2475,7 +2483,7 @@ $.each(ITowns.towns, function(ind,town){
                             $(_btns).find($('#reports_popup_' + wnd.getType())).hide()
                         }),
                         $(_btns).append(
-                            emotsTabs(wnd.getType(), 
+                            emotsTabs(wnd.getType(),
                                 // $(_content).find($('textarea'))[0]
                                 function(){
                                     RepConvTool.insertBBcode('[img]' + $(this).attr('src') + '[/img]', '', $(_content).find($('textarea'))[0]),
@@ -2503,7 +2511,7 @@ $.each(ITowns.towns, function(ind,town){
                                                 $('<div/>', {'class': 'bbcode_box content clearfix', 'style': 'overflow-y:auto !important; max-height: 185px;'})
                                                     .append($('<ul/>'))
                                             )
-                                            
+
                                     ).css({'position': 'absolute', 'top': '27px', 'left': '525px', 'width': '120px'})
                             ),
                         $.each(RepConv.__repconvValueArray, function(ind, line) {
@@ -2564,7 +2572,7 @@ $.each(ITowns.towns, function(ind,town){
                     })
         })
     }
-    
+
     function repsave(idx) {
         if(RepConv.__repconvHtmlArray != null && RepConv.__repconvHtmlArray != undefined){
             var _send =
@@ -2659,7 +2667,7 @@ $.each(ITowns.towns, function(ind,town){
             }
         })
     }
-    
+
     function addMilitiaInfo(RCGP){
         (
             RCGP.getJQElement().find($('#farm_militia .game_footer #grcrt_militia')).length == 0 &&
@@ -2707,7 +2715,7 @@ $.each(ITowns.towns, function(ind,town){
                     __ally[(ee.getAlliance1Id() == Game.alliance_id) ? ee.getAlliance2Id() : ee.getAlliance1Id()] = what
                 }
             })
-    
+
             $.each(RCGP.getJQElement().find($('a.gp_player_link')), function(ii, item){
                 var hash = $(item).attr('href')
                 if(hash){
@@ -2801,7 +2809,7 @@ $.each(ITowns.towns, function(ind,town){
         $.each(_resData.all_wonders, function(ii, wonder){
             if(wonder.island_x == _wonderInf.island_x && wonder.island_y == _wonderInf.island_y){
                 _res = wonder;
-                var 
+                var
                     _ts = _resData.stage_started_at,
                     _tkn = _resData.stage_started_at+secFromTime(_wnd_lvl[_res.expansion_stage].total),
                     _tkk = _resData.stage_completed_at,
@@ -2836,7 +2844,7 @@ $.each(ITowns.towns, function(ind,town){
                   _shotTime = Math.max(_shotTime,((400-goddetail.current)/goddetail.production)*60*60)
                 })
 
-                
+
                 RCGP.getJQElement().find($('.wonder_res_container>.trade>.send_res>.grcrt_shot')).remove()
                 RCGP.getJQElement().find($('.wonder_res_container>.trade>.send_res')).append(
                     $('<div/>', {'class':'grcrt_shot', 'style':'position: absolute; right: 110px; top: 165px;'})
@@ -2864,7 +2872,7 @@ $.each(ITowns.towns, function(ind,town){
                                 setTimeout(function(){RCGP.reloadContent()},100)
                             })
                 );
-                
+
             }
         }catch(e){}
     }
@@ -2902,7 +2910,7 @@ $.each(ITowns.towns, function(ind,town){
                 )
         }
     }
-    
+
     this.getGrcrtYTPlayer = function(){
         return grcrtYTPlayer;
     }
@@ -2967,7 +2975,7 @@ $.each(ITowns.towns, function(ind,town){
                                 });
         }
     }
-    
+
 
     /////////////////
     // przycisk dla okien
@@ -2996,7 +3004,7 @@ $.each(ITowns.towns, function(ind,town){
                 break;
             case "building_barracks" : // baraki
             case "building_docks" : // doki
-                addSpell(RCGP); // mozliwy czar 
+                addSpell(RCGP); // mozliwy czar
                 addReload(RCGP); // ikonka przeladowania okna
                 break;
             case "building_main" :
@@ -3156,7 +3164,7 @@ $.each(ITowns.towns, function(ind,town){
                 if (_ytVideoId == null || !_ytVideoId) {
                     $('#grcrtSound').show(),
                     RepConv.audio.alarm = _aSound.get(0),
-    
+
                     RepConv.audio.alarm.loop = RepConv.active.sounds.loop,
                     RepConv.audio.alarm.volume = RepConv.active.sounds.volume/100,
                     RepConv.audio.alarm.addEventListener('ended', function(){
@@ -3169,8 +3177,8 @@ $.each(ITowns.towns, function(ind,town){
                 }
                 var options = {
                     body: DM.getl10n('layout','toolbar_activities').incomming_attacks+" : "+(
-                        require("data/features").isCommandsMenuBubbleWithIndividualPushables() 
-                            ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
+                        require("data/features").isCommandsMenuBubbleWithIndividualPushables()
+                            ? require("helpers/commands").getTotalCountOfIncomingAttacks()
                             : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
                         ),
                     icon: 'https://www.grcrt.net/img/octopus.png',
@@ -3191,8 +3199,8 @@ $.each(ITowns.towns, function(ind,town){
                 $('#grcrtSound').hide();
             }
             RepConv.active.attack_count = _ai;/*(
-                                                require("data/features").isCommandsMenuBubbleWithIndividualPushables() 
-                                                    ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
+                                                require("data/features").isCommandsMenuBubbleWithIndividualPushables()
+                                                    ? require("helpers/commands").getTotalCountOfIncomingAttacks()
                                                     : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
                                             );*/
         }
@@ -3235,7 +3243,7 @@ $.each(ITowns.towns, function(ind,town){
     //         }
     //     }
 
-    //     var 
+    //     var
     //         tacl_id = '#toolbar_activity_commands_list',
     //         tacl_clk = '.activity.commands',
     //         target_tacl = document.querySelector(tacl_id),
@@ -3288,7 +3296,7 @@ $.each(ITowns.towns, function(ind,town){
             _cpt.queue_instant_buy += "<script type=\"text/javascript\">;\n$.Observer(GameEvents.grcrt.construction_queue).publish();\n<\/script>",
             _cpta = {"COMMON":{"construction_queue" : _cpt}},
             DM.loadData({templates:_cpta}),
-            
+
             $.Observer(GameEvents.grcrt.construction_queue)
                 .subscribe('GRCRT_GRC_grcrt_construction_queue',function(a,b){
                         orderPoints();
@@ -3305,7 +3313,7 @@ $.each(ITowns.towns, function(ind,town){
             },500);
         }
     }
-    
+
     /////////////////
     // nowe przycisk dla nowej wersji okien
     /////////////////
@@ -3503,7 +3511,7 @@ $.each(ITowns.towns, function(ind,town){
     _cpt += "<script type=\"text/javascript\">;\n$.Observer(GameEvents.grcrt.powertooltip).publish({power:'<%=power.id%>'});\n<\/script>",
     _cpta = {"COMMON":{"casted_power_tooltip" : _cpt}},
     DM.loadData({templates:_cpta}),
-    
+
     $.Observer(GameEvents.grcrt.powertooltip)
         .subscribe('GRCRT_GRC_grcrt_powertooltip',function(a,b){
             showTimeInTooltip(b.power)
@@ -3625,7 +3633,7 @@ $.each(ITowns.towns, function(ind,town){
             if(require("helpers/commands").getTotalCountOfIncomingAttacks() > 0) {
                 attackIncoming(require("helpers/commands").getTotalCountOfIncomingAttacks());
             }
-        } else {            
+        } else {
             MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).onIncomingAttackCountChange(function(){
                 attackIncoming(MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount());
             },MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}));
@@ -3658,7 +3666,7 @@ $.each(ITowns.towns, function(ind,town){
                             website = RepConv.grcrt_domain + Game.locale_lang+'/light/'+_args.what+'/' + Game.world_id + '/' + _args.id,
                             e = this.getWindowModel().getIdentifier();
                         this.getWindowModel().showLoading(),
-                        this.getWindowModel().setTitle( RepConv.grcrt_window_icon + 
+                        this.getWindowModel().setTitle( RepConv.grcrt_window_icon +
                             RepConvTool.GetLabel('STATS.'+((_args.what.toUpperCase()=='ALLIANCE')?'ALLY':_args.what.toUpperCase()))+' - '+_args.name
                         ),
                         this.$el.html(
@@ -3730,7 +3738,7 @@ $.each(ITowns.towns, function(ind,town){
                             website = _args.website,
                             e = this.getWindowModel().getIdentifier();
                         this.getWindowModel().showLoading(),
-                        this.getWindowModel().setTitle( RepConv.grcrt_window_icon + 
+                        this.getWindowModel().setTitle( RepConv.grcrt_window_icon +
                             RepConvTool.GetLabel(_args.title)
                         ),
                         this.$el.html(
@@ -3835,7 +3843,7 @@ $.each(ITowns.towns, function(ind,town){
                         this.getWindowModel().hideLoading(),
     //-------------
                         this.unregisterComponent("grcrt_settings_scrollbar"),
-                        this.registerComponent("grcrt_settings_scrollbar", 
+                        this.registerComponent("grcrt_settings_scrollbar",
                             this.$el.find(".js-scrollbar-viewport").skinableScrollbar({
                                 orientation: "vertical",
                                 template: "tpl_skinable_scrollbar",
@@ -3948,5 +3956,3 @@ $.each(ITowns.towns, function(ind,town){
     }
 }
 // ------------------------------
-
-

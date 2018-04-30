@@ -1711,7 +1711,7 @@ function _RepConvGRC() {
             var website = getStatsLink(what, who_id, who_name);
             RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 1020px; height: 580px;'}));
             Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 1020, 580, null, false).setPosition("center", "center");
-        } else if (RepConv.active.statsGRCL == 'grepolife'  && (Game.world_id.slice(0, 2) == "ru" || "us" || "de" || "en" || "fr" || "es" || "br" || "pl" || "nl" || "it" || "pt" || "ro")) {
+        } else if (RepConv.active.statsGRCL == 'grepolife'  && (["ru", "us", "de", "en", "fr", "es", "br", "pl", "nl", "it", "pt", "ro"].indexOf(Game.world_id.slice(0, 2)) >= 0)) {
             var website = getStatsLink(what, who_id, who_name);
             RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 1020px; height: 580px;'}));
             Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 1020, 580, null, false).setPosition("center", "center");
@@ -1743,7 +1743,7 @@ function _RepConvGRC() {
                 what = 'an'
             }
             website = 'http://grepointel.com/track.php?server='+Game.world_id+'&'+what+'='+who_name+'&rt=overview';
-        } else if ((RepConv.active.statsGRCL == 'grepolife')  && (Game.world_id.slice(0, 2) == "ru" || "us" || "de" || "en" || "fr" || "es" || "br" || "pl" || "nl" || "it" || "pt" || "ro")) {
+        } else if (RepConv.active.statsGRCL == 'grepolife' && (["ru", "us", "de", "en", "fr", "es", "br", "pl", "nl", "it", "pt", "ro"].indexOf(Game.world_id.slice(0, 2)) >= 0)) {
             website = 'http://grepolife.com/' + Game.world_id.slice(0, 2) + '/' + Game.world_id.slice(2, Game.world_id.length) + '/' + what + '/' + who_id ;
         } else {
             website = RepConv.Scripts_url + Game.locale_lang + '/' + what +'/' + Game.world_id + '/' + who_id ;

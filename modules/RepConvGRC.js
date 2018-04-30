@@ -1744,7 +1744,6 @@ function _RepConvGRC() {
             }
             website = 'http://grepointel.com/track.php?server='+Game.world_id+'&'+what+'='+who_name+'&rt=overview';
         } else if ((RepConv.active.statsGRCL == 'grepolife')  && (Game.world_id.slice(0, 2) == "ru" || "us" || "de" || "en" || "fr" || "es" || "br" || "pl" || "nl" || "it" || "pt" || "ro")) {
-            window.alert(Game.world_id.slice(0, 2))
             website = 'http://grepolife.com/' + Game.world_id.slice(0, 2) + '/' + Game.world_id.slice(2, Game.world_id.length) + '/' + what + '/' + who_id ;
         } else {
             website = RepConv.Scripts_url + Game.locale_lang + '/' + what +'/' + Game.world_id + '/' + who_id ;

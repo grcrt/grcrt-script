@@ -1711,7 +1711,9 @@ function _RepConvGRC() {
             var website = getStatsLink(what, who_id, who_name);
             RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 1020px; height: 580px;'}));
             Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 1020, 580, null, false).setPosition("center", "center");
-        } else if (RepConv.active.statsGRCL == 'grepolife'  && (["ru", "us", "de", "en", "fr", "es", "br", "pl", "nl", "it", "pt", "ro"].indexOf(Game.world_id.slice(0, 2)) >= 0)) {
+        } else if (RepConv.active.statsGRCL == 'grepolife'  && (["ru", "us", "de", "en", "fr", "es", "br", "pl", "nl", "it", "pt", "ro"].indexOf(Game.world_id.slice(0, 2)) >= 0) 
+                                                            && ["ru9", "ru17", "en32", "en41", "en45", "en81", "us5", "de7", "de17", "de28", "de34", "de40", "fr32", "fr37", "fr39", "fr90", "fr93",
+                                                             "es20", "es30", "es32", "br19", "br29", "pl21", "pl28", "nl16", "nl23", "it21", "pt16", "ro15", "ro19"].indexOf(Game.world_id) < 0) {
             var website = getStatsLink(what, who_id, who_name);
             RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 1020px; height: 580px;'}));
             Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 1020, 580, null, false).setPosition("center", "center");

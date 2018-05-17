@@ -470,7 +470,6 @@ function _RepConvGRC() {
                         .mousePopup(new MousePopup(RepConvTool.GetLabel('STATS.PLAYER')));
             if ("https:" == window.location.protocol && (RepConv.active.statsGRCL != 'potusek')) {
                 $(_link).attr({
-                    //'href' : getStatsLink('player', $(this).attr('player_id'), $(this).attr('player_name')),
                     'href' : getStatsLink('player', _player, _player_name),
                     'target' : '_blank'
                 })
@@ -1697,24 +1696,7 @@ function _RepConvGRC() {
     function showStats(what, who_id, who_name){
         var
             RepConvNode = $('<div/>', {'id': 'RepConvNode'});
-        // if (RepConv.active.statsGRCL == 'grepostats') {
-        //     var website = getStatsLink(what, who_id, who_name);
-        //     RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 975px; height: 480px;'}));
-        //     Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 975, 480, null, false).setPosition("center", "center");
-        // } else 
-        if (RepConv.active.statsGRCL == 'grepointel') {
-            if (what == 'player') {
-                what = 'pn';
-            } else if (what == 'alliance') {
-                what = 'an'
-            }
-            var website = getStatsLink(what, who_id, who_name);
-            RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 1020px; height: 580px;'}));
-            Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 1020, 580, null, false).setPosition("center", "center");
-        } else {
-            //try {
-            //    (WM.getWindowByType("grcrt_stats")[0]).close()
-            //} catch (e){}
+        if (RepConv.active.statsGRCL == 'potusek') {
             WF.open("grcrt_stats",{
                 args: {
                         'what': what,
@@ -1722,16 +1704,10 @@ function _RepConvGRC() {
                         'name': who_name
                     }
             })
-            //var website = RepConv.grcrt_domain+'light/'+what+'/' + Game.world_id + '/' + who_id + '/' + Game.locale_lang;
-            //RepConvNode.append($('<iframe/>', {'src': website, 'style': 'width: 825px; height: 625px; border: 0px'}));
-            //Layout.dialogWindow.open(RepConvNode.html().toString(), RepConvTool.GetLabel('STATS.'+what.toUpperCase()), 825, 690, function(){},false).setPosition("center", "center");
         }
     }
     function getStatsLink(what, who_id, who_name){
         var website;
-        // if (RepConv.active.statsGRCL == 'grepostats') {
-        //     website = 'http://' + Game.market_id + '.grepostats.com/world/' + Game.world_id + '/'+what+'/' + who_id;
-        // } else 
         if (RepConv.active.statsGRCL == 'grepointel') {
             if (what == 'player') {
                 what = 'pn';
@@ -1792,72 +1768,6 @@ function _RepConvGRC() {
 		} catch (e){}
     }
 	
-	//function wonderLinks(RCGP) {
-	//	if (RCGP.getJQElement().find($('.grcrt_linkbox')).length == 0) {
-	//		RCGP.setHeight(540)
-	//		var _div = $('<div/>',{'class':'grcrt_linkbox'})
-	//			.css({'margin': '0px 5px 10px 0px','padding': '0 30px'});
-	//		_div
-	//			.append(
-	//				$('<a/>',{
-	//					'href':'http://devpotusek.potusek.eu/'+Game.locale_lang+'/wonder/'+Game.world_id+'/'+Game.alliance_id+'/'+RepConv.hash+'#'+WorldWonders.all_wonders[WorldWonders.wonder_nr].wonder_type,'target':'_blank'})
-	//				.css({'float': 'left'})
-	//				.html('Pokaż mój udział w budowie')
-	//			)
-	//		if (MM.checkAndPublishRawModel('Player', {id : Game.player_id}).getAllianceRights().founder || MM.checkAndPublishRawModel('Player', {id : Game.player_id}).getAllianceRights().leader) {
-	//			_div
-	//				.append(
-	//					$('<a/>',{
-	//						'href':'http://devpotusek.potusek.eu/'+Game.locale_lang+'/wonder/'+Game.world_id+'/'+Game.alliance_id+'/'+($.md5(Game.alliance_id + "_" + Game.world_id))+'#'+WorldWonders.all_wonders[WorldWonders.wonder_nr].wonder_type,'target':'_blank'})
-	//					.css({'float': 'right'})
-	//					.html('Pokaż udział członków sojuszu w budowie')
-	//				)
-	//		}
-	//		_div
-	//			.append(
-	//				$('<br/>').css('clear','both')
-	//			)
-	//		_div
-	//		.insertAfter(RCGP.getJQElement().find($('.gpwindow_content>.wonder_state>.game_border')).eq(0))
-	//	}
-	//}
-
-    function logWonderSend(data){
-        // var
-        //     _wonder = wonders[data.island_x+'_'+data.island_y],
-        //     _json = {
-        //         lang:Game.world_id.substr(0,2),
-        //         world:Game.world_id,
-        //         wonder_id:WorldWonders.all_wonders[_wonder].id,
-        //         wonder_lvl:WorldWonders.all_wonders[_wonder].expansion_stage,
-        //         alliance_id:MM.checkAndPublishRawModel("Player", {
-        //             id: Game.player_id
-        //         }).getAllianceId(),
-        //         player_id:Game.player_id,
-        //         wood:data.wood,
-        //         stone:data.stone,
-        //         iron:data.iron,
-        //         power:data.power,
-        //         wonder_type: WorldWonders.all_wonders[_wonder].wonder_type,
-        //         wonder_name: JSON.parse(
-        //             RepConvTool.Atob(
-        //                 $('a.gp_goto_wonder_link').attr('href')
-        //             )
-        //         ).name,
-        //         player_hash : RepConv.hash,
-        //         alliance_hash : $.md5(MM.checkAndPublishRawModel("Player", {
-        //             id: Game.player_id
-        //         }).getAllianceId() + "_" + Game.world_id)
-        //     },
-        //     _send = $.ajax({
-        //         'url' : RepConv.grcrt_domain+'wonder.php',
-        //         'method' : 'post',
-        //         'data' : {json:(JSON.stringify(_json))},
-        //         'cache':false,
-        //         'async':true
-        //     });
-    }
-    
     function posibleSpell(RCGP){
         if (RepConv.active.power) {
             switch (RCGP.getContext().sub) {
@@ -1868,9 +1778,6 @@ function _RepConvGRC() {
                             .css('opacity','0.4')
                             .attr('href',null)
                             .attr('onclick',null);
-                    //$.each(RCGP.getJQElement().find($('.js-power-icon').filter(function(){return !$(this).hasClass('disabled')})), function(ind, elem){
-                    //    $(elem).find($('div[name=counter]')).remove()
-                    //})
 
                     RepConv.Debug && console.log('loadPower');
                     $.each(RCGP.getJQElement().find($('.js-power-icon div[name=counter]')), function(ind, elem) {
@@ -2012,9 +1919,7 @@ function _RepConvGRC() {
 				    list_pos : 'left',
 				    value : RepConv.active.statsGRCL,
 				    options : [
-					    //{value: 'potusek', name: 'grepolis.potusek.eu'},
 					    {value: 'potusek', name: 'www.grcrt.net'},
-					    //{value: 'grepostats', name: "grepostats.com"},
 					    {value: 'grepointel', name: "grepointel.com"}
 				    ]
 			    })
@@ -2279,17 +2184,6 @@ function _RepConvGRC() {
             })
         }
     }
-
-var acc = {}, alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName()
-$.each(ITowns.towns, function(ind,town){
-    var cc = town;
-    cc.points = cc.getPoints();
-    cc.player_name = Game.player_name
-    cc.alliance_name = alliance_name
-    acc[ind]=cc
-})
-
-
 
     function emotsTabs(wndType, action){//insertArea){
         var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px;'}),
@@ -3396,7 +3290,6 @@ $.each(ITowns.towns, function(ind,town){
                         json.iron = (settings.url.indexOf('decrease_build_time_with_favor')>-1) ? 0 : json.iron,
                         json.power = (settings.url.indexOf('decrease_build_time_with_favor')>-1) ? 400 : 0,
                         RepConv.Debug && console.log(json);
-                        // logWonderSend(json);
                     }
                     //} catch (e){}
                     $.each(Layout.wnd.getAllOpen(), function(ind, elem) {

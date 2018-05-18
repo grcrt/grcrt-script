@@ -29,7 +29,7 @@ Below you will find a set of guidelines for contributing to the GRCRT project. T
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the GRCRT [Code of Conduct](https://github.com/grcrt/grcrt-script/blob/master/.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [developer@grcrt.net](mailto:developer@grcrt.net).
+This project and everyone participating in it is governed by the GRCRT [Code of Conduct](https://github.com/grcrt/grcrt-script/blob/docs/.github/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [developer@grcrt.net](mailto:developer@grcrt.net).
 
 
 ## What should I know before I get started?

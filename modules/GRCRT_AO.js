@@ -25,7 +25,7 @@ function _GRCRT_AO() {
                 ,
         _scrollWidth = Object.size(GameData.researches)*(40+_aoMargin*2),
         _scrollLock = false,
-        _towns = null,//MM.getCollections().Town[0],
+        _towns = MM.getCollections().Town[0],
         _researchMode = true,
         _researchQueue = {};
 

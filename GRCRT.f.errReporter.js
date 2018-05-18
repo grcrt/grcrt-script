@@ -36,7 +36,6 @@ function grcrtErrReporter(err){
 		sendErr()
 	} else {
 		console.log(_json);
-		if(typeof Layout == "object" && typeof Layout.showConfirmDialog == "function"){
 		Layout.showConfirmDialog(
 						"GRCRTools oops!",
 						'<div><img src="'+RepConv.grcrt_cdn+'img/octopus.png" style="float:left;padding-right: 10px"/><p style="padding:5px"><b>Found error</b><br/><pre>'+err+'</pre><br/>You want send?</p></div>', 
@@ -45,10 +44,5 @@ function grcrtErrReporter(err){
 							sendErr()
 						}
 					)
-		} else {
-			setTimeout(function(){
-				grcrtErrReporter(err);
-			},500);
-		}
 	}
 }

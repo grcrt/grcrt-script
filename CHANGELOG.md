@@ -8,14 +8,12 @@
 * GRCRT (again) too fast on Firefox ([7792f79](https://github.com/grcrt/grcrt-script/commit/7792f79))
 
 
-### Performance Improvements
+### IMPORTANT INFO
+This script version brings no major updates and contains only a couple of bugfixes. 
+We're using an autobuild system for our script, that automatically takes care of proper versioning.
+However, when fed with wrong information, it'll release wrong verion number. 
+We are sorry if you feel disappointed with that mistake - we'll learn from it :blush:
 
-* **optimization:** code tweaks ([8cb8b79](https://github.com/grcrt/grcrt-script/commit/8cb8b79))
-
-
-### BREAKING CHANGES
-
-* **optimization:** we now moved to GitHub
 
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/grcrt/grcrt-script/compare/v3.15.3...v4.0.0) (2018-04-16)

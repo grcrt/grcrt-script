@@ -35,16 +35,17 @@ function grcrtErrReporter(err){
 	if(err.silent){
 		sendErr()
 	} else {
-		console.log(_json);
+		// console.log(_json);
 		if(typeof Layout == "object" && typeof Layout.showConfirmDialog == "function"){
-		Layout.showConfirmDialog(
-						"GRCRTools oops!",
-						'<div><img src="'+RepConv.grcrt_cdn+'img/octopus.png" style="float:left;padding-right: 10px"/><p style="padding:5px"><b>Found error</b><br/><pre>'+err+'</pre><br/>You want send?</p></div>', 
-						function(){
-							// console.log(_json)
-							sendErr()
-						}
-					)
+			console.log(_json);
+			Layout.showConfirmDialog(
+							"GRCRTools oops!",
+							'<div><img src="'+RepConv.grcrt_cdn+'img/octopus.png" style="float:left;padding-right: 10px"/><p style="padding:5px"><b>Found error</b><br/><pre>'+err+'</pre><br/>You want send?</p></div>', 
+							function(){
+								// console.log(_json)
+								sendErr()
+							}
+						)
 		} else {
 			setTimeout(function(){
 				grcrtErrReporter(err);

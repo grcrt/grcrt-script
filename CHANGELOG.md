@@ -1,3 +1,20 @@
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/grcrt/grcrt-script/compare/v4.0.0...v5.0.0) (2018-05-18)
+
+
+### Bug Fixes
+
+* fixes settings not loading ([829e00c](https://github.com/grcrt/grcrt-script/commit/829e00c))
+* GRCRT (again) too fast on Firefox ([7792f79](https://github.com/grcrt/grcrt-script/commit/7792f79))
+
+
+### IMPORTANT INFO
+This script version brings no major updates and contains only a couple of bugfixes. 
+We're using an autobuild system for our script, that automatically takes care of proper versioning.
+However, when fed with wrong information, it'll release wrong verion number. 
+We are sorry if you feel disappointed with that mistake - we'll learn from it :blush:
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/grcrt/grcrt-script/compare/v3.15.3...v4.0.0) (2018-04-16)
 

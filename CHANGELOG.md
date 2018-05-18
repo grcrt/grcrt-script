@@ -1,3 +1,18 @@
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/grcrt/grcrt-script/compare/v5.0.0...v5.0.1) (2018-05-18)
+
+
+### Bug Fixes
+
+* bump version number ([e4bf001](https://github.com/grcrt/grcrt-script/commit/e4bf001))
+* fixes settings not loading ([f12ca9d](https://github.com/grcrt/grcrt-script/commit/f12ca9d))
+* GRCRT (again) too fast on Firefox ([265a935](https://github.com/grcrt/grcrt-script/commit/265a935))
+
+
+### Reverts
+
+* "docs(changelog): fixes wrong versioning [skip ci]" ([54e036c](https://github.com/grcrt/grcrt-script/commit/54e036c))
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/grcrt/grcrt-script/compare/v4.0.0...v5.0.0) (2018-05-18)
 

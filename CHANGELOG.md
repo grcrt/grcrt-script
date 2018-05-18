@@ -1,3 +1,22 @@
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/grcrt/grcrt-script/compare/v4.0.0...v5.0.0) (2018-05-18)
+
+
+### Bug Fixes
+
+* fixes settings not loading ([829e00c](https://github.com/grcrt/grcrt-script/commit/829e00c))
+* GRCRT (again) too fast on Firefox ([7792f79](https://github.com/grcrt/grcrt-script/commit/7792f79))
+
+
+### Performance Improvements
+
+* **optimization:** code tweaks ([8cb8b79](https://github.com/grcrt/grcrt-script/commit/8cb8b79))
+
+
+### BREAKING CHANGES
+
+* **optimization:** we now moved to GitHub
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/grcrt/grcrt-script/compare/v3.15.3...v4.0.0) (2018-04-16)
 

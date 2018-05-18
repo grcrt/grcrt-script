@@ -22,7 +22,7 @@
     "google-closure-compiler": "^20180204.0.0"
   },
   "devDependencies": {
-    "semantic-release": "^15.1.5"
+    "semantic-release": "^15.4.1"
   },
   "scripts": {
     "test": "google-closure-compiler --js=tmp/GrepolisReportConverterV2.user.js --language_in ECMASCRIPT5 --formatting pretty_print --js_output_file=tmp/_GrepolisReportConverterV2.user.js",
@@ -43,7 +43,9 @@
       {
         "path": "@semantic-release/git",
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
-        "assets": ["CHANGELOG.md"]
+        "assets": [
+          "CHANGELOG.md"
+        ]
       },
       "@semantic-release/npm",
       {
@@ -52,5 +54,4 @@
       }
     ]
   }
-  
 }

@@ -1554,15 +1554,12 @@ function _GRCRTConverterCtrl(wnd) {
 
     function _revolt(){
         RepConv.Debug && console.log("_revolt");
-        if (cRtShow.isChecked()){// $('#MSGRTSHOW').attr('checked')){
+        if (cRtShow.isChecked()){
             if (
                 ('[town]' + Game.townId + '[/town]' == report.defender.town)
                 ||
                 (Game.townName  == report.defender.townName)
             ) {
-/*
-aa = MM.getCollections().MovementsRevoltDefender[0]
-*/
                 report.rtrevinfo = MM.getCollections().MovementsRevoltDefender[0], //MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).get('revolts').in_current_town,
                 report.rtrevccount = report.rtrevinfo.length,//.count,
                 report.rtcstime = '~' + readableUnixTimestamp(
@@ -1582,24 +1579,6 @@ aa = MM.getCollections().MovementsRevoltDefender[0]
                             })
                         }
                     })
-              //       $.each(report.rtrevinfo.models/*arising*/, function(ind,elem){
-              //           var _rvt = readableUnixTimestamp(elem.finished_at, 'player_timezone', {extended_date: false, with_seconds: false});
-              //           if(report.time.indexOf(_rvt) > -1){
-              //               report.rtrevolt = readableUnixTimestamp(elem.started_at, 'player_timezone', {
-              //                   extended_date: true,
-              //                   with_seconds: true
-              //               })
-              //           }
-              //       })
-              //       $.each(report.rtrevinfo.running, function(ind,elem){
-              //           var _rvt = readableUnixTimestamp(elem.finished_at, 'player_timezone', {extended_date: false, with_seconds: false});
-              //           if(report.time.indexOf(_rvt) > -1){
-              //               report.rtrevolt = readableUnixTimestamp(elem.started_at, 'player_timezone', {
-              //                   extended_date: true,
-              //                   with_seconds: true
-              //               })
-            		// 	}
-        		    // })
             	} catch (ex) {
             	    //brak buntu - już wygasł
             	    report.rtrevolt = '';

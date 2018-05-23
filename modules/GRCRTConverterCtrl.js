@@ -1554,14 +1554,14 @@ function _GRCRTConverterCtrl(wnd) {
 
     function _revolt(){
         RepConv.Debug && console.log("_revolt");
-        if (cRtShow.isChecked()){// $('#MSGRTSHOW').attr('checked')){
+        if (cRtShow.isChecked()){
             if (
                 ('[town]' + Game.townId + '[/town]' == report.defender.town)
                 ||
                 (Game.townName  == report.defender.townName)
             ) {
-                report.rtrevinfo = MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).get('revolts').in_current_town,
-                report.rtrevccount = report.rtrevinfo.count,
+                report.rtrevinfo = MM.getCollections().MovementsRevoltDefender[0], //MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).get('revolts').in_current_town,
+                report.rtrevccount = report.rtrevinfo.length,//.count,
                 report.rtcstime = '~' + readableUnixTimestamp(
 					    parseInt(
 						revoltClosestCS(JSON.parse(RepConvTool.Atob(_content.find($('#report_sending_town .gp_player_link')).attr('href'))).id,
@@ -1570,24 +1570,15 @@ function _GRCRTConverterCtrl(wnd) {
 						), 'no_offset'),
                 report.rtrevolt = '';
                 try {
-                    $.each(report.rtrevinfo.arising, function(ind,elem){
-                        var _rvt = readableUnixTimestamp(elem.finished_at, 'player_timezone', {extended_date: false, with_seconds: false});
+                    $.each(report.rtrevinfo.models, function(ind,elem){
+                        var _rvt = readableUnixTimestamp(elem.getFinishedAt(), 'player_timezone', {extended_date: false, with_seconds: false});
                         if(report.time.indexOf(_rvt) > -1){
-                            report.rtrevolt = readableUnixTimestamp(elem.started_at, 'player_timezone', {
+                            report.rtrevolt = readableUnixTimestamp(elem.getStartedAt(), 'player_timezone', {
                                 extended_date: true,
                                 with_seconds: true
                             })
                         }
                     })
-                    $.each(report.rtrevinfo.running, function(ind,elem){
-                        var _rvt = readableUnixTimestamp(elem.finished_at, 'player_timezone', {extended_date: false, with_seconds: false});
-                        if(report.time.indexOf(_rvt) > -1){
-                            report.rtrevolt = readableUnixTimestamp(elem.started_at, 'player_timezone', {
-                                extended_date: true,
-                                with_seconds: true
-                            })
-            			}
-        		    })
             	} catch (ex) {
             	    //brak buntu - już wygasł
             	    report.rtrevolt = '';
@@ -1694,15 +1685,28 @@ function _GRCRTConverterCtrl(wnd) {
         report.rtlabels['priest'] = Game.premium_data.priest.name;
 		
         // przybywające ataki,wsparcia
-        RepConv.Cmds = MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id});//MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}),
-        RepConv.Cmds.get('unit_movements'),
-        report.unit_movements = { 'support':0, 'attack':0},
-        $.each(RepConv.Cmds.get('unit_movements'), function(ind, elem){
-            if(elem.incoming){
-            report.unit_movements.support += (elem.type=="support")?1:0;
-            report.unit_movements.attack  += (elem.type=="attack_incoming")?1:0;
-            }
-        })
+        report.unit_movements = { 'support':0, 'attack':0}
+        if(MM.getCollections().Support && MM.getCollections().Support[0] && MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId)){
+            $.each(MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId), function(ind, command){
+                report.unit_movements.support += ((command.get('incoming')==1) ? 1 : 0)
+            })
+        }
+        if(MM.getCollections().Attack && MM.getCollections().Attack[0] && MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId)){
+            $.each(MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId), function(ind, command){
+                report.unit_movements.attack += ((command.get('incoming')==1) ? 1 : 0)
+            })
+        }
+
+
+        // RepConv.Cmds = MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id});//MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}),
+        // RepConv.Cmds.get('unit_movements'),
+        // report.unit_movements = { 'support':0, 'attack':0},
+        // $.each(RepConv.Cmds.get('unit_movements'), function(ind, elem){
+        //     if(elem.incoming){
+        //     report.unit_movements.support += (elem.type=="support")?1:0;
+        //     report.unit_movements.attack  += (elem.type=="attack_incoming")?1:0;
+        //     }
+        // })
     }
 
     function _fight() {

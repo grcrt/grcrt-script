@@ -1,3 +1,12 @@
+<a name="5.0.2"></a>
+## [5.0.2](https://github.com/grcrt/grcrt-script/compare/v5.0.1...v5.0.2) (2018-05-23)
+
+
+### Bug Fixes
+
+* revolt report conversion ([e095346](https://github.com/grcrt/grcrt-script/commit/e095346))
+* revolt report conversion ([0ebca57](https://github.com/grcrt/grcrt-script/commit/0ebca57))
+
 <a name="5.0.1"></a>
 ## [5.0.1](https://github.com/grcrt/grcrt-script/compare/v5.0.0...v5.0.1) (2018-05-18)
 

@@ -86,24 +86,6 @@ function _GRCRTConverterCtrl(wnd) {
 		    readyGenerate();
 		});
     }
-    // /funkcje reuzywalne
-
-    //this.getGBtn = function(){
-    //    return btnGenerate;
-    //}
-    //this.getReport = function(){
-    //    return report;
-    //}
-    //this.getContent = function(){
-    //    return _content;
-    //}
-    //this.imgCache = function(ua, size, margin){
-    //    return imgCache(ua, size, margin);
-    //}
-    //this.getReportArray = function(){
-    //    return __repconvValueArray;
-    //}
-    //RepConv.Debug && console.log('_reportType=' + _reportType);
     function genId(value) {
         return $.md5(value);
         //return Math.random().toString(36).substr(2)+Timestamp.server().toString(36);
@@ -176,10 +158,9 @@ function _GRCRTConverterCtrl(wnd) {
                 fs : fontSize || 11*(GRCRTtpl.rct.genImgS/50)
             },
             _hash = JSON.stringify(_json);
-        return _hash;//.substr(0,2)+'/'+_hash.substr(0,4)+'/'+_hash+'.png';
+        return _hash;
     }
     function getUrlMD5(source){
-        //return "https://img.potusek.eu/"+"_img_cache_/"+source.substr(0,2)+"/"+source+".png";
         return RepConv.grcrt_domain+"_img_cache_/"+source.substr(0,2)+"/"+source+".png";
     }
     function BBC2HTML(S){
@@ -331,8 +312,6 @@ function _GRCRTConverterCtrl(wnd) {
             .append(bbCodeViewS);
         if( rBbcodeType.getValue() == 'BBCODEH' && rBbcode.getValue() == 'BBCODEE'){
             $(bbCodeViewS).append(BBC2HTML(repconvValue));
-        // } else if (rBbcode.getValue() == 'BBCODEI'){
-        //     $(bbCodeViewS).append(bbcode2img(repconvValue, bbCodeViewS));
         } else {
             bbcode2html((rBbcode.getValue() == 'BBCODEI') ? bbcodeAsImg : repconvValue, bbCodeViewS);
             if(rBbcode.getValue() == 'BBCODEI'){
@@ -407,10 +386,6 @@ function _GRCRTConverterCtrl(wnd) {
             report.oldwall[ind] = $(elem).html().stripTags().trim();
             })
         }
-		//report.oldwall = (_content.find($('span.fight_bonus.oldwall')).length == 0) ?
-		//	''
-		//	:
-		//	GRCRTtpl.rct.oldwall + _content.find($('span.fight_bonus.oldwall')).html().stripTags().trim();
     }
     function __getReportNightBonus(){
         RepConv.Debug && console.log("__getReportNightBonus");
@@ -729,15 +704,6 @@ function _GRCRTConverterCtrl(wnd) {
         }
         return '';
     }
-    // function _getIsland(item) {
-    //     RepConv.Debug && console.log("_getIsland");
-    //     if($(item).find($('a.gp_island_link')).length > 0 && (rBbcode.getValue() != 'BBCODEI')){
-    //         return RepConvTool.Adds(JSON.parse(RepConvTool.Atob($(item).find($('a.gp_island_link')).attr('href')))[GRCRTtpl.rct.getIsland]+'', GRCRTtpl.rct.island);
-    //     } else if($(item).find($('a.gp_island_link')).length > 0 && (rBbcode.getValue() == 'BBCODEI')){
-    //         return RepConvTool.Adds(JSON.parse(RepConvTool.Atob($(item).find($('a.gp_island_link')).text().trim(), GRCRTtpl.rct.town);
-    //     }
-    //     return '';
-    // }
     function _getTownType(item) {
         RepConv.Debug && console.log("_getTownType");
         if ($(item).find($('li.town_name a,.gp_town_link')).length > 0) {
@@ -1353,9 +1319,6 @@ function _GRCRTConverterCtrl(wnd) {
         report.attacker.title = $(_content.find($('h4'))[0]).html();
         report.attacker.player = RepConvTool.Adds(_content.find($('a.gp_player_link')).html(), GRCRTtpl.rct.player);
         report.defender.town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob(_content.find($('a.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
-        //report.attacker.unit_img = '';
-        //report.attacker.unit_send = '';
-        //report.attacker.unit_list = '';
         if (cHidAt.isChecked()){//$('#MSGHIDDE').attr('checked')) {
             report.defender.town = RepConvTool.Adds(RepConvTool.GetLabel('HIDDEN'), GRCRTtpl.rct.town);
         }
@@ -1367,9 +1330,6 @@ function _GRCRTConverterCtrl(wnd) {
             report.attacker.full = {'img_url' : RepConvTool.Adds(RepConvTool.GetLabel('HIDDEN'), 'i') };
         }
         
-        //if ( $('#MSGATTUNIT').attr('checked')) {
-        //    report.attacker = getUnit(report.attacker, 'div.report_unit');
-        //}
         report.command.title = $(_content.find($('h4'))[1]).html();
         report.linia = {};
         if (_content.find($('ul#unit_movements')).length == 0) {
@@ -1591,7 +1551,6 @@ function _GRCRTConverterCtrl(wnd) {
             report.rtrevolt = '';
         }
 
-        // report.rttime   = _content.find($('#report_date')).html();
         report.rttownId = parseInt(Game.townId);
        
         // trochę czytelniej pewnie będzie, gdy "złapiesz" miasto na wskaźnik
@@ -1696,17 +1655,6 @@ function _GRCRTConverterCtrl(wnd) {
                 report.unit_movements.attack += ((command.get('incoming')==1) ? 1 : 0)
             })
         }
-
-
-        // RepConv.Cmds = MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id});//MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}),
-        // RepConv.Cmds.get('unit_movements'),
-        // report.unit_movements = { 'support':0, 'attack':0},
-        // $.each(RepConv.Cmds.get('unit_movements'), function(ind, elem){
-        //     if(elem.incoming){
-        //     report.unit_movements.support += (elem.type=="support")?1:0;
-        //     report.unit_movements.attack  += (elem.type=="attack_incoming")?1:0;
-        //     }
-        // })
     }
 
     function _fight() {

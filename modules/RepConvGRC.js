@@ -337,14 +337,9 @@ function _RepConvGRC() {
         }
     }
     function islandBBCode(RCGP){ // info o graczach na wyspie - dodanie listy miast w BBCode
-        var
-            WndName = (RCGP).getName(),
-            WndId = '#' + WndName;
-        if ((RCGP.getJQElement()).find($(WndId + 'RepConvTownButton')).length == 0) {
-            // nazwy graczy jako linki
-            var _towns = JSON.parse(RepConv.requests[RCGP.getController()].responseText).json.json.town_list;
-            if ((RCGP.getJQElement()).find($('#island_info_towns_left_sorted_by_name li span.player_name a.gp_player_link')).length == 0) {
-                $.each((RCGP.getJQElement()).find($('#island_info_towns_left_sorted_by_name li span.player_name')), function(ind,elem){
+    	function addDetails(RCGP, itemId){
+            if ((RCGP.getJQElement()).find($('#'+itemId+' li span.player_name a.gp_player_link')).length == 0) {
+                $.each((RCGP.getJQElement()).find($('#'+itemId+' li span.player_name')), function(ind,elem){
                     $.each(_towns,function(itown,etown){
                         if(etown.player == $(elem).html()){
                             $(elem).html(
@@ -380,44 +375,16 @@ function _RepConvGRC() {
                     })
                 })
             }
-            if ((RCGP.getJQElement()).find($('#island_info_towns_left_sorted_by_score li span.player_name a.gp_player_link')).length == 0) {
-                $.each((RCGP.getJQElement()).find($('#island_info_towns_left_sorted_by_score li span.player_name')), function(ind,elem){
-                    $.each(_towns,function(itown,etown){
-                        if(etown.player == $(elem).html()){
-                            $(elem)
-                                .html(
-                                    hCommon.player(
-                                        btoa(
-                                            JSON.stringify({"name":etown.player,"id":etown.pid})
-                                                .replace(/[\u007f-\uffff]/g,
-                                                    function(c) { 
-                                                      return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
-                                                    }
-                                                )
-                                        ),
-                                        etown.player,
-                                        etown.pid
-                                )
-                            )
-                            // alliance
-                            if (etown.player_alliance != null){
-                                $(elem)
-                                    .parent()
-                                    .append(
-                                        $('<span/>',{'class':'small alliance_name grcrt_brackets'})
-                                            .html(
-                                                hCommon.alliance(
-                                                    'n',
-                                                    RepConvTool.getAllianceData(RepConvTool.getPlayerData(etown.pid).alliance_id).name,
-                                                    RepConvTool.getPlayerData(etown.pid).alliance_id 
-                                                )
-                                            )
-                                    )
-                            }
-                        }
-                    })
-                })
-            }
+    	}
+        var
+            WndName = (RCGP).getName(),
+            WndId = '#' + WndName;
+        if ((RCGP.getJQElement()).find($(WndId + 'RepConvTownButton')).length == 0) {
+            // nazwy graczy jako linki
+            var _towns = JSON.parse(RepConv.requests[RCGP.getController()].responseText).json.json.town_list;
+            addDetails(RCGP, 'island_info_towns_left_sorted_by_name');
+            addDetails(RCGP, 'island_info_towns_left_sorted_by_score');
+            addDetails(RCGP, 'island_info_towns_left_sorted_by_player');
             // /nazwy graczy jako linki
             // new bbcode
             if ((RCGP.getJQElement()).find($('#BTNVIEWBB' + WndName)).length == 0) {
@@ -2585,7 +2552,7 @@ function _RepConvGRC() {
     }
 
     function colorizeMessageList(RCGP){
-        var __ally = {};
+        var __ally = {}, what;
         if(RepConv.settings[RepConv.Cookie+'_mcol']){
             __ally[Game.alliance_id]='OWN_ALLIANCE';
             $.each(MM.getOnlyCollectionByName("AlliancePact").models, function(ii,ee){
@@ -2630,7 +2597,7 @@ function _RepConvGRC() {
     }
 
     function colorizeMessageView(RCGP){
-        var __ally = {};
+        var __ally = {}, what;
         if(RepConv.settings[RepConv.Cookie+'_mcol']){
             __ally[Game.alliance_id]='OWN_ALLIANCE';
             $.each(MM.getOnlyCollectionByName("AlliancePact").models, function(ii,ee){
@@ -2771,7 +2738,7 @@ function _RepConvGRC() {
                         .attr('id','BTNCOMPARE')
                         .css({'margin': '0px', 'position': 'absolute', 'top': '0px', 'right': '1px'})
                         .click(function() {
-                            var __ally = {leftAlly:[Game.alliance_id],rightAlly:[]}
+                            var __ally = {leftAlly:[Game.alliance_id],rightAlly:[]}, what;
                             $.each(MM.getOnlyCollectionByName("AlliancePact").models, function(ii,ee){
                                 if(!ee.getInvitationPending()){
                                     switch (ee.getRelation()){

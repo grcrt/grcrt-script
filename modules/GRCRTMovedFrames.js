@@ -8,39 +8,42 @@ function _GRCRTMovedFrames(){
             },500);
             return;
         }
+        var
+            tacl_id = '#toolbar_activity_commands_list',
+            tacl_clk = '.activity.commands',
+            target_tacl = document.querySelector(tacl_id);
         // command list
         if($('#grcrt_taclWrap').length==0){
             $('#toolbar_activity_commands_list').wrap($('<div/>',{'class':'grcrt_taclWrap', 'id':'grcrt_taclWrap'}))
             if(RepConv.settings[RepConv.Cookie+'_tacl']){
                 $('#toolbar_activity_commands_list').addClass('grcrt_tacl')
                 $('#grcrt_taclWrap').draggable().draggable('enable')
+                var
+                    observer_tacl = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if($(target_tacl).hasClass('grcrt_tacl') && ($('#grcrt_taclWrap').attr('style') && $(target_tacl).css('display')=="none")){
+                                $(tacl_clk).trigger('mouseenter')
+                            }
+                        });
+                    });
+                if($(tacl_id+">.js-dropdown-list>a.cancel").length == 0){
+                    $(tacl_id+">.js-dropdown-list")
+                        .append(
+                            $('<a/>',{'href':'#n','class':'cancel', 'style':'display:none;'})
+                                .click(function(){
+                                    $('#grcrt_taclWrap').removeAttr('style')
+                                })
+                        )
+                }
+                observer_tacl.observe(target_tacl, { attributes: true, childList: false, characterData: false });
             } else {
                 $('#toolbar_activity_commands_list').removeClass('grcrt_tacl')
                 $('#grcrt_taclWrap').draggable().draggable('disable').removeAttr('style')
             }
         }
-
-        var 
-            tacl_id = '#toolbar_activity_commands_list',
-            tacl_clk = '.activity.commands',
-            target_tacl = document.querySelector(tacl_id),
-            observer_tacl = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if($(target_tacl).hasClass('grcrt_tacl') && ($('#grcrt_taclWrap').attr('style') && $(target_tacl).css('display')=="none")){
-                        $(tacl_clk).trigger('mouseenter')
-                    }
-                });
-            });
-        if($(tacl_id+">.js-dropdown-list>a.cancel").length == 0){
-            $(tacl_id+">.js-dropdown-list")
-                .append(
-                    $('<a/>',{'href':'#n','class':'cancel', 'style':'display:none;'})
-                        .click(function(){
-                            $('#grcrt_taclWrap').removeAttr('style')
-                        })
-                )
+        if($(target_tacl).hasClass('grcrt_tacl') && ($('#grcrt_taclWrap').attr('style') /*&& $(target_tacl).css('display')=="none"*/)){
+            $(tacl_clk).trigger('mouseenter')
         }
-        observer_tacl.observe(target_tacl, { attributes: true, childList: false, characterData: false });
     }
 
     // function activity_trades_list(){
@@ -136,4 +139,10 @@ function _GRCRTMovedFrames(){
             activity_commands_list();
             // activity_trades_list();
         });
+    $.Observer(GameEvents.command.send_unit)
+        .subscribe('GRCRTMovedFrames_command_send', function() {
+            activity_commands_list();
+            // activity_trades_list();
+        });
+
 }

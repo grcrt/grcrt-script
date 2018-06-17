@@ -1,3 +1,10 @@
+## [5.0.3](https://github.com/grcrt/grcrt-script/compare/v5.0.2...v5.0.3) (2018-06-17)
+
+
+### Bug Fixes
+
+* fixes a  command list movement bug ([1e8ca5f](https://github.com/grcrt/grcrt-script/commit/1e8ca5f)), closes [#14](https://github.com/grcrt/grcrt-script/issues/14)
+
 <a name="5.0.2"></a>
 ## [5.0.2](https://github.com/grcrt/grcrt-script/compare/v5.0.1...v5.0.2) (2018-05-23)
 

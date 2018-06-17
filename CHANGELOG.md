@@ -1,3 +1,11 @@
+## [5.0.4](https://github.com/grcrt/grcrt-script/compare/v5.0.3...v5.0.4) (2018-06-17)
+
+
+### Bug Fixes
+
+* adds GRCRT modules sorting ([b576388](https://github.com/grcrt/grcrt-script/commit/b576388))
+* missing inactivity and stats ([74022b5](https://github.com/grcrt/grcrt-script/commit/74022b5))
+
 ## [5.0.3](https://github.com/grcrt/grcrt-script/compare/v5.0.2...v5.0.3) (2018-06-17)
 
 

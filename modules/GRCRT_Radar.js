@@ -1094,16 +1094,6 @@ function _GRCRT_Radar() {
                                     )
                             )
                     )
-/*
-<div class="modifier">
-                <div class="modifier_icon power power_icon45x45 unit_movement_boost"></div>
-                <div class="checkbox_new checked" data-modifierid="unit_movement_boost">
-<div class="cbx_icon"></div><div class="cbx_caption"></div>
-</div>
-            </div>
-
-*/
-
                     .append(
                         $('<br/>', {'style':'clear: both'})
                     )
@@ -1120,7 +1110,7 @@ function _GRCRT_Radar() {
         })
     }
     // dodanie do menu
-    RepConv.menu.radar =
+    RepConv.menu[1] =
         {
             'name' : 'RADAR.TOWNFINDER',
             'action' : "GRCRT_Radar.windowOpen();",

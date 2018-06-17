@@ -16,7 +16,7 @@ function _GRCRT_TSL() {
 
 
     // dodanie do menu
-    RepConv.menu.tsl = {
+    RepConv.menu[3] = {
 		'name' : 'TSL.WND.WINDOWTITLE',
 		'action' : "GRCRT_TSL.createWindow();",
 		'class' : 'tsl'

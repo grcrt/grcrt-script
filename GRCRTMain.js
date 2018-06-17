@@ -47,7 +47,7 @@ function _GRCRTMain(){
     this.HelpTabs = {}
     this.RepType = ""
     this.menu = {
-        'about' :
+        99 :
             {
                 'name' : 'HELPTAB1',
                 'action' : "RepConvGRC.openGRCRT('HELPTAB1')"

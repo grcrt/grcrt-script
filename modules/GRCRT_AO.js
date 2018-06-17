@@ -397,11 +397,11 @@ function _GRCRT_AO() {
     }
 
     // dodanie do menu
-    RepConv.menu.academy_overview =
+    RepConv.menu[4] =
         {
             'name' : 'AO.TITLE',
             'action' : "GRCRT_AO.windowOpen();",
-            'class' : 'aom',
+            'class' : 'aom'
         }
     
     // ikona w menu

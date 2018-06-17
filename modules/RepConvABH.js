@@ -15,7 +15,7 @@ function _RepConvABH(){
 		}
 	;
     function _btn(){
-        RepConv.menu.abh =
+        RepConv.menu[2] =
             {
                 'name' : 'ABH.WND.WINDOWTITLE',
                 'action' : "RepConvABH.showView()",

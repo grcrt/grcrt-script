@@ -3030,7 +3030,7 @@ function _RepConvGRC() {
                 }
                 var options = {
                     body: DM.getl10n('layout','toolbar_activities').incomming_attacks+" : "+(
-                        require("data/features").isCommandsMenuBubbleWithIndividualPushables() 
+                        !require("data/features").isOldCommandVersion() 
                             ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
                             : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
                         ),
@@ -3052,7 +3052,7 @@ function _RepConvGRC() {
                 $('#grcrtSound').hide();
             }
             RepConv.active.attack_count = _ai;/*(
-                                                require("data/features").isCommandsMenuBubbleWithIndividualPushables() 
+                                                !require("data/features").isOldCommandVersion() 
                                                     ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
                                                     : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
                                             );*/
@@ -3477,7 +3477,7 @@ function _RepConvGRC() {
         new _grcrtWindowGrcRT();
         new _grcrtWindowStats();
         new _grcrtWindowAnalysis();
-        if(require("data/features").isCommandsMenuBubbleWithIndividualPushables()){
+        if(!require("data/features").isOldCommandVersion()){
             $.Observer(require("data/events").attack.incoming)
                 .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
                     attackIncoming(b.count);
@@ -3810,3 +3810,6 @@ function _RepConvGRC() {
 // ------------------------------
 
 
+/*
+<div class="ph_ratio" style="top: 38px;left: 345px;width: 35px;"></div>
+*/

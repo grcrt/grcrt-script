@@ -3030,10 +3030,8 @@ function _RepConvGRC() {
                 }
                 var options = {
                     body: DM.getl10n('layout','toolbar_activities').incomming_attacks+" : "+(
-                        !require("data/features").isOldCommandVersion() 
-                            ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
-                            : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
-                        ),
+                        require("helpers/commands").getTotalCountOfIncomingAttacks() 
+                    ),
                     icon: 'https://www.grcrt.net/img/octopus.png',
                 }
             }
@@ -3051,11 +3049,7 @@ function _RepConvGRC() {
                 }
                 $('#grcrtSound').hide();
             }
-            RepConv.active.attack_count = _ai;/*(
-                                                !require("data/features").isOldCommandVersion() 
-                                                    ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
-                                                    : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
-                                            );*/
+            RepConv.active.attack_count = _ai;
         }
     }
 
@@ -3477,21 +3471,12 @@ function _RepConvGRC() {
         new _grcrtWindowGrcRT();
         new _grcrtWindowStats();
         new _grcrtWindowAnalysis();
-        if(!require("data/features").isOldCommandVersion()){
-            $.Observer(require("data/events").attack.incoming)
-                .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
-                    attackIncoming(b.count);
-                });
-            if(require("helpers/commands").getTotalCountOfIncomingAttacks() > 0) {
-                attackIncoming(require("helpers/commands").getTotalCountOfIncomingAttacks());
-            }
-        } else {            
-            MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).onIncomingAttackCountChange(function(){
-                attackIncoming(MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount());
-            },MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}));
-            if (MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount() > 0) {
-                attackIncoming(MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount());
-            }
+        $.Observer(require("data/events").attack.incoming)
+            .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
+                attackIncoming(b.count);
+            });
+        if(require("helpers/commands").getTotalCountOfIncomingAttacks() > 0) {
+            attackIncoming(require("helpers/commands").getTotalCountOfIncomingAttacks());
         }
         if (RepConv.idleInterval == undefined) {
             getIdleData();

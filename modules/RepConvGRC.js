@@ -3030,9 +3030,10 @@ function _RepConvGRC() {
                 }
                 var options = {
                     body: DM.getl10n('layout','toolbar_activities').incomming_attacks+" : "+(
-                        !require("data/features").isOldCommandVersion() 
-                            ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
-                            : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
+                        // !require("data/features").isOldCommandVersion() 
+                            // ? 
+                            require("helpers/commands").getTotalCountOfIncomingAttacks() 
+                            // : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
                         ),
                     icon: 'https://www.grcrt.net/img/octopus.png',
                 }
@@ -3357,8 +3358,6 @@ function _RepConvGRC() {
         });
     var _cpt, _cpta;
     GameEvents.grcrt = GameEvents.grcrt || {}, GameEvents.grcrt.powertooltip = "grcrt:powertooltip",
-    //GameEvents.grcrt = {powertooltip:"grcrt:powertooltip"},
-    //GameEvents.grcrt = {powertooltip:"grcrt:powertooltip"},
     _cpt = DM.getTemplate("COMMON", "casted_power_tooltip"),
     _cpt += "<script type=\"text/javascript\">;\n$.Observer(GameEvents.grcrt.powertooltip).publish({power:'<%=power.id%>'});\n<\/script>",
     _cpta = {"COMMON":{"casted_power_tooltip" : _cpt}},
@@ -3437,11 +3436,12 @@ function _RepConvGRC() {
             })
             .hide()
         );
+    $('<div/>',{'id':'grcrtVideoContainers','style':'width:1px !important; height:1px !important'})
+        .append($('<div/>',{'id':'grcrtVideoContainer'}))
+        .append($('<div/>',{'id':'grcrtVideoContainerTest'}))
+        .appendTo($('body'));
 
-    $('<div/>',{'id':'grcrtVideoContainer','style':'display:none'}).appendTo($('body'));
-    $('<div/>',{'id':'grcrtVideoContainerTest','style':'display:none'}).appendTo($('body'));
-
-    $.getScript('https://www.youtube.com/player_api')
+    $.getScript('https://www.youtube.com/iframe_api')
        .done(function( script, textStatus ) {
             setTimeout(function(){
                 createYTPlayer();
@@ -3477,25 +3477,21 @@ function _RepConvGRC() {
         new _grcrtWindowGrcRT();
         new _grcrtWindowStats();
         new _grcrtWindowAnalysis();
-        if(!require("data/features").isOldCommandVersion()){
-            $.Observer(require("data/events").attack.incoming)
-                .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
-                    attackIncoming(b.count);
-                });
-            if(require("helpers/commands").getTotalCountOfIncomingAttacks() > 0) {
-                attackIncoming(require("helpers/commands").getTotalCountOfIncomingAttacks());
-            }
-        } else {            
-            MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).onIncomingAttackCountChange(function(){
-                attackIncoming(MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount());
-            },MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}));
-            if (MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount() > 0) {
-                attackIncoming(MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount());
-            }
+        $.Observer(require("data/events").attack.incoming)
+            .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
+                attackIncoming(b.count);
+            });
+        if(require("helpers/commands").getTotalCountOfIncomingAttacks() > 0) {
+            attackIncoming(require("helpers/commands").getTotalCountOfIncomingAttacks());
         }
         if (RepConv.idleInterval == undefined) {
             getIdleData();
             RepConv.idleInterval = setInterval(function(){getIdleData();},idleInterval);
+        }
+        if (RepConv.idleAttackInterval == undefined) {
+            RepConv.idleAttackInterval = setInterval(function(){
+                void gpAjax.ajaxGet("notify", "fetch", {no_sysmsg: !1}, !1, function() {})
+            },1000*5);
         }
         town_groups_list_chg();
         // activity_commands_list();
@@ -3534,7 +3530,6 @@ function _RepConvGRC() {
                                                 ee.hideLoading();
                                             }
                                         })
-                                        //(WM.getWindowByType(_IdS)[0]).hideLoading();
                                     })
                                 )
                             );
@@ -3693,7 +3688,6 @@ function _RepConvGRC() {
                     render: function() {
                         this.$el.html(RepConvGRC.settings()),
                         this.getWindowModel().hideLoading(),
-    //-------------
                         this.unregisterComponent("grcrt_settings_scrollbar"),
                         this.registerComponent("grcrt_settings_scrollbar", 
                             this.$el.find(".js-scrollbar-viewport").skinableScrollbar({
@@ -3733,7 +3727,6 @@ function _RepConvGRC() {
                             sub: b || this.getWindowModel().getIdentifier()
                         };
                         CM.unregister(c, a);
-    //-------------
                     }
                 });
             window.GameViews['GrcRTViewS_'+_IdS] = c
@@ -3807,9 +3800,3 @@ function _RepConvGRC() {
         }()
     }
 }
-// ------------------------------
-
-
-/*
-<div class="ph_ratio" style="top: 38px;left: 345px;width: 35px;"></div>
-*/

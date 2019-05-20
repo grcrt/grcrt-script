@@ -50,7 +50,7 @@ function _RepConvTool() {
             RepConv.Debug && console.log(RepConv.Cookie)
         }
         if(RepConv.settings[RepConv.CookieEmots] == undefined){
-            RepConv.settings[RepConv.CookieEmots] = RepConvTool.getItem(RepConv.CookieEmots) || 'https://www.pic4ever.com/images/237.gif\nhttps://www.pic4ever.com/images/shake2.gif'
+            RepConv.settings[RepConv.CookieEmots] = RepConvTool.getItem(RepConv.CookieEmots) || 'https://cdn.grcrt.net/emots2/237.gif\nhttps://cdn.grcrt.net/emots2/shake2.gif'
             setOK = false;
             RepConv.Debug && console.log(RepConv.CookieEmots)
         }
@@ -604,10 +604,10 @@ function _RepConvTool() {
     this.loadPower = function() {
         if (RepConv.active.power) {
             RepConv.Debug && console.log('loadPower');
-            $.each($('div.gods_area .god_container div.new_ui_power_icon div[name=counter]'), function(ind, elem) {
+            $.each($('div.gods_spells_menu .god_container div.new_ui_power_icon div[name=counter]'), function(ind, elem) {
                 $(elem).remove();
             });
-            $.each($('div.gods_area .god_container div.new_ui_power_icon.disabled'), function(ind, elem) {
+            $.each($('div.gods_spells_menu .god_container div.new_ui_power_icon.disabled'), function(ind, elem) {
                 power = GameData.powers[$(elem).attr('data-power_id')],
                 god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[power.god_id],
                 _godCurr = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id})[power.god_id+'_favor_delta_property'].calculateCurrentValue().unprocessedCurrentValue,

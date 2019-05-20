@@ -80,29 +80,14 @@ function _RepConvTool() {
             RepConv.active.ftabs = RepConv.settings[RepConv.CookieForumTabs],//, defData[RepConv.CookieForumTabs]),
             RepConv.active.statsGRCL = RepConv.settings[RepConv.CookieStatsGRCL],//, defData[RepConv.CookieStatsGRCL]),
             RepConv.active.unitsCost = RepConv.settings[RepConv.CookieUnitsCost],//,defData[RepConv.CookieUnitsCost]),
-            // RepConv.active.oceanNumber = RepConv.settings[RepConv.CookieOceanNumber],//, defData[RepConv.CookieOceanNumber]),
             RepConv.active.reportFormat = RepConv.settings[RepConv.CookieReportFormat],//, defData[RepConv.CookieReportFormat]);
             RepConv.audioSupport && (RepConv.active.sounds = RepConv.settings[RepConv.CookieSounds]),
             this.useSettings()
         }
     }
     this.useSettings = function() {
-        // setTimeout(function(){
-        //     RepConvAdds.oceanNumbers();
-        // }, 100);
-        // setTimeout(function(){
-        //     try {
-        //         RepConvABH.savedArr = JSON.parse(RepConvTool.getSettings(RepConv.CookieUnitsABH,"{}"))
-        //     } catch (err){
-        //     }
-        // }, 100);
         setTimeout(function(){
             var _posEmot = 0;
-            // RepConvAdds.emots = {}
-            // $.each(RepConvAdds.emotsDef, function(ind,emot){
-            //     RepConvAdds.emots[_posEmot++] = emot
-            // })
-
 
             RepConvAdds.emotsLists.usersaved = {
                     'img': 'emots2/wizard.gif',

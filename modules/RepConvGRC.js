@@ -120,9 +120,9 @@ function _RepConvGRC() {
                 if (_disable && !casted.isExtendable()) {
                     var
                         power = GameData.powers[power_id],
-			god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[_god],
+            god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[_god],
                         _godCurr = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id})[_god+'_favor_delta_property'].calculateCurrentValue().unprocessedCurrentValue,
-			marg =42,
+            marg =42,
                         _elem =
                             $('<div/>',{
                                 'style': 'margin-top:'+marg+'px;color:black;text-shadow: 2px 2px 2px gray;font-size:10px;z-index:3000;font-weight: bold;',
@@ -303,7 +303,7 @@ function _RepConvGRC() {
                 
                 (RCGP.getJQElement()).find($('div.gpwindow_content')).css('top', Q_DivWrapper.height() * (Q_Mnoznik + 1)),
                 Q_DivWrapper.height(Q_DivWrapper.height() * Q_Mnoznik),
-		RCGP.setHeight(RCGP.getOptions().maxHeight+22*(Q_Mnoznik - 1));
+        RCGP.setHeight(RCGP.getOptions().maxHeight+22*(Q_Mnoznik - 1));
                 //(RCGP.getJQElement()).height(
                 //    Q_DivForm.height() + Q_DivWrapper.height() * (Q_Mnoznik) + 22
                 //    //(RCGP.getJQElement()).height() + Q_DivWrapper.height() * (Q_Mnoznik - 1)
@@ -337,7 +337,7 @@ function _RepConvGRC() {
         }
     }
     function islandBBCode(RCGP){ // info o graczach na wyspie - dodanie listy miast w BBCode
-    	function addDetails(RCGP, itemId){
+        function addDetails(RCGP, itemId){
             if ((RCGP.getJQElement()).find($('#'+itemId+' li span.player_name a.gp_player_link')).length == 0) {
                 $.each((RCGP.getJQElement()).find($('#'+itemId+' li span.player_name')), function(ind,elem){
                     $.each(_towns,function(itown,etown){
@@ -375,7 +375,7 @@ function _RepConvGRC() {
                     })
                 })
             }
-    	}
+        }
         var
             WndName = (RCGP).getName(),
             WndId = '#' + WndName;
@@ -425,7 +425,6 @@ function _RepConvGRC() {
             var
                 __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
                 _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
-//                _player = RCGP.getOptions().player_id||Game.player_id /*JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id*/,
                 _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val(),
                 _link = $('<a/>',{
                             'href' : "#n",
@@ -455,7 +454,6 @@ function _RepConvGRC() {
             var
                 __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
                 _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
-//                _player = RCGP.getOptions().player_id||Game.player_id /*JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id*/,
                 _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val();
             RCGP.getJQElement()
                 .find($('#player_info>h3'))
@@ -527,7 +525,7 @@ function _RepConvGRC() {
                 _link = $('<a/>',{
                             'href' : "#n",
                             'id' : WndName + 'RepConvStatsAlly',
-                            'ally_id' 	: _ally,
+                            'ally_id'   : _ally,
                             'ally_name' : _ally_name,
                             'class' : 'button_new square',
                             'style' : 'width:26px; float: left;'
@@ -613,9 +611,9 @@ function _RepConvGRC() {
                         RCGP.setHeight(539);
                     }
                     switch (RepType) {
-                        case "attack" 		:
-                        case "take_over" 	:
-                        case "breach" 	:
+                        case "attack"       :
+                        case "take_over"    :
+                        case "breach"   :
                         case "attackSupport" :
                             if ((RCGP.getJQElement()).find($('div.report_booty_bonus_fight')).length > 0) {
                                 // zliczenie
@@ -742,9 +740,9 @@ function _RepConvGRC() {
                 _walls.push(RepConvTool.getItem(RepConv.Cookie));
                 RepConvTool.setItem(RepConv.CookieWall, _walls);
                 //
-				setTimeout(function(){
-					HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
-				},0)
+                setTimeout(function(){
+                    HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
+                },0)
                 if ($('#' + RepConv.Const.IdWindowClone).length == 1) {
                     $('#' + RepConv.Const.IdWindowClone).remove();
                 }
@@ -754,9 +752,9 @@ function _RepConvGRC() {
                 loadWall();
             } catch (err) {
                 RepConv.Debug && console.log(err);
-				setTimeout(function(){
-					HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
-				},0)
+                setTimeout(function(){
+                    HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
+                },0)
             }
         }
 
@@ -912,36 +910,36 @@ function _RepConvGRC() {
                     register(
                         'grcrt_saved',
                         $('<div/>',{'id':'grcrtListSaved','class':'dropdown default'})
-			    .dropdown({
-				    list_pos : 'left',
-				    value : (RepConvTool.getItem(RepConv.Cookie) != undefined) ? RepConvTool.getItem(RepConv.Cookie).saved : '',
+                .dropdown({
+                    list_pos : 'left',
+                    value : (RepConvTool.getItem(RepConv.Cookie) != undefined) ? RepConvTool.getItem(RepConv.Cookie).saved : '',
                                     class_name : 'grcrt_dd_list'
-			    })
+                })
                             .on("dd:change:value", function(e, new_val, old_val, _dd, data) {
                                 fillOptions(new_val,true)
-				loadWall(new_val);
-			    })
+                loadWall(new_val);
+                })
                             .on("dd:list:show", function() {
                                 listWall.hide();
-			    })
+                })
                     ),
             listWall  = 
                     register(
                         'grcrt_wall',
                         $('<div/>',{'id':'grcrtListWall','class':'dropdown default'})
-			    .dropdown({
+                .dropdown({
                                     list_pos : 'left',
-				    value : (RepConvTool.getItem(RepConv.Cookie) != undefined) ? RepConvTool.getItem(RepConv.Cookie).saved : '',
+                    value : (RepConvTool.getItem(RepConv.Cookie) != undefined) ? RepConvTool.getItem(RepConv.Cookie).saved : '',
                                     class_name : 'grcrt_dd_list'
-			    })
+                })
                             .on("dd:change:value", function(e, new_val, old_val, _dd, data) {
                                 loadStateWall(new_val);
                                 //loadWall(new_val);
                                 //$('#statsGRCL').attr('value', new_val);
-			    })
+                })
                             .on("dd:list:show", function() {
                                 listSaved.hide();
-			    })
+                })
                     ),
             delSaved =
                     register(
@@ -1002,14 +1000,14 @@ function _RepConvGRC() {
                 fillOptions(_curTimestamp,true),
                 RCGP.reloadContent(),
                 loadWall();
-				setTimeout(function(){
-					HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
-				},0)
+                setTimeout(function(){
+                    HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
+                },0)
             } catch (err) {
                 RepConv.Debug && console.log(err);
-				setTimeout(function(){
-					HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
-				},0)
+                setTimeout(function(){
+                    HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
+                },0)
             }
         }
         
@@ -1050,7 +1048,7 @@ function _RepConvGRC() {
             WndName = (RCGP).getName(),
             WndId = '#' + WndName;
 
-	function getSupportPlayers(){
+    function getSupportPlayers(){
             var
                 _players = {},
                 tmp,
@@ -1428,8 +1426,8 @@ function _RepConvGRC() {
                 })
                 .appendTo((RCGP.getJQElement()).find($('div.command_info')));
             if ((RCGP.getJQElement()).find($('div.command_info a.button')).length > 0) {
-		(RCGP.getJQElement()).find($('div.command_info #BTNCONV' + WndName)).css('right', '125px');
-	    }
+        (RCGP.getJQElement()).find($('div.command_info #BTNCONV' + WndName)).css('right', '125px');
+        }
             //  co sowa widziala....
             $.each((RCGP.getJQElement()).find($('#casted_power_reports a')), function(ind, elem){
                     var _repId = $(elem).attr('onclick').replace(/.*\(([0-9]*)\).*/, '$1');
@@ -1461,7 +1459,7 @@ function _RepConvGRC() {
                             }})
             });
             // /co sowa widziala....
-	}
+    }
     }
     function convertBTNconquer(RCGP){ // zajmowanie miasta (stary system) AQQ
         var
@@ -1565,8 +1563,8 @@ function _RepConvGRC() {
                 _ally_name = RCGP.getJQElement().find($('a.color_table.assign_ally_color')).parent().parent().children().eq(1).html(),
                 _link = $('<a/>',{
                             'href' : "#n",
-                            'id' 	: WndName + 'RepConvStatsAlly',
-                            'ally_id' 	: _ally,
+                            'id'    : WndName + 'RepConvStatsAlly',
+                            'ally_id'   : _ally,
                             'ally_name' : _ally_name
                         })
                         .html($('<img/>',{src:RepConv.Const.staticImg+'/stats.png'}))
@@ -1598,7 +1596,7 @@ function _RepConvGRC() {
                 _town = RCGP.getJQElement().find($('.town_bbcode_id')).attr('value').replace(/.*\]([0-9]*)\[.*/,'$1'),
                 _link = $('<a/>',{
                             'href' : "#n",
-                            'id' 	  : WndName + 'RepConvStatsTown',
+                            'id'      : WndName + 'RepConvStatsTown',
                             'town_id' : _town,
                             'town_name': RCGP.getTitle(),
                             'style'   : "position: absolute; top: 1px; right: 2px;"
@@ -1725,16 +1723,16 @@ function _RepConvGRC() {
     function gcrWonderSend(RCGP){
         var _trade = MM.checkAndPublishRawModel('Town',{id:Game.townId}).getAvailableTradeCapacity();
         RepConv.Debug && console.log(_trade);
-		try{
-			wonders[WorldWonders.all_wonders[WorldWonders.wonder_nr].island_x+'_'+WorldWonders.all_wonders[WorldWonders.wonder_nr].island_y] = WorldWonders.wonder_nr;
-			if ((RepConv.settings[RepConv.Cookie+'_wonder_trade'])&&(_trade > 0)) {
-				WorldWonders.spinners.wood.setValue(_trade/3);
-				WorldWonders.spinners.stone.setValue(_trade/3);
-				WorldWonders.spinners.iron.setValue(_trade/3);
-			}
-		} catch (e){}
+        try{
+            wonders[WorldWonders.all_wonders[WorldWonders.wonder_nr].island_x+'_'+WorldWonders.all_wonders[WorldWonders.wonder_nr].island_y] = WorldWonders.wonder_nr;
+            if ((RepConv.settings[RepConv.Cookie+'_wonder_trade'])&&(_trade > 0)) {
+                WorldWonders.spinners.wood.setValue(_trade/3);
+                WorldWonders.spinners.stone.setValue(_trade/3);
+                WorldWonders.spinners.iron.setValue(_trade/3);
+            }
+        } catch (e){}
     }
-	
+    
     function posibleSpell(RCGP){
         if (RepConv.active.power) {
             switch (RCGP.getContext().sub) {
@@ -1882,14 +1880,14 @@ function _RepConvGRC() {
             cSLoop = genCheckBox('GRCRTsoundLoop',RepConv.active.sounds.loop, 'CHKSOUNDLOOP'),
             cSMute = genCheckBox('GRCRTsoundMute',RepConv.active.sounds.mute, 'POPSOUNDMUTE'),
             sStats = $('<div/>',{'id':'statsGRC2Sel','class':'dropdown default','style':'margin-left:5px;width: 150px;'})
-			    .dropdown({
-				    list_pos : 'left',
-				    value : RepConv.active.statsGRCL,
-				    options : [
-					    {value: 'potusek', name: 'www.grcrt.net'},
-					    {value: 'grepointel', name: "grepointel.com"}
-				    ]
-			    })
+                .dropdown({
+                    list_pos : 'left',
+                    value : RepConv.active.statsGRCL,
+                    options : [
+                        {value: 'potusek', name: 'www.grcrt.net'},
+                        {value: 'grepointel', name: "grepointel.com"}
+                    ]
+                })
         ;
         $.each(chbx, function(name,_chbx){
             $(resChk).append(_chbx)
@@ -2052,7 +2050,7 @@ function _RepConvGRC() {
                         RepConv.settings[RepConv.CookieStatsGRCL] = sStats.getValue(),
                         RepConv.settings[RepConv.CookieEmots] = $('#GRCRTEmots').val();//$('#GRCRTEmots').attr('value');
 
-            			if (RepConv.audioSupport){
+                        if (RepConv.audioSupport){
                             RepConv.settings[RepConv.CookieSounds] = {
                                 mute : cSMute.isChecked() ? !0 : !1,
                                 loop : cSLoop.isChecked() ? !0 : !1,
@@ -2069,7 +2067,7 @@ function _RepConvGRC() {
                                     .append($('<source/>',{'src':RepConv.Const.defAlarmM+'.ogg'}))
                             }
                             RepConv.audio.alarm = _aSound.get(0);
-            			}						
+                        }                       
                         // TODO
                         RepConv.active.power = RepConvTool.getSettings(RepConv.CookiePower),
                         RepConv.active.ftabs = RepConvTool.getSettings(RepConv.CookieForumTabs),
@@ -2089,19 +2087,19 @@ function _RepConvGRC() {
                             }
                             RepConvTool.setItem(elem.cookie, RepConv.active[elem.rel]);
                         });
-			// emotki			
-			RepConvTool.setItem(RepConv.CookieEmots, $('#GRCRTEmots').attr('value'));
-			var _posEmot = 0;
-			RepConvAdds.emots = {}
-			$.each(RepConvAdds.emotsDef, function(ind,emot){
-			    RepConvAdds.emots[_posEmot++] = emot
-			})
-			$.each(RepConvTool.getItem(RepConv.CookieEmots).split('\n'), function(ind,elem){
-			    RepConvAdds.emots[_posEmot++] = {'img':elem,'title':''};
-			})
-			// /emotki
-			
-			if (RepConv.audioSupport){
+            // emotki           
+            RepConvTool.setItem(RepConv.CookieEmots, $('#GRCRTEmots').attr('value'));
+            var _posEmot = 0;
+            RepConvAdds.emots = {}
+            $.each(RepConvAdds.emotsDef, function(ind,emot){
+                RepConvAdds.emots[_posEmot++] = emot
+            })
+            $.each(RepConvTool.getItem(RepConv.CookieEmots).split('\n'), function(ind,elem){
+                RepConvAdds.emots[_posEmot++] = {'img':elem,'title':''};
+            })
+            // /emotki
+            
+            if (RepConv.audioSupport){
                             RepConv.active.sounds.mute = ($('#CHKSOUNDMUTE').attr('checked') != null),
                             RepConv.active.sounds.loop = ($('#CHKSOUNDLOOP').attr('checked') != null),
                             RepConv.active.sounds.volume = RepConv.slider.getValue(),//parseInt($('#grcrt_sound_value').attr('value'));
@@ -2117,15 +2115,15 @@ function _RepConvGRC() {
                                     .append($('<source/>',{'src':RepConv.Const.defAlarmM+'.ogg'}))
                             }
                             RepConv.audio.alarm = _aSound.get(0);
-			}						
+            }                       
 */
                         setTimeout(function(){
-    						HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
-    					},0)
+                            HumanMessage.success(RepConvTool.GetLabel('MSGHUMAN.OK'));
+                        },0)
                     } catch (err) {
-    					setTimeout(function(){
-    						HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
-    					},0)
+                        setTimeout(function(){
+                            HumanMessage.error(RepConvTool.GetLabel('MSGHUMAN.ERROR'));
+                        },0)
                     }
             })
         );
@@ -2294,9 +2292,9 @@ function _RepConvGRC() {
                         (RCGP.getJQElement()).find($('.grcrtbb_reports')).hide(),
                         (RCGP.getJQElement()).find($('#emots_popup_' + RCGP.type)).toggle();
                     })
-			),
+            ),
 
-			(RCGP.getJQElement()).find(wraper).append(
+            (RCGP.getJQElement()).find(wraper).append(
                 $('<img/>', {'src': RepConv.Const.uiImg + 'paste_report.png', 'style': 'cursor: pointer;'})
                     .click(function() {
                         (RCGP.getJQElement()).find($('.bb_button_wrapper>div[class^="bb"]')).remove(),
@@ -2311,14 +2309,14 @@ function _RepConvGRC() {
                             default:
                                 (RCGP.getJQElement()).find($('#reports_popup_' + RCGP.getType())).toggle();
                         }
-						//if(RepConv.ClipBoard != undefined){
-						//	RepConvTool.insertBBcode(RepConv.ClipBoard, '', (RCGP.getJQElement()).find(area)[0])
-						//}
-					})
-					.mousePopup(new MousePopup(RepConvTool.GetLabel('POPINSERTLASTREPORT')))
-				)
-		}
-	}
+                        //if(RepConv.ClipBoard != undefined){
+                        //  RepConvTool.insertBBcode(RepConv.ClipBoard, '', (RCGP.getJQElement()).find(area)[0])
+                        //}
+                    })
+                    .mousePopup(new MousePopup(RepConvTool.GetLabel('POPINSERTLASTREPORT')))
+                )
+        }
+    }
 
     function addBtnPasteReport(wnd){ // notatnik
         $('#window_'+wnd.getIdentifier())
@@ -2876,7 +2874,7 @@ function _RepConvGRC() {
                 break;
             case "command_info" : // pojedynczy rozkaz
                 switch (RCGP.getContext().sub) {
-					case "command_info_colonization_info":
+                    case "command_info_colonization_info":
                     case "command_info_info" :
                         convertBTNsingleCommand(RCGP);
                         posibleSpell(RCGP);
@@ -2949,18 +2947,18 @@ function _RepConvGRC() {
                         break;
                     case "town_info_trading":
                         RepConvABH.functCall(RCGP, false); // ABH
-						addTradingSum(RCGP);
+                        addTradingSum(RCGP);
                         break;
                     case "town_info_god" :
                         posibleSpell(RCGP); // mozliwe czary - czas do uzycia
                         break;
                 }
-				break;
+                break;
             case "wonders" : // wysyłka surki na cudaka
                 addTradingSum(RCGP);
                 gcrWonderSend(RCGP);
                 wonderShots(RCGP);
-				//wonderLinks(RCGP);
+                //wonderLinks(RCGP);
                 break;
             case "town_overviews" :
                 switch (RCGP.getContext().sub) {
@@ -3030,8 +3028,11 @@ function _RepConvGRC() {
                 }
                 var options = {
                     body: DM.getl10n('layout','toolbar_activities').incomming_attacks+" : "+(
-                        require("helpers/commands").getTotalCountOfIncomingAttacks() 
-                    ),
+                        // !require("data/features").isOldCommandVersion() 
+                            // ? 
+                            require("helpers/commands").getTotalCountOfIncomingAttacks() 
+                            // : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
+                        ),
                     icon: 'https://www.grcrt.net/img/octopus.png',
                 }
             }
@@ -3049,7 +3050,11 @@ function _RepConvGRC() {
                 }
                 $('#grcrtSound').hide();
             }
-            RepConv.active.attack_count = _ai;
+            RepConv.active.attack_count = _ai;/*(
+                                                !require("data/features").isOldCommandVersion() 
+                                                    ? require("helpers/commands").getTotalCountOfIncomingAttacks() 
+                                                    : MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).getIncommingAttacksCommandsCount()
+                                            );*/
         }
     }
 
@@ -3351,8 +3356,6 @@ function _RepConvGRC() {
         });
     var _cpt, _cpta;
     GameEvents.grcrt = GameEvents.grcrt || {}, GameEvents.grcrt.powertooltip = "grcrt:powertooltip",
-    //GameEvents.grcrt = {powertooltip:"grcrt:powertooltip"},
-    //GameEvents.grcrt = {powertooltip:"grcrt:powertooltip"},
     _cpt = DM.getTemplate("COMMON", "casted_power_tooltip"),
     _cpt += "<script type=\"text/javascript\">;\n$.Observer(GameEvents.grcrt.powertooltip).publish({power:'<%=power.id%>'});\n<\/script>",
     _cpta = {"COMMON":{"casted_power_tooltip" : _cpt}},
@@ -3431,11 +3434,12 @@ function _RepConvGRC() {
             })
             .hide()
         );
+    $('<div/>',{'id':'grcrtVideoContainers','style':'width:1px !important; height:1px !important'})
+        .append($('<div/>',{'id':'grcrtVideoContainer'}))
+        .append($('<div/>',{'id':'grcrtVideoContainerTest'}))
+        .appendTo($('body'));
 
-    $('<div/>',{'id':'grcrtVideoContainer','style':'display:none'}).appendTo($('body'));
-    $('<div/>',{'id':'grcrtVideoContainerTest','style':'display:none'}).appendTo($('body'));
-
-    $.getScript('https://www.youtube.com/player_api')
+    $.getScript('https://www.youtube.com/iframe_api')
        .done(function( script, textStatus ) {
             setTimeout(function(){
                 createYTPlayer();
@@ -3450,24 +3454,24 @@ function _RepConvGRC() {
     RepConv.wndArray.push('grcrt_analysis');
     this.init = function(){
         "use strict";
-		try{
-			if (typeof $.fn.spinner != 'undefined') {
-				(function($){
-					if(!RepConv.oldSpinner){
-						RepConv.oldSpinner = $.fn.spinner;
-						$.fn.spinner = function(){
-							var ret = RepConv.oldSpinner.apply(this, arguments);
-							ret.on('keyup','input',function(event){
-								if (event.keyCode == 38)        { ret.stepUp()
-								} else if (event.keyCode == 40) { ret.stepDown()
-								}
-							})
-							return ret;
-						};
-					}
-				})(jQuery);
-			}
-		} catch (e) {console.err(e)}
+        try{
+            if (typeof $.fn.spinner != 'undefined') {
+                (function($){
+                    if(!RepConv.oldSpinner){
+                        RepConv.oldSpinner = $.fn.spinner;
+                        $.fn.spinner = function(){
+                            var ret = RepConv.oldSpinner.apply(this, arguments);
+                            ret.on('keyup','input',function(event){
+                                if (event.keyCode == 38)        { ret.stepUp()
+                                } else if (event.keyCode == 40) { ret.stepDown()
+                                }
+                            })
+                            return ret;
+                        };
+                    }
+                })(jQuery);
+            }
+        } catch (e) {console.err(e)}
         new _grcrtWindowGrcRT();
         new _grcrtWindowStats();
         new _grcrtWindowAnalysis();
@@ -3481,6 +3485,11 @@ function _RepConvGRC() {
         if (RepConv.idleInterval == undefined) {
             getIdleData();
             RepConv.idleInterval = setInterval(function(){getIdleData();},idleInterval);
+        }
+        if (RepConv.idleAttackInterval == undefined) {
+            RepConv.idleAttackInterval = setInterval(function(){
+                void gpAjax.ajaxGet("notify", "fetch", {no_sysmsg: !1}, !1, function() {})
+            },1000*5);
         }
         town_groups_list_chg();
         // activity_commands_list();
@@ -3519,7 +3528,6 @@ function _RepConvGRC() {
                                                 ee.hideLoading();
                                             }
                                         })
-                                        //(WM.getWindowByType(_IdS)[0]).hideLoading();
                                     })
                                 )
                             );
@@ -3678,7 +3686,6 @@ function _RepConvGRC() {
                     render: function() {
                         this.$el.html(RepConvGRC.settings()),
                         this.getWindowModel().hideLoading(),
-    //-------------
                         this.unregisterComponent("grcrt_settings_scrollbar"),
                         this.registerComponent("grcrt_settings_scrollbar", 
                             this.$el.find(".js-scrollbar-viewport").skinableScrollbar({
@@ -3718,7 +3725,6 @@ function _RepConvGRC() {
                             sub: b || this.getWindowModel().getIdentifier()
                         };
                         CM.unregister(c, a);
-    //-------------
                     }
                 });
             window.GameViews['GrcRTViewS_'+_IdS] = c
@@ -3792,9 +3798,3 @@ function _RepConvGRC() {
         }()
     }
 }
-// ------------------------------
-
-
-/*
-<div class="ph_ratio" style="top: 38px;left: 345px;width: 35px;"></div>
-*/

@@ -76,11 +76,11 @@ function _RepConvTool() {
 				},0)
             }
         } else {
-            RepConv.active.power = RepConv.settings[RepConv.CookiePower],//, defData[RepConv.CookiePower]),
-            RepConv.active.ftabs = RepConv.settings[RepConv.CookieForumTabs],//, defData[RepConv.CookieForumTabs]),
-            RepConv.active.statsGRCL = RepConv.settings[RepConv.CookieStatsGRCL],//, defData[RepConv.CookieStatsGRCL]),
-            RepConv.active.unitsCost = RepConv.settings[RepConv.CookieUnitsCost],//,defData[RepConv.CookieUnitsCost]),
-            RepConv.active.reportFormat = RepConv.settings[RepConv.CookieReportFormat],//, defData[RepConv.CookieReportFormat]);
+            RepConv.active.power = RepConv.settings[RepConv.CookiePower],
+            RepConv.active.ftabs = RepConv.settings[RepConv.CookieForumTabs],
+            RepConv.active.statsGRCL = RepConv.settings[RepConv.CookieStatsGRCL],
+            RepConv.active.unitsCost = RepConv.settings[RepConv.CookieUnitsCost],
+            RepConv.active.reportFormat = RepConv.settings[RepConv.CookieReportFormat],
             RepConv.audioSupport && (RepConv.active.sounds = RepConv.settings[RepConv.CookieSounds]),
             this.useSettings()
         }

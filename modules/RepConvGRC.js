@@ -425,7 +425,6 @@ function _RepConvGRC() {
             var
                 __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
                 _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
-//                _player = RCGP.getOptions().player_id||Game.player_id /*JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id*/,
                 _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val(),
                 _link = $('<a/>',{
                             'href' : "#n",
@@ -455,7 +454,6 @@ function _RepConvGRC() {
             var
                 __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
                 _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
-//                _player = RCGP.getOptions().player_id||Game.player_id /*JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id*/,
                 _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val();
             RCGP.getJQElement()
                 .find($('#player_info>h3'))

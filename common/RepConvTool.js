@@ -50,7 +50,7 @@ function _RepConvTool() {
             RepConv.Debug && console.log(RepConv.Cookie)
         }
         if(RepConv.settings[RepConv.CookieEmots] == undefined){
-            RepConv.settings[RepConv.CookieEmots] = RepConvTool.getItem(RepConv.CookieEmots) || 'https://www.pic4ever.com/images/237.gif\nhttps://www.pic4ever.com/images/shake2.gif'
+            RepConv.settings[RepConv.CookieEmots] = RepConvTool.getItem(RepConv.CookieEmots) || 'https://cdn.grcrt.net/emots2/237.gif\nhttps://cdn.grcrt.net/emots2/shake2.gif'
             setOK = false;
             RepConv.Debug && console.log(RepConv.CookieEmots)
         }
@@ -76,33 +76,18 @@ function _RepConvTool() {
 				},0)
             }
         } else {
-            RepConv.active.power = RepConv.settings[RepConv.CookiePower],//, defData[RepConv.CookiePower]),
-            RepConv.active.ftabs = RepConv.settings[RepConv.CookieForumTabs],//, defData[RepConv.CookieForumTabs]),
-            RepConv.active.statsGRCL = RepConv.settings[RepConv.CookieStatsGRCL],//, defData[RepConv.CookieStatsGRCL]),
-            RepConv.active.unitsCost = RepConv.settings[RepConv.CookieUnitsCost],//,defData[RepConv.CookieUnitsCost]),
-            // RepConv.active.oceanNumber = RepConv.settings[RepConv.CookieOceanNumber],//, defData[RepConv.CookieOceanNumber]),
-            RepConv.active.reportFormat = RepConv.settings[RepConv.CookieReportFormat],//, defData[RepConv.CookieReportFormat]);
+            RepConv.active.power = RepConv.settings[RepConv.CookiePower],
+            RepConv.active.ftabs = RepConv.settings[RepConv.CookieForumTabs],
+            RepConv.active.statsGRCL = RepConv.settings[RepConv.CookieStatsGRCL],
+            RepConv.active.unitsCost = RepConv.settings[RepConv.CookieUnitsCost],
+            RepConv.active.reportFormat = RepConv.settings[RepConv.CookieReportFormat],
             RepConv.audioSupport && (RepConv.active.sounds = RepConv.settings[RepConv.CookieSounds]),
             this.useSettings()
         }
     }
     this.useSettings = function() {
-        // setTimeout(function(){
-        //     RepConvAdds.oceanNumbers();
-        // }, 100);
-        // setTimeout(function(){
-        //     try {
-        //         RepConvABH.savedArr = JSON.parse(RepConvTool.getSettings(RepConv.CookieUnitsABH,"{}"))
-        //     } catch (err){
-        //     }
-        // }, 100);
         setTimeout(function(){
             var _posEmot = 0;
-            // RepConvAdds.emots = {}
-            // $.each(RepConvAdds.emotsDef, function(ind,emot){
-            //     RepConvAdds.emots[_posEmot++] = emot
-            // })
-
 
             RepConvAdds.emotsLists.usersaved = {
                     'img': 'emots2/wizard.gif',
@@ -604,10 +589,10 @@ function _RepConvTool() {
     this.loadPower = function() {
         if (RepConv.active.power) {
             RepConv.Debug && console.log('loadPower');
-            $.each($('div.gods_area .god_container div.new_ui_power_icon div[name=counter]'), function(ind, elem) {
+            $.each($('div.gods_spells_menu .god_container div.new_ui_power_icon div[name=counter]'), function(ind, elem) {
                 $(elem).remove();
             });
-            $.each($('div.gods_area .god_container div.new_ui_power_icon.disabled'), function(ind, elem) {
+            $.each($('div.gods_spells_menu .god_container div.new_ui_power_icon.disabled'), function(ind, elem) {
                 power = GameData.powers[$(elem).attr('data-power_id')],
                 god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[power.god_id],
                 _godCurr = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id})[power.god_id+'_favor_delta_property'].calculateCurrentValue().unprocessedCurrentValue,

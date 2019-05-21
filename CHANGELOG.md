@@ -1,3 +1,10 @@
+## [5.0.6](https://github.com/grcrt/grcrt-script/compare/v5.0.5...v5.0.6) (2018-08-23)
+
+
+### Bug Fixes
+
+* maintenance changes ([003da61](https://github.com/grcrt/grcrt-script/commit/003da61))
+
 ## [5.0.5](https://github.com/grcrt/grcrt-script/compare/v5.0.4...v5.0.5) (2018-08-20)
 
 

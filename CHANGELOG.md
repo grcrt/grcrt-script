@@ -1,3 +1,10 @@
+## [5.0.7](https://github.com/grcrt/grcrt-script/compare/v5.0.6...v5.0.7) (2019-05-21)
+
+
+### Bug Fixes
+
+* **alarm:** YouTube audio didn't work ([#32](https://github.com/grcrt/grcrt-script/issues/32)) ([1be5d40](https://github.com/grcrt/grcrt-script/commit/1be5d40)), closes [#27](https://github.com/grcrt/grcrt-script/issues/27)
+
 ## [5.0.6](https://github.com/grcrt/grcrt-script/compare/v5.0.5...v5.0.6) (2018-08-23)
 
 

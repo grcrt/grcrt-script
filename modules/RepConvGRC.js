@@ -525,6 +525,8 @@ function _RepConvGRC() {
                 _link = $('<a/>',{
                             'href' : "#n",
                             'id' : WndName + 'RepConvStatsAlly',
+                            'ally_id'   : _ally,
+                            'ally_name' : _ally_name,
                             'class' : 'button_new square',
                             'style' : 'width:26px; float: left;'
                         })

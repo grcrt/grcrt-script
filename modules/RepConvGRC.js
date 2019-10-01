@@ -3452,6 +3452,26 @@ function _RepConvGRC() {
     RepConv.wndArray.push(_IdS);
     RepConv.wndArray.push('grcrt_stats');
     RepConv.wndArray.push('grcrt_analysis');
+    function addAttackObserver(){
+        if($('div.activity.attack_indicator').length == 0){
+            setTimeout(function(){
+                addAttackObserver();
+            },100)
+        } else {
+            var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;                
+            var observer_attack = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if($('div.activity.attack_indicator').hasClass('active')){
+                            attackIncoming(parseInt($('div.activity.attack_indicator div.count').html()))
+                        } else {
+                            attackIncoming(0)
+                        }
+                    });
+                });
+            observer_attack.observe(document.querySelector('div.activity.attack_indicator div.count'), { attributes: true, childList: true, characterData: true });
+        }
+
+    }
     this.init = function(){
         "use strict";
         try{
@@ -3494,6 +3514,7 @@ function _RepConvGRC() {
         town_groups_list_chg();
         // activity_commands_list();
         construction_queue_chg();
+        addAttackObserver();
     }
     // -- okienka
     function _grcrtWindowStats(){

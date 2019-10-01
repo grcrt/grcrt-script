@@ -525,11 +525,11 @@ function _RepConvGRC() {
                 _link = $('<a/>',{
                             'href' : "#n",
                             'id' : WndName + 'RepConvStatsAlly',
-                            'ally_id'   : _ally,
-                            'ally_name' : _ally_name,
                             'class' : 'button_new square',
                             'style' : 'width:26px; float: left;'
                         })
+                        .data('ally_id', _ally)
+                        .data('ally_name', _ally_name)
                         .html($('<img/>',{src:RepConv.Const.staticImg+'/stats.png'}))
                         .mousePopup(new MousePopup(RepConvTool.GetLabel('STATS.ALLY')))
             if ("https:" == window.location.protocol && (RepConv.active.statsGRCL != 'potusek')) {
@@ -540,7 +540,7 @@ function _RepConvGRC() {
             } else {
                $(_link)
                    .click(function() {
-                       showStats('alliance', $(this).attr('ally_id'), $(this).attr('ally_name'));
+                       showStats('alliance', $(this).data('ally_id'), $(this).data('ally_name'));
                    })
             }
             RCGP.getJQElement().find($('#alliance_points')).next()
@@ -560,12 +560,11 @@ function _RepConvGRC() {
                             'style':'width: 23px; height: 23px; float: left;',
                             'class': 'grcrt radar'
                         })
+                        .data('ally_id', _ally)
+                        .data('ally_name', _ally_name)
                         .mousePopup(new MousePopup(RepConvTool.GetLabel('RADAR.TOWNFINDER')))
                         .click(function() {
-                            GRCRT_Radar.windowOpen({alliance:{'id':_ally,'name':_ally_name}})
-                            //RepConvRadar.setCurrentTown(),
-                            //RepConvRadar.setAlly(_ally, _ally_name);
-                            GRCRT_Radar.windowOpen();
+                            GRCRT_Radar.windowOpen({alliance:{'id':$(this).data('ally_id'),'name':$(this).data('ally_name')}})
                         })
                     );
         }

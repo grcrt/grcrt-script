@@ -3,7 +3,7 @@
 <h1 align="center"><a href="https://grcrt.net">GRCRT</a></h1>
 
 <p align="center">
-  <em>What started 7 years ago as a small and simple hobby project, known as Grepolis Report Converter (GRC), </br>
+  <em>What started in 2000 as a small and simple hobby project, known as Grepolis Report Converter (GRC), </br>
   kept growing over time to become GRCRT: Grepolis Report Converter Revolution Tools</em>
 </p>
 

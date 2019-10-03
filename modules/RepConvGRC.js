@@ -2445,7 +2445,7 @@ function _RepConvGRC() {
         (RCGP.getJQElement()).find($('#fto_town_list li.town' + Game.townId)).attr('style', 'border-right: 5px solid green');
         if (((RCGP.getJQElement()).find($('#fto_town_list li.town' + Game.townId + '.active'))).length == 0 && RepConv.currTown != Game.townId) {
             RepConv.currTown = Game.townId;
-            ((RCGP.getJQElement()).find($('#fto_town_list li.town' + Game.townId))).click();
+            // ((RCGP.getJQElement()).find($('#fto_town_list li.town' + Game.townId))).click(); //This is buggy...
         }
     }
 

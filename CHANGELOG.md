@@ -1,3 +1,10 @@
+## [5.0.9](https://github.com/grcrt/grcrt-script/compare/v5.0.8...v5.0.9) (2019-11-14)
+
+
+### Bug Fixes
+
+* **css:** fixed broken battle reports ([9fcec0c](https://github.com/grcrt/grcrt-script/commit/9fcec0c4346d42a992fbf4134b82dae1fa6d0308))
+
 ## [5.0.8](https://github.com/grcrt/grcrt-script/compare/v5.0.7...v5.0.8) (2019-10-02)
 
 

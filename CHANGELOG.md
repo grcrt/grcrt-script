@@ -1,3 +1,10 @@
+## [5.0.8](https://github.com/grcrt/grcrt-script/compare/v5.0.7...v5.0.8) (2019-10-02)
+
+
+### Bug Fixes
+
+* alarm and radar ([083928b](https://github.com/grcrt/grcrt-script/commit/083928b))
+
 ## [5.0.7](https://github.com/grcrt/grcrt-script/compare/v5.0.6...v5.0.7) (2019-05-21)
 
 

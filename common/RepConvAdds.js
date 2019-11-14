@@ -92,7 +92,7 @@ function _RepConvAdds() {
             if ($('#grcrt_mnu_list').length == 0) {
                 $('#ui_box div.bottom_ornament')
                     .before(
-                        $('<div/>', {'id':'grcrt_mnu_list','class':"container_hidden", 'style':"position:relative;"})
+                        $('<div/>', {'id':'grcrt_mnu_list','class':"container_hidden", 'style':"position: absolute;right: -10px;bottom: 6px;"/*position:relative;"*/})
                             .append(
                                 $('<div/>', {'class':"top"})
                             )
@@ -108,7 +108,7 @@ function _RepConvAdds() {
                                         $('<div/>', {'class':"right",'style':'z-index:10;'})
                                     )
                                     .append(
-                                        $('<div/>', {'class':"content", 'style':"display: none;"})
+                                        $('<div/>', {'class':"content", 'style':"display:none; margin-top: 0; margin-bottom: 0;"})
                                             .append(
                                                 $('<div/>', {'class':"units_wrapper clearfix"})
                                                     .append(
@@ -131,15 +131,39 @@ function _RepConvAdds() {
                                             .append(
                                                 $('<img/>', {'src':RepConv.grcrt_cdn+'img/octopus.png', 'style':'width: 20px; margin: 5px;'})
                                             )
-                                        .mousePopup(new MousePopup(RepConv.Scripts_nameS + " " + RepConv.Scripts_version + " [" + RepConv.LangEnv + "]"))
+                                        )
+                                    .mousePopup(new MousePopup(RepConv.Scripts_nameS + " " + RepConv.Scripts_version + " [" + RepConv.LangEnv + "]"))
                                         .click(function(){
-                                            $('#grcrt_mnu_list li.main_menu_item').remove(),
-                                            $('#grcrt_mnu_list .content').slideToggle()
+                                            $('#grcrt_mnu_list li.main_menu_item').remove()
+                                            if ($('#grcrt_mnu>div.btn_settings').hasClass('active checked')){
+                                                $('#grcrt_mnu_list .content').slideUp(500, function() {
+                                                    $('#grcrt_mnu_list').animate({
+                                                        right: -10
+                                                    }, 300
+                                                    )
+                                                })
+                                            } else {
+                                                $('.btn_gods_spells').hasClass('active') && $('.btn_gods_spells').click()
+                                                $('#grcrt_mnu_list').animate({
+                                                    right: 134
+                                                }, 300, function() {
+                                                    $('#grcrt_mnu_list .content').slideDown(500)
+                                                })
+                                            }
+                                            $('#grcrt_mnu>div.btn_settings').toggleClass('active checked')
+                                            // $('#grcrt_mnu_list').slideToggle(),
                                         })
-                                    )
+                                    // )
                             )
                     ),
                 fillGRCRTmenu()
+                $('#grcrt_mnu_list>.bottom').css({
+                    'background':$('.gods_spells_menu>.bottom').css('background'),
+                    'height':$('.gods_spells_menu>.bottom').css('height'),
+                    'position':$('.gods_spells_menu>.bottom').css('position'),
+                    'bottom':'-27px'
+                });
+                addBtnGodsSpellsClick();
             }
             $('#ui_box')
                 .append(
@@ -234,31 +258,22 @@ function _RepConvAdds() {
             })
         }
     }
- //    this.oceanNumbers = function(){
-	// if ($('#map_move_container').length == 0) {
-	//     setTimeout(function(){RepConvAdds.oceanNumbers();}, 100);
-	// } else {
- //            if (!RepConv.active.oceanNumber) {
- //                $('div#grcrt_oceanNumbers').remove()
- //                //$('div.RepConvON').remove()
- //            } else {
- //                if ($('div#grcrt_oceanNumbers').length == 0) {
- //                    $('#map_move_container').append(
- //                        $('<div/>', {'id':'grcrt_oceanNumbers', 'style':'position:absolute; top:0; left:0;'})
- //                    );
- //                    var _mapSize = (require("map/helpers")||MapTiles).map2Pixel(100,100);//MapTiles.map2Pixel(100,100);
- //                    for(var _mapY=0; _mapY<10; _mapY++){
- //                        for(var _mapX=0; _mapX<10; _mapX++){
- //                            var _lt = (require("map/helpers")||MapTiles).map2Pixel(_mapX*100,_mapY*100);//MapTiles.map2Pixel(_mapX*100,_mapY*100);
- //                            $('div#grcrt_oceanNumbers').append(
- //                                $('<div/>', {'class':'RepConvON','style' : 'left:'+(_lt.x)+'px; top: '+(_lt.y)+'px; background-image: url('+RepConv.grcrt_cdn+'map/'+_mapX+_mapY+'.png);'})
- //                            );
- //                        }
- //                    }
- //                }
- //            }
-	// }
- //    },
+    function addBtnGodsSpellsClick(){
+        if($('.btn_gods_spells>.icon.js-caption').length==0 || $('#grcrt_mnu>div.btn_settings').length==0){
+            setTimeout(function(){
+                addBtnGodsSpellsClick()
+            },100)
+        } else {
+            $('.btn_gods_spells').on("click",function(){
+                if(
+                    !$('.btn_gods_spells').hasClass('active') &&
+                    $('#grcrt_mnu>div.btn_settings').hasClass('active')
+                ) {
+                    $('#grcrt_mnu>div.btn_settings').click()
+                }
+            })
+        }
+    }
     this.emots = {}
     this.emotsDef = [
         {'img': RepConv.grcrt_cdn+'emots/usmiech.gif', 'title': ':)'},
@@ -561,6 +576,9 @@ function _RepConvAdds() {
                     )
                     .append(
                         '#grcrt_mnu_list ul { height: auto !important;}'
+                    )
+                    .append(
+                        '#grcrt_mnu_list li { width: 125px !important;}'
                     )
             ),
         $.each(RepConv.menu, function(indM, eleM){

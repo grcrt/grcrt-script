@@ -1,18 +1,13 @@
 function _GRCRTInnoFix() {
-	// $('head')
-	// 	.append(
-	// 		$('<style/>')
-	// 			// quest send unit
-	// 			.append('.island_quests .details_window .collect_units .lbl_troops_rallied {\n'+
-	// 						'line-height: 14px;\n'+
-	// 					'}'
-	// 			)
-	// 			// simulator
-	// 			.append('.place_sim_wrap_mods {\n'+
-	// 						'min-width: 304px;\n'+
-	// 					'}'
-	// 			)
-	// 	)
+	$('head')
+		.append(
+			$('<style/>')
+				// size images bbcode
+				.append('.bbcodes.monospace img {\n'+
+						'max-width: none;\n'+
+						'}'
+				)
+		)
 	$.Observer(GameEvents.window.reload).subscribe("grcrt_trade", function(a, b) {
 		$.each($('div[class*=trade_tab_target]'), function(ii, trade){
 		    var c = $(trade).find($('#way_duration')).addClass('way_duration').removeAttr('id').tooltip(DM.getl10n("farm_town").way_duration).text().replace("~","").split(":"),

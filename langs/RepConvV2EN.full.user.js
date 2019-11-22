@@ -215,5 +215,6 @@ RepConvLangArray.en = {
     BTNCOMPARE : 'Pact vs Enemy',
     ALLYCOMPARETITLE: 'Comparison of allied forces vs enemy alliances',
     CHKMCOL : 'Color messages according to the pre-set color scheme',
-    CHKBUPO : 'Display build points'
+    CHKBUPO : 'Display build points',
+    CHKMOUSEWHEELZOOMBULLEYE: 'Use mouse wheel to zoom map'
 }

@@ -218,4 +218,5 @@ RepConvLangArray.nl = {
 	},
 	MOBILEVERSION:'Mobiele versie',
 	CHKWONDERTRADE:'Wanneer men grondstoffen naar wereldwonderen stuurt, stuur maximale gelijke hoeveelheid',
+    CHKMOUSEWHEELZOOMBULLEYE: 'Gebruik muiswiel om de map te zoomen'
 }

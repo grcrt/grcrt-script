@@ -302,6 +302,7 @@ function _GRCRT_Radar() {
     }
     function checkReload(){
         var gChunks=[], wmapChanged = false;
+        var chunksArray = [];
         for(var xx = curChunk.x-getMargin(); xx <= curChunk.x+getMargin(); xx++){
             for(var yy = curChunk.y-getMargin(); yy <= curChunk.y+getMargin(); yy++){
                 try {
@@ -316,35 +317,62 @@ function _GRCRT_Radar() {
                     gChunks.push({x:xx,y:yy,timestamp:0})
                 }
                 if (gChunks.length > 10){
-                    var c = {
-                        chunks: gChunks
-                    };
-                    WMap.ajaxloader.ajaxGet("map_data", "get_chunks", c, !0, function(res, c) {
-                        $.each(res.data, function(ii, data){
-                            chunk[data.chunk.x+'_'+data.chunk.y] = {
-                                timestamp: data.chunk.timestamp,
-                                towns: data.towns
-                            }
-                        })
-                    })
+                    // var c = {
+                    //     chunks: gChunks
+                    // };
+                    // var defer = $.Deferred();
+                    // WMap.ajaxloader.ajaxGet("map_data", "get_chunks", c, !0, function(res, c) {
+                    //     $.each(res.data, function(ii, data){
+                    //         chunk[data.chunk.x+'_'+data.chunk.y] = {
+                    //             timestamp: data.chunk.timestamp,
+                    //             towns: data.towns
+                    //         }
+                    //     })
+                    // })
+                    chunksArray.push(gChunks);
                     gChunks = []
                 }
             }
         }
         if (gChunks.length > 0){
-            var c = {
-                chunks: gChunks
-            };
-            WMap.ajaxloader.ajaxGet("map_data", "get_chunks", c, !0, function(res, c) {
-                $.each(res.data, function(ii, data){
-                    chunk[data.chunk.x+'_'+data.chunk.y] = {
-                        timestamp: data.chunk.timestamp,
-                        towns: data.towns
-                    }
-                })
+            // var c = {
+            //     chunks: gChunks
+            // };
+            // WMap.ajaxloader.ajaxGet("map_data", "get_chunks", c, !0, function(res, c) {
+            //     $.each(res.data, function(ii, data){
+            //         chunk[data.chunk.x+'_'+data.chunk.y] = {
+            //             timestamp: data.chunk.timestamp,
+            //             towns: data.towns
+            //         }
+            //     })
+            // })
+            chunksArray.push(gChunks);
+        }
+        setTimeout(function(){
+            getChunks(chunksArray);
+        },10);
+    }
+
+    function getChunks(chunksArray){
+        var c = {
+            chunks: chunksArray[0]
+        };
+        WMap.ajaxloader.ajaxGet("map_data", "get_chunks", c, !0, function(res, c) {
+            $.each(res.data, function(ii, data){
+                chunk[data.chunk.x+'_'+data.chunk.y] = {
+                    timestamp: data.chunk.timestamp,
+                    towns: data.towns
+                }
             })
+        })
+        chunksArray.remove(0,0);
+        if(chunksArray.length>0){
+            setTimeout(function(){
+                getChunks(chunksArray);
+            },300);
         }
     }
+
     function getData(){
         if (Object.size(resData[curTownId()]) == 0) {
             $.each(chunk, function(indd,data){

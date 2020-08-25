@@ -8,6 +8,15 @@ function _RepConvGRC() {
     var stopCount = 0;
     var wonders = {};
 
+    function genCheckBox(pName, pChecked, pLabel) {
+        return $('<div/>', {'class':'checkbox_new', 'style':'margin-bottom: 10px; display: block;'})
+                .checkbox({
+                    caption: RepConvTool.GetLabel(pLabel || pName),
+                    checked: pChecked,
+                    cid: pName
+                });
+    }
+
     function addReload(RCGP){
         (RCGP.getWindowVeryMainNode()).find($('div.ui-dialog-titlebar.ui-widget-header a.grc_reload')).remove();
         switch(RCGP.getController()){
@@ -162,7 +171,6 @@ function _RepConvGRC() {
                                 .html(RepConv.Scripts_nameS)
                                 .click(function() {
                                     RepConvGRC.openGRCRT('HELPTAB4');
-                                    //RepConvAdds.Help('HELPTAB4');
                                 })
                         )
                 )
@@ -1836,14 +1844,6 @@ function _RepConvGRC() {
     }
 
     this.settings = function(){
-        function genCheckBox(pName, pChecked, pLabel) {
-            return $('<div/>', {'class':'checkbox_new', 'style':'margin-bottom: 10px; display: block;'})
-                    .checkbox({
-                        caption: RepConvTool.GetLabel(pLabel || pName),
-                        checked: pChecked,
-                        cid: pName
-                    });
-        }
         var
             result  = $('<div/>', {'style': 'padding: 5px'}),
             // resChk = $('<fieldset/>', {'style': 'float:left; width:375px; min-height: 250px;'}),
@@ -2155,7 +2155,7 @@ function _RepConvGRC() {
         var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px;'}),
             contentLinks = $('<ul/>', {'class':'menu_inner grcrt_menu_inner', 'style':'padding: 0px;left:0px;'}),
             tabs = 
-            $('<div/>', {'id': 'emots_popup_' + wndType, 'style': 'display:none; z-index: 5000; min-height: 180px;max-height: 265px;'})
+            $('<div/>', {'id': 'emots_popup_' + wndType, 'style': 'display:none; z-index: 5000; min-height: 180px;max-height: 265px;','class':'grcrtbb'})
                 .append(
                     $('<div/>', {'class': 'menu_wrapper', 'style':"left: -10px;"})
                         .append(contentLinks)
@@ -2223,11 +2223,6 @@ function _RepConvGRC() {
                         $('<img/>', {'src': ((group != 'usersaved') ? RepConv.grcrt_cdn : '') +emots.img, 'style':'cursor: pointer;'})
                             .click(
                                 action
-                            //     function() {
-                            //     RepConvTool.insertBBcode('[img]' + $(this).attr('src') + '[/img]', '', $(insertArea)[0]);
-                            //     $(insertArea).keyup()
-                            //     $('#emots_popup_' + wndType).toggle();
-                            // }
                             )
                     )
                 })
@@ -2243,6 +2238,7 @@ function _RepConvGRC() {
 
     function addBtnPasteReportOld(RCGP, wraper, area) {
         if ((RCGP.getJQElement()).find('#emots_popup_' + RCGP.type).length == 0) {
+            // emots
             (RCGP.getJQElement()).find($('.bb_button_wrapper')).append(
                 emotsTabs(RCGP.type, 
                     // (RCGP.getJQElement()).find(area)
@@ -2252,8 +2248,9 @@ function _RepConvGRC() {
                     }
                 )
             ),
+            // report pagination
             (RCGP.getJQElement()).find($('.bb_button_wrapper')).append(
-                $('<div/>', {'id': 'reports_popup_' + RCGP.getType(), 'class' : 'grcrtbb_reports', 'style': 'display:none; z-index: 5000;'}) /*, 'class' : 'bb_sizes'})*/
+                $('<div/>', {'id': 'reports_popup_' + RCGP.getType(), 'class' : 'grcrtbb_reports grcrtbb', 'style': 'display:none; z-index: 5000;'}) /*, 'class' : 'bb_sizes'})*/
                     .append(
                         $('<div/>', {'class': 'bbcode_box middle_center'})
                             .append($('<div/>', {'class': 'bbcode_box top_left'}))
@@ -2279,43 +2276,40 @@ function _RepConvGRC() {
                                 $('<a/>', {'href':'#n'})
                                     .html('» '+DM.getl10n('COMMON','window_goto_page').page+' '+(ind+1)+'/'+Object.size(RepConv.__repconvValueArray))
                                     .click(function() {
-//console.log('pastor 1a');
                                         RepConvTool.insertBBcode(repsave(ind)+RepConv.__repconvValueArray[ind], '', (RCGP.getJQElement()).find(area)[0]),
-                                        (RCGP.getJQElement()).find($('.grcrtbb_reports')).hide();
+                                        (RCGP.getJQElement()).find($('.grcrtbb')).hide();
                                     })
                             )
                     );
             }),
+            // icon paste emot
             (RCGP.getJQElement()).find(wraper).append(
                 $('<img/>', {'src': RepConv.Scripts_url + 'emots/usmiech.gif', 'style': 'cursor: pointer;'})
                     .click(function() {
                         (RCGP.getJQElement()).find($('.bb_button_wrapper>div[class^="bb"]')).remove(),
-                        (RCGP.getJQElement()).find($('.grcrtbb_reports')).hide(),
+                        (RCGP.getJQElement()).find($('.grcrtbb')).hide(),
                         (RCGP.getJQElement()).find($('#emots_popup_' + RCGP.type)).toggle();
                     })
+                    .mousePopup(new MousePopup(RepConvTool.GetLabel('POPINSERTEMOT')))
             ),
-
+            // ikon paste converted report
             (RCGP.getJQElement()).find(wraper).append(
                 $('<img/>', {'src': RepConv.Const.uiImg + 'paste_report.png', 'style': 'cursor: pointer;'})
                     .click(function() {
                         (RCGP.getJQElement()).find($('.bb_button_wrapper>div[class^="bb"]')).remove(),
-                        (RCGP.getJQElement()).find($('.grcrtbb_emots')).hide();
+                        (RCGP.getJQElement()).find($('.grcrtbb')).hide();
                         switch (Object.size(RepConv.__repconvValueArray)) {
                             case 0:
                                 break;
                             case 1:
-//console.log('pastor 2a');
                                 RepConvTool.insertBBcode(repsave(0)+RepConv.__repconvValueArray[0], '', (RCGP.getJQElement()).find($(area))[0]);
                                 break;
                             default:
                                 (RCGP.getJQElement()).find($('#reports_popup_' + RCGP.getType())).toggle();
                         }
-                        //if(RepConv.ClipBoard != undefined){
-                        //  RepConvTool.insertBBcode(RepConv.ClipBoard, '', (RCGP.getJQElement()).find(area)[0])
-                        //}
                     })
                     .mousePopup(new MousePopup(RepConvTool.GetLabel('POPINSERTLASTREPORT')))
-                )
+            ),
         }
     }
 
@@ -2348,7 +2342,7 @@ function _RepConvGRC() {
 
                         $(_btns)
                             .append(
-                                $('<div/>', {'id': 'reports_popup_' + wnd.getType(), 'class' : 'grcrtbb_reports', 'style': 'display:none; z-index: 5000;'}) /*, 'class' : 'bb_sizes'})*/
+                                $('<div/>', {'id': 'reports_popup_' + wnd.getType(), 'class' : 'grcrtbb_reports grcrtbb', 'style': 'display:none; z-index: 5000;'}) /*, 'class' : 'bb_sizes'})*/
                                     .append(
                                         $('<div/>', {'class': 'bbcode_box middle_center'})
                                             .append($('<div/>', {'class': 'bbcode_box top_left'}))
@@ -2415,6 +2409,17 @@ function _RepConvGRC() {
                 }
             });
     }
+    function addBtnOlympusTempleInfo(wnd){
+        $('#window_'+wnd.getIdentifier()).ready(function(){
+            if($('#window_'+wnd.getIdentifier()).find($('#BTNCONV'+wnd.getIdentifier())).length == 0){
+                (RepConvTool.AddBtn('BTNCONV', wnd.getIdentifier())).click(function() {
+                    window.GRCRTConvWnd = new _GRCRTConverterCtrl(wnd);
+                })
+                .insertBefore($('#window_'+wnd.getIdentifier()).find('.action_buttons.centered_text .btn_jump_to.button_new.square'))
+            }
+        })
+    }
+
     function addBtnCloseFarm(wnd){
         $('#window_'+wnd.getIdentifier()).ready(function(){
             $('#window_'+wnd.getIdentifier())
@@ -2502,14 +2507,14 @@ function _RepConvGRC() {
             var
                 __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
                 _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
-                _days = parseFloat(RepConvGRC.idle.JSON[_player]||'0');
+                _days = parseFloat(RepConvGRC.idle.JSON[_player]||'-1');
             $(elem).addClass('grcrt_idle_days'),
             $(elem).addClass('grcrt_idle_dg'),
-            $(elem).html(parseInt(_days)),
+            $(elem).html((parseInt(_days)<0)?"?":parseInt(_days)),
 //            $(elem).attr('title',_days)
             $(elem).mousePopup(
                 new MousePopup('<b>'+RepConvTool.GetLabel('STATS.INACTIVE')+
-                               ': </b>'+(hours_minutes_seconds(parseInt(_days*24)*60*60)||'0')+
+                               ': </b>'+(((parseInt(_days)<0)?"???":hours_minutes_seconds(parseInt(_days*24)*60*60)||'0'))+
                                '<br/><div style="font-size:75%">'+RepConvTool.GetLabel('STATS.INACTIVEDESC')+'</div>')
             );
             if (_days >= 7) {
@@ -2717,13 +2722,15 @@ function _RepConvGRC() {
                 var _elem = RCGP.getJQElement().find($('.wonder_res_container>.trade>.send_res .button.inactive .middle'))
 
                 CM.unregister({main : RCGP.getContext().main, sub:"casted_powers"},'grcrt_countdown');
-                CM.register({main : RCGP.getContext().main, sub:"casted_powers"}, 'grcrt_countdown', _elem.countdown2({
-                                value : _shotTime,
-                                display: 'readable_seconds_with_days'
-                            }).on('cd:finish', function() {
-                                setTimeout(function(){RCGP.reloadContent()},100)
-                            })
-                );
+                if(_shotTime > 0){ // issue #48
+                    CM.register({main : RCGP.getContext().main, sub:"casted_powers"}, 'grcrt_countdown', _elem.countdown2({
+                                    value : _shotTime,
+                                    display: 'readable_seconds_with_days'
+                                }).on('cd:finish', function() {
+                                    setTimeout(function(){RCGP.reloadContent()},100)
+                                })
+                    );
+                }
                 
             }
         }catch(e){}
@@ -2989,6 +2996,7 @@ function _RepConvGRC() {
     }
     function attackIncoming(_ai){
         if(!RepConv.active.sounds.mute){
+            RepConv.Debug && console.log('attackIncoming _ai='+_ai);
             if( _ai > RepConv.active.attack_count && $('#grcrtSound').css('display') == "none"){
                 RepConv.audio = {};
                 var
@@ -3178,6 +3186,9 @@ function _RepConvGRC() {
             case windowIds.NOTES:
                 addBtnPasteReport(wnd);
                 break;
+            // case windowIds.OLYMPUS_TEMPLE_INFO:
+            //     addBtnOlympusTempleInfo(wnd);
+            //     break;
         }
     }
 
@@ -3432,6 +3443,11 @@ function _RepConvGRC() {
                     grcrtYTPlayer.stopVideo();
                 }
                 $('#grcrtSound').hide();
+                if($('div.activity.attack_indicator').hasClass('active')){
+                    attackIncoming(parseInt($('div.activity.attack_indicator div.count').html()))
+                } else {
+                    attackIncoming(0)
+                }
             })
             .hide()
         );
@@ -3454,14 +3470,16 @@ function _RepConvGRC() {
     RepConv.wndArray.push('grcrt_stats');
     RepConv.wndArray.push('grcrt_analysis');
     function addAttackObserver(){
-        if($('div.activity.attack_indicator').length == 0){
+        if($('div.activity.attack_indicator div.count').length == 0){
             setTimeout(function(){
                 addAttackObserver();
             },100)
+            RepConv.Debug && console.log('.')
         } else {
-            var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;                
+            var MutationObserver = window.MutationObserver;// || window.WebKitMutationObserver;                
             var observer_attack = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
+                        RepConv.Debug && console.log('MutationObserver')
                         if($('div.activity.attack_indicator').hasClass('active')){
                             attackIncoming(parseInt($('div.activity.attack_indicator div.count').html()))
                         } else {
@@ -3469,7 +3487,7 @@ function _RepConvGRC() {
                         }
                     });
                 });
-            observer_attack.observe(document.querySelector('div.activity.attack_indicator div.count'), { attributes: true, childList: true, characterData: true });
+            observer_attack.observe(document.querySelector('div.activity.attack_indicator'), { attributes: true, childList: true, characterData: true });
         }
 
     }
@@ -3510,7 +3528,7 @@ function _RepConvGRC() {
         if (RepConv.idleAttackInterval == undefined) {
             RepConv.idleAttackInterval = setInterval(function(){
                 void gpAjax.ajaxGet("notify", "fetch", {no_sysmsg: !1}, !1, function() {})
-            },1000*5);
+            },1000*10);
         }
         town_groups_list_chg();
         // activity_commands_list();

@@ -387,7 +387,9 @@ function _GRCRTMain(){
         "unit_training_boost",
         "wedding",
         "wisdom",
-        "wood_production_penalty"
+        "wood_production_penalty",
+        "small_temple_powers",
+        "large_temple_powers"
     ]
     this.models = {}
     this.requests = {}
@@ -440,6 +442,7 @@ function _GRCRTMain(){
                 this.CookieSounds = this._cookie + "_sounds",
                 this.CookieEmots = this._cookie + "_emots",
                 this.CookieWall = this._cookie + "_wall",
+                this.CookieImgBtn = this._cookie + "_imgBtn",
                 this.hash = $.md5(this._cookie);
                 
                 this.sChbxs[RepConv.CookiePower]            = { label : 'CHKPOWERNAME'      , default : true},
@@ -451,6 +454,8 @@ function _GRCRTMain(){
                 this.sChbxs[RepConv.Cookie+'_town_popup']   = { label : 'CHKTOWNPOPUP'      , default : true},
                 this.sChbxs[RepConv.Cookie+'_mcol']         = { label : 'CHKMCOL'           , default : true},
                 this.sChbxs[RepConv.Cookie+'_bupo']         = { label : 'CHKBUPO'           , default : true},
+                this.sChbxs[RepConv.Cookie+'_imgBtn']       = { label : 'CHKIMGBTN'         , default : true},
+
 
                 RepConvLangArray = new _GRCRTRepConvLangArray()
 

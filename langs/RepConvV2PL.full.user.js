@@ -232,5 +232,7 @@ RepConvLangArray.pl = {
     ALLYCOMPARETITLE: 'Porównanie sojuszy koalicji z wrogimi sojuszami',
     CHKMCOL : 'Przypisz kolory wiadomościom zgodnie z ustalonym schematem kolorowania',
     CHKBUPO : 'Pokaż punkty rozbudowy',
-    CHKMOUSEWHEELZOOMBULLEYE: 'Użyj kółka myszy do zmiany przybliżenia mapy'
+    CHKMOUSEWHEELZOOMBULLEYE: 'Użyj kółka myszy do zmiany przybliżenia mapy',
+    POPINSERTEMOT: 'Wstaw emotikonę',
+    CHKIMGBTN: 'Wyświetlaj ośmiornicę na przyciskach GRCRTools'
 }

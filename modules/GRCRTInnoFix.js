@@ -7,6 +7,11 @@ function _GRCRTInnoFix() {
 						'max-width: none;\n'+
 						'}'
 				)
+				// size units value
+				.append('.olympus_temple_info .unit .value {\n'+
+						'font-size: 10px;\n'+
+						'}'
+				)
 		)
 	$.Observer(GameEvents.window.reload).subscribe("grcrt_trade", function(a, b) {
 		$.each($('div[class*=trade_tab_target]'), function(ii, trade){

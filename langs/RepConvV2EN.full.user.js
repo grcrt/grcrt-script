@@ -216,5 +216,18 @@ RepConvLangArray.en = {
     ALLYCOMPARETITLE: 'Comparison of allied forces vs enemy alliances',
     CHKMCOL : 'Color messages according to the pre-set color scheme',
     CHKBUPO : 'Display build points',
-    CHKMOUSEWHEELZOOMBULLEYE: 'Use mouse wheel to zoom map'
+    CHKMOUSEWHEELZOOMBULLEYE: 'Use mouse wheel to zoom map',
+    POPINSERTEMOT: 'Insert the emoticon',
+    CHKIMGBTN: 'Display the octopus on the GRCRTools buttons',
+    POPSITUATIONALCITYREPORT:'Situation report',
+    CHKSCTUNITS:'Units in the city',
+    CHKSCTPREMIUM:'Premium options',
+    CHKSCTSILVER:'Amount of silver in the cave',
+    CHKSCTINCSUPP:'Number of incoming supports',
+    CHKSCTINCSATT:'Number of incoming attacks',
+    OLYMPOWNER:'Owner', 
+    OLYMPTROOP:'Troops in the temple', 
+    OLYMPACCOM:'Active commands on this Temple', 
+    OLYMPDESC:'Temple description'
+
 }

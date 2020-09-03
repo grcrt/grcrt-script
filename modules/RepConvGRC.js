@@ -2440,7 +2440,7 @@ function _RepConvGRC() {
                     'cache':false,
                     'async':false
                 });
-            return "[url=http://www.grcrt.net/repview.php?rep="+_send.responseJSON.filename+"]"+RepConvTool.GetLabel('MOBILEVERSION')+"[/url]\n\n";
+            return "[url=https://www.grcrt.net/repview.php?rep="+_send.responseJSON.filename+"]"+RepConvTool.GetLabel('MOBILEVERSION')+"[/url]\n\n";
         }
         return '';
     }

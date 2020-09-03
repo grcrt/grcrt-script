@@ -400,13 +400,13 @@ function _RepConvTool() {
     }
     this.getPowerIcon = function(item){
         if($(item).attr('data-power-id') != undefined){
-	    var _lvl = '';
-	    if($(item).attr('data-power-configuration') != undefined){
-		_lvl = ($(item).attr('data-power-configuration').length>0)
-			? '_l'+JSON.parse($(item).attr('data-power-configuration')).level
-			: '';
-	    }
-            return RepConvTool.Adds(RepConv.Const.uiImg + 'pm/'  + $(item).attr('data-power-id') + _lvl +'.png', 'img');
+    	    var _lvl = '';
+    	    if($(item).attr('data-power-configuration') != undefined){
+        		_lvl = ($(item).attr('data-power-configuration').length>0)
+        			? '_l'+JSON.parse($(item).attr('data-power-configuration')).level
+        			: '';
+    	    }
+                return RepConvTool.Adds(RepConv.Const.uiImg + 'pm/'  + $(item).attr('data-power-id') + _lvl +'.png', 'img');
         }
         for (var k in RepConv.powerImage){
             if ($(item).hasClass(RepConv.powerImage[k])) {
@@ -449,7 +449,8 @@ function _RepConvTool() {
             'style' : "float: right; margin: 2px; ",
             'rel'   : '#' + WndName
             }).button({
-                'caption' : RepConvTool.GetLabel(pId)
+                'caption' : RepConvTool.GetLabel(pId),
+                'template' : (RepConv.settings[RepConv.Cookie+'_imgBtn']) ? 'tpl_grcrt_button' : 'tpl_button'
             });
             RepConv.Debug && console.log(WndName);
         return _btn;
@@ -835,12 +836,15 @@ function _RepConvTool() {
                 e.silent = true;
                 grcrtErrReporter(e);
             }
-            setTimeout(function(){
-                getServerData()
-            },1000*60*10)
+            // setTimeout(function(){
+            //     getServerData()
+            // },1000*60*10)
         }
     }
     getServerData();
+    setInterval(function(){
+        getServerData()
+    },1000*60*10);
 
     this.getPlayerData = function(pId){
         try {
@@ -858,4 +862,9 @@ function _RepConvTool() {
         return null;
         // return {id:null, name:null};
     }
+    $('#tpl_grcrt_button').remove()
+    $('head').append(
+        $('<script/>',{'type':"text/template", 'id':"tpl_grcrt_button"})
+            .text('<div class="left"></div><div class="right"></div><div class="caption js-caption"><% if (icon && icon_position === \'left\') { %><div class="icon"></div><% } %><img src="https://cdn.grcrt.net/img/octopus.png" style="width: 20px;float:left;margin: 0px 5px 0px -6px"><%= caption %><% if (icon && icon_position === \'right\') { %><div class="icon"></div><% } %><div class="effect js-effect"></div></div>')
+    );
 }

@@ -442,6 +442,53 @@ function _GRCRTConverterCtrl(wnd) {
         })
         genImage(report.resources, 30, GRCRTtpl.rct.genImgM+5, 7.5)
     }
+    function __getReportResources2(){
+        RepConv.Debug && console.log("__getReportResources2");
+        var _UA = {};
+        report.resources = __initResources(),
+        report.resources.title = _content.find($('#right_side>h4')).eq(1).html()||' ',
+        $.each(_content.find($('#right_side>div.spy_success_left_align')).eq(1).find($('li.res_background div')), function(indR, elemR){
+            switch(elemR.className){
+            case "wood_img":
+                        _UA = {
+                            i : 'S1',
+                            b : $(elemR).nextAll().text()
+                        },
+                        report.resources.ua.push(_UA),
+                report.resources.wood = $(elemR).nextAll().text();
+                //report.resources.count += RepConvTool.Unit(report.resources.wood, "000") + GRCRTtpl.rct.separator;
+                break;
+            case "stone_img":
+                        _UA = {
+                            i : 'S2',
+                            b : $(elemR).nextAll().text()
+                        },
+                        report.resources.ua.push(_UA),
+                report.resources.stone = $(elemR).nextAll().text();
+                //report.resources.count += RepConvTool.Unit(report.resources.stone, "000") + GRCRTtpl.rct.separator;
+                break;
+            case "iron_img":
+                        _UA = {
+                            i : 'S3',
+                            b : $(elemR).nextAll().text()
+                        },
+                        report.resources.ua.push(_UA),
+                report.resources.iron = $(elemR).nextAll().text();
+                //report.resources.count += RepConvTool.Unit(report.resources.iron, "000") + GRCRTtpl.rct.separator;
+                break;
+            case "favor_img":
+                        _UA = {
+                            i : 'S4',
+                            b : $(elemR).nextAll().text()
+                        },
+                        report.resources.ua.push(_UA),
+                report.resources.power = $(elemR).nextAll().text();
+                //report.resources.count += RepConvTool.Unit(report.resources.power, "000") + GRCRTtpl.rct.separator;
+                break;
+            }
+        })
+        genImage(report.resources, 30, GRCRTtpl.rct.genImgM+5, 7.5)
+    }
     function __getReportBunt(){
         RepConv.Debug && console.log("__getReportBunt");
         report.bunt = '';
@@ -666,10 +713,12 @@ function _GRCRTConverterCtrl(wnd) {
         if (result == undefined){
             result = {};
     	}
+        // var isTownNotTemple = "town"
+        // );
         result.town       = _getTown(item);
         result.town_type  = _getTownType(item);
-        result.player     = _getPlayer(item);
-        result.ally       = _getAlly(item);
+        result.player     = (result.town_type == "town") ? _getPlayer(item) : "";
+        result.ally       = (result.town_type == "town") ? _getAlly(item) : _getAllyFromOwner(item);
         result.townName   = _getTownName(item);
         result.playerName = _getPlayerName(item);
         // result.island       = _getIsland(item);
@@ -692,9 +741,9 @@ function _GRCRTConverterCtrl(wnd) {
     function _getTown(item) {
         RepConv.Debug && console.log("_getTown");
         if ($(item).find($('li.town_name a,.gp_town_link')).length > 0 && (rBbcode.getValue() != 'BBCODEI')) {
-            return RepConvTool.Adds(JSON.parse(RepConvTool.Atob($(item).find($('li.town_name a,.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown]+'', GRCRTtpl.rct.town);
+            return RepConvTool.Adds(JSON.parse(RepConvTool.Atob($(item).find($('li.town_name a,.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown]+'', GRCRTtpl.rct[_getTownType(item)]);
         } else if ($(item).find($('li.town_name a,.gp_town_link')).length > 0 && (rBbcode.getValue() == 'BBCODEI')) {
-            return RepConvTool.Adds($(item).find($('li.town_name a,.gp_town_link')).text().trim(), GRCRTtpl.rct.town);
+            return RepConvTool.Adds($(item).find($('li.town_name a,.gp_town_link')).text().trim(), GRCRTtpl.rct[_getTownType(item)]);
         } else if ($(item).find($('li.town_name')).length > 0) {
             return RepConvTool.Adds($(item).find($('li.town_name')).html().trim(), GRCRTtpl.rct.town);
         } else if($(item).find($('a.gp_island_link')).length > 0 && (rBbcode.getValue() != 'BBCODEI')){
@@ -707,7 +756,9 @@ function _GRCRTConverterCtrl(wnd) {
     function _getTownType(item) {
         RepConv.Debug && console.log("_getTownType");
         if ($(item).find($('li.town_name a,.gp_town_link')).length > 0) {
-            return RepConvTool.Atob($(item).find($('li.town_name a,.gp_town_link')).attr('href')).tp;
+            return JSON.parse(RepConvTool.Atob($(item).find($('li.town_name a,.gp_town_link')).attr('href'))).tp;
+        } else if ($(item).find($('li.town_name a.gp_town_link')).length > 0) {
+            return JSON.parse(RepConvTool.Atob($(item).find($('li.town_name a.gp_town_link')).attr('href'))).tp;
         } else if ($(item).find($('li.town_name')).length > 0) {
             return RepConvTool.Adds($(item).find($('li.town_name')).html().trim(), GRCRTtpl.rct.town);
         }
@@ -725,6 +776,13 @@ function _GRCRTConverterCtrl(wnd) {
         RepConv.Debug && console.log("_getAlly");
         if ($(item).find($('li.town_owner_ally a')).length > 0) {
             return RepConvTool.Adds($(item).find($('li.town_owner_ally a')).attr('onclick').replace(/.*'(.*)'.*/,'$1'), GRCRTtpl.rct.ally);
+        }
+        return '';
+    }
+    function _getAllyFromOwner(item) {
+        RepConv.Debug && console.log("_getAllyFromOwner");
+        if ($(item).find($('li.town_owner a')).length > 0 && $(item).find($('li.town_owner a')).attr('onclick')) {
+            return RepConvTool.Adds($(item).find($('li.town_owner a')).attr('onclick').replace(/.*'(.*)'.*/,'$1'), GRCRTtpl.rct.ally);
         }
         return '';
     }
@@ -1036,8 +1094,9 @@ function _GRCRTConverterCtrl(wnd) {
                                             report.linia[ind].townIdA.town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob(ecs.hash))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
                                             report.linia[ind].townIdA.townId = JSON.parse(RepConvTool.Atob(ecs.hash)).id;
                                             report.linia[ind].townIdA.townJSON = JSON.parse(RepConvTool.Atob(ecs.hash));
+                                            report.linia[ind].townIdA.townType = JSON.parse(RepConvTool.Atob(ecs.hash)).tp;
                                         } else {
-                                            report.linia[ind].townIdA.town = RepConvTool.Adds(ecs.text, GRCRTtpl.rct.town);
+                                            report.linia[ind].townIdA.town = RepConvTool.Adds(ecs.text, GRCRTtpl.rct[JSON.parse(RepConvTool.Atob(ecs.hash)).tp]);
                                         }
                                     } else if(ecs.className == 'gp_player_link'){
                                         report.linia[ind].townIdA.player = RepConvTool.Adds(ecs.text, GRCRTtpl.rct.player);
@@ -1067,7 +1126,7 @@ function _GRCRTConverterCtrl(wnd) {
                                         if(JSON.parse(RepConvTool.Atob(ecs.hash)).tp == 'town'){
                                             report.linia[ind].townIdB.town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob(ecs.hash))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
                                         } else {
-                                            report.linia[ind].townIdB.town = RepConvTool.Adds(ecs.text, GRCRTtpl.rct.town);
+                                            report.linia[ind].townIdB.town = RepConvTool.Adds(ecs.text, GRCRTtpl.rct[JSON.parse(RepConvTool.Atob(ecs.hash)).tp]);
                                         }
                                     } else if(ecs.className == 'gp_player_link'){
                                         report.linia[ind].townIdB.player = RepConvTool.Adds(ecs.text, GRCRTtpl.rct.player);
@@ -1182,7 +1241,7 @@ function _GRCRTConverterCtrl(wnd) {
         report.attacker = {};
         report.defender = {};
 
-        report.defender.town = RepConvTool.Adds((JSON.parse(RepConvTool.Atob(_content.find($('div.clearfix a.gp_town_link')).attr('href'))))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
+        report.defender.town = RepConvTool.Adds((JSON.parse(RepConvTool.Atob(_content.find($('div.clearfix a.gp_town_link')).attr('href'))))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct[JSON.parse(RepConvTool.Atob(_content.find($('div.clearfix a.gp_town_link')).attr('href'))).tp]);
         report.defender.townName = _content.find($('div.clearfix a.gp_town_link')).html();
         report.defender.player = RepConvTool.Adds(_content.find($('div.clearfix a.gp_player_link')).html(), GRCRTtpl.rct.player);
         report.defender.playerName = _content.find($('div.clearfix a.gp_player_link')).html();
@@ -1233,7 +1292,7 @@ function _GRCRTConverterCtrl(wnd) {
                     _sec = (parseInt(_tbtime[0])*60*60+parseInt(_tbtime[1])*60+parseInt(_tbtime[2])),
                     _time = readableUnixTimestamp(Timestamp.server()+parseInt(_sec), 'player_timezone', {with_seconds: true, extended_date : true})//formatDateTimeNice(Timestamp.server()+parseInt(_sec), true)
                 report.linia[ind].time = _time;
-                report.linia[ind].text = RepConvTool.Adds(JSON.parse(RepConvTool.Atob($(elem).find($('a.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
+                report.linia[ind].text = RepConvTool.Adds(JSON.parse(RepConvTool.Atob($(elem).find($('a.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct[JSON.parse(RepConvTool.Atob($(elem).find($('a.gp_town_link')).attr('href'))).tp]);
                 ind++;
             });
         }
@@ -1275,7 +1334,7 @@ function _GRCRTConverterCtrl(wnd) {
         report.defender = getPlayerInfo2(report.defender, _content.find($('#report_receiving_town')));
         var town = _content.find($('#report_game_body p a.gp_town_link')).length == 0
                 ? ''
-                : RepConvTool.Adds((JSON.parse(RepConvTool.Atob((_content.find($('#report_game_body p a.gp_town_link')).attr('href')))))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
+                : RepConvTool.Adds((JSON.parse(RepConvTool.Atob((_content.find($('#report_game_body p a.gp_town_link')).attr('href')))))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct[JSON.parse(RepConvTool.Atob((_content.find($('#report_game_body p a.gp_town_link')).attr('href')))).tp]);
         var player = (_content.find($('#report_game_body p a.gp_player_link')).length == 0) ? ''
                 : RepConvTool.Adds(_content.find($('#report_game_body p a.gp_player_link')).html(), GRCRTtpl.rct.player);
         report.detail = _content.find($('#report_game_body p')).html().trim()
@@ -1302,7 +1361,7 @@ function _GRCRTConverterCtrl(wnd) {
         report.command = {};
         report.attacker.title = $(_content.find($('h4'))[0]).html();
         report.attacker.player = RepConvTool.Adds(_content.find($('a.gp_player_link')).html(), GRCRTtpl.rct.player);
-        report.defender.town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob(_content.find($('a.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
+        report.defender.town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob(_content.find($('a.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct[JSON.parse(RepConvTool.Atob(_content.find($('a.gp_town_link')).attr('href'))).tp]);
         if (cHidAt.isChecked()){//$('#MSGHIDDE').attr('checked')) {
             report.defender.town = RepConvTool.Adds(RepConvTool.GetLabel('HIDDEN'), GRCRTtpl.rct.town);
         }
@@ -1361,7 +1420,7 @@ function _GRCRTConverterCtrl(wnd) {
         $.each(_content.find($('li.place_units')), function(ind, parent) {
             var town = '', player = '';
             if ($(parent).children('h4').children('a.gp_town_link').length > 0) {
-                town = RepConvTool.Adds((JSON.parse(RepConvTool.Atob($(parent).children('h4').children('a.gp_town_link').attr('href'))))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
+                town = RepConvTool.Adds((JSON.parse(RepConvTool.Atob($(parent).children('h4').children('a.gp_town_link').attr('href'))))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct[JSON.parse(RepConvTool.Atob($(parent).children('h4').children('a.gp_town_link').attr('href'))).tp]);
             }
             if ($(parent).children('h4').children('a.gp_player_link').length > 0) {
                 player = RepConvTool.Adds($(parent).children('h4').children('a.gp_player_link').html(), GRCRTtpl.rct.player);
@@ -1506,21 +1565,23 @@ function _GRCRTConverterCtrl(wnd) {
             ) {
                 report.rtrevinfo = MM.getCollections().MovementsRevoltDefender[0], //MM.checkAndPublishRawModel('CommandsMenuBubble', {id: Game.player_id}).get('revolts').in_current_town,
                 report.rtrevccount = report.rtrevinfo.length,//.count,
+                report.rtrevolt = '',
                 report.rtcstime = '~' + readableUnixTimestamp(
 					    parseInt(
 						revoltClosestCS(JSON.parse(RepConvTool.Atob(_content.find($('#report_sending_town .gp_player_link')).attr('href'))).id,
 								JSON.parse(RepConvTool.Atob(_content.find($('#report_receiving_town .gp_town_link')).attr('href')))
 								)
-						), 'no_offset'),
-                report.rtrevolt = '';
+						), 'no_offset');
                 try {
                     $.each(report.rtrevinfo.models, function(ind,elem){
-                        var _rvt = readableUnixTimestamp(elem.getFinishedAt(), 'player_timezone', {extended_date: false, with_seconds: false});
-                        if(report.time.indexOf(_rvt) > -1){
-                            report.rtrevolt = readableUnixTimestamp(elem.getStartedAt(), 'player_timezone', {
-                                extended_date: true,
-                                with_seconds: true
-                            })
+                        if (Timestamp.server() < elem.getFinishedAt()){
+                            var _rvt = readableUnixTimestamp(elem.getStartedAt(), 'player_timezone', {extended_date: true, with_seconds: true});
+                            if(report.rtrevolt > _rvt || report.rtrevolt ==''){
+                                report.rtrevolt = readableUnixTimestamp(elem.getStartedAt(), 'player_timezone', {
+                                    extended_date: true,
+                                    with_seconds: true
+                                })
+                            }
                         }
                     })
             	} catch (ex) {
@@ -1539,7 +1600,7 @@ function _GRCRTConverterCtrl(wnd) {
        
         // trochę czytelniej pewnie będzie, gdy "złapiesz" miasto na wskaźnik
         var __rttown = ITowns.getTown(report.rttownId);
-        report.rtwall   = __rttown.buildings().getBuildingLevel("wall"),
+        report.rtwall   = ITowns.getTown(report.rttownId).buildings().getBuildingLevel("wall"),
         report.rtimg = 'A6',
         report.rtimg += "|"+report.rtwall.toString()
         var __status = {'ok' : '.....☒.', 'bad' : '.....☐.'}//✖
@@ -1630,14 +1691,16 @@ function _GRCRTConverterCtrl(wnd) {
         // przybywające ataki,wsparcia
         report.unit_movements = { 'support':0, 'attack':0}
         if(MM.getCollections().Support && MM.getCollections().Support[0] && MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId)){
-            $.each(MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId), function(ind, command){
-                report.unit_movements.support += ((command.get('incoming')==1) ? 1 : 0)
-            })
+            report.unit_movements.support = MM.getCollections().Support[0].length;
+            // $.each(MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId), function(ind, command){
+            //     report.unit_movements.support += ((command.getIncoming()==1) ? 1 : 0)
+            // })
         }
         if(MM.getCollections().Attack && MM.getCollections().Attack[0] && MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId)){
-            $.each(MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId), function(ind, command){
-                report.unit_movements.attack += ((command.get('incoming')==1) ? 1 : 0)
-            })
+            report.unit_movements.attack = MM.getCollections().Attack[0].length;
+            // $.each(MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId), function(ind, command){
+            //     report.unit_movements.attack += ((command.getIncoming()==1) ? 1 : 0)
+            // })
         }
     }
 
@@ -1658,11 +1721,11 @@ function _GRCRTConverterCtrl(wnd) {
         report.defender = getPlayerInfo2(report.defender, _content.find($('#report_receiving_town')));
 
         report.powerAtt = '';
-        $.each(_content.find($('div.report_side_attacker div.report_power')), function(indPower, elemPower){
+        $.each(_content.find($('div.report_side_attacker div.report_power,div.report_side_attacker div.report_alliance_power')), function(indPower, elemPower){
             report.powerAtt += RepConvTool.getPowerIcon($(elemPower));
         });
         report.powerDef = '';
-        $.each(_content.find($('div.report_side_defender div.report_power')), function(indPower, elemPower){
+        $.each(_content.find($('div.report_side_defender div.report_power,div.report_side_defender div.report_alliance_power')), function(indPower, elemPower){
             report.powerDef += RepConvTool.getPowerIcon($(elemPower));
         });
 
@@ -1740,11 +1803,11 @@ function _GRCRTConverterCtrl(wnd) {
         report.defender = getPlayerInfo2(report.defender, _content.find($('#report_receiving_town')));
 
         report.powerAtt = '';
-        $.each(_content.find($('div.report_side_attacker div.report_power')), function(indPower, elemPower){
+        $.each(_content.find($('div.report_side_attacker div.report_power,div.report_side_attacker div.report_alliance_power')), function(indPower, elemPower){
             report.powerAtt += RepConvTool.getPowerIcon($(elemPower));
         });
         report.powerDef = '';
-        $.each(_content.find($('div.report_side_defender div.report_power')), function(indPower, elemPower){
+        $.each(_content.find($('div.report_side_defender div.report_power,div.report_side_defender div.report_alliance_power')), function(indPower, elemPower){
             report.powerDef += RepConvTool.getPowerIcon($(elemPower));
         });
 
@@ -1828,9 +1891,14 @@ function _GRCRTConverterCtrl(wnd) {
             case "cleanse"          :
                 report.type = 5;
                 break;
+            case "olympus_mortal_curse"          :
+                report.defender.player = _getPlayer(_content.find($('#report_sending_town')));
+                report.defender.ally   = _getAlly(_content.find($('#report_sending_town')));
+                report.type = 2;
+                break;
         }
         report.powerinfo.name = GameData.powers[report.powerinfo.id].name,//;
-        report.powerinfo.description = _content.find($('div#left_side>p')).html(),//report_power_symbol GameData.powers[report.powerinfo.id].description;
+        report.powerinfo.description = _content.find($('div#left_side>p')).html().stripTags(),//report_power_symbol GameData.powers[report.powerinfo.id].description;
         report.efekt.title = _content.find($('div#left_side h4')).html();
         switch (report.type) {
             case 1:
@@ -1859,6 +1927,7 @@ function _GRCRTConverterCtrl(wnd) {
     }
 
     function _espionage() {
+        var newForm = (_content.find('div#spy_buildings>div.spy_success_left_align').length != 0);
         __getReportTitle(),
         __getReportTime(),
         report.morale = '',
@@ -1874,11 +1943,11 @@ function _GRCRTConverterCtrl(wnd) {
 
         report.defender.title = _content.find($('div#left_side>h4')).html() || _content.find($('div#left_side>p')).html(),
         report.defender.success = _content.find($('div#left_side>h4')).length != 0,
-        __getUnitDetail1Way('defender', 'div#left_side>div.report_unit', 9),
+        __getUnitDetail1Way('defender', newForm ? 'div#left_side>div.spy_success_left_align>div.report_unit' : 'div#left_side>div.report_unit', 9),
 
         report.build = {},
         report.build.title = _content.find($('div#spy_buildings>h4')).html(),
-        __getBuildDetail1Way('build', 'div#spy_buildings>div.report_unit', 9),
+        __getBuildDetail1Way('build', newForm ? 'div#spy_buildings>div.spy_success_left_align>div.report_unit' : 'div#spy_buildings>div.report_unit', 9),
 
         report.iron = {};
         if (_content.find($('div#right_side>h4')).length > 0) {
@@ -1889,15 +1958,25 @@ function _GRCRTConverterCtrl(wnd) {
             report.iron.title = _content.find($('div#report_game_body>div>p')).html().trim();
         }
 
-
         report.iron.count = (_content.find($('div#right_side')).length > 0)
                 ? _content.find($('#payed_iron span')).html()
+                || (_content.find($('div#right_side>.spy_success_left_align')) && _content.find($('div#right_side>.spy_success_left_align')).eq(0).text().trim())
                 || _content.find($('div#right_side>p'))[0].innerHTML.replace(/.*:([0-9]*)/, '$1').trim()
                 : '',
-        __getReportResources(),
-        report.resources.title = _content.find($('#right_side>#resources')).prev().html()
+        (newForm ? __getReportResources2() : (__getReportResources(), report.resources.title = _content.find($('#right_side>#resources')).prev().html()))
         if (report.iron.count != '') {
-            report.iron.count = /*RepConvTool.Adds(RepConv.Const.unitImg+"iron.png","img")+" "+*/RepConvTool.AddSize(report.iron.count,8);
+            report.iron.count = RepConvTool.AddSize(report.iron.count,8);
+        }
+        try {
+            report.god = {
+                title : (newForm ? _content.find($('#right_side>h4')).eq(2).html() : ""),
+                img_url : (newForm ? RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((_content.find($('div#right_side>.spy_success_left_align')).eq(2).find($('.god_display .god_mini')).attr('class').split(/\s+/)[1] || 'nogod')), "img") : "")
+            }
+        } catch (__err){
+            report.god = {
+                title : "",
+                img_url : ""
+            }
         }
     }
 
@@ -2110,6 +2189,73 @@ function _GRCRTConverterCtrl(wnd) {
         })
     }
 
+    function _olympus(){
+        var temple = MM.getCollections().Temple[0].getTempleById(wnd.attributes.args.target_id);
+        report.title = RepConvTool.Adds((GRCRTtpl.rct.outside) ? temple.getName() : temple.getId(), GRCRTtpl.rct.temple);
+        report.type = '';
+        report.time = '';
+        report.power = '';
+        report.morale = '';
+        report.luck = '';
+        report.oldwall = {};
+        report.nightbonus = '';
+        report.attacker = {};
+        report.defender = {};
+        report.command = {};
+        // report.attacker.title = $(_content.find($('h4'))[0]).html();
+        // report.attacker.player = RepConvTool.Adds(_content.find($('a.gp_player_link')).html(), GRCRTtpl.rct.player);
+        // report.defender.town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob(_content.find($('a.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
+
+        // report.attacker.units_title = _content.find($('div.clearfix div.bold')).html();
+        // if (cAttUnit.isChecked()) {
+        //     __getUnitDetail1Way('attacker', 'div.report_unit', 11);
+        // }else{
+        //     report.attacker.full = {'img_url' : RepConvTool.Adds(RepConvTool.GetLabel('HIDDEN'), 'i') };
+        // }
+        report.temple = {
+            owner : RepConvTool.Adds(olympOwner.isChecked() ? temple.getAllianceName() : RepConvTool.GetLabel('HIDDEN'), GRCRTtpl.rct.ally),
+            god   : RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((temple.getGod() || 'nogod')), "img")
+
+        };
+        
+        report.linia = {};
+        if (_content.find($('ul#unit_movements')).length == 0) {
+            report.command.title = "\n[i]" + (_content.find($('.conquest_info_wrapper>span')).html()||'') + "[/i]";
+        } else {
+            report.linia = {};
+            $.each(_content.find($('ul#unit_movements>li')), function(ind, elem) {
+                report.linia[ind] = {};
+                report.linia[ind].inout = RepConvTool.Adds(RepConv.Const.staticImg + (($(elem).attr('class').replace(/.*(incoming).*/, '$1').length == 0) ? 'out' : 'in') + '.png', 'img');
+                report.linia[ind].img = RepConvTool.Adds($(elem).find($('img.command_type')).attr('src'), 'img');
+                var
+                        _tbtime = $(elem).find('div>span.eta').html().split(':'),
+                        _sec = (parseInt(_tbtime[0])*60*60+parseInt(_tbtime[1])*60+parseInt(_tbtime[2])),
+                        _time = readableUnixTimestamp(Timestamp.server()+parseInt(_sec), 'player_timezone', {with_seconds: true, extended_date : true})//formatDateTimeNice(Timestamp.server()+parseInt(_sec), true)
+                    report.linia[ind].time = _time;
+                    //report.linia[ind].time = $(elem).find('div>span.eta').html();
+                var
+                    _cmd_town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob($($($(elem).find('div')[2]).html()).eq(3).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town),
+                    _cmd_player = RepConvTool.Adds(JSON.parse(RepConvTool.Atob($($($(elem).find('div')[2]).html()).eq(5).attr('href'))).name, GRCRTtpl.rct.player),
+                    _cmd_ally = '('+RepConvTool.Adds($($($(elem).find('div')[2]).html()).eq(7).html(), GRCRTtpl.rct.ally)+')' || '';
+                report.linia[ind].text = '';
+                $.each($($($(elem).find('div')[2]).html().replace(/.*<span.*span>(.*)/, '$1')), function(icmd, ecmd){
+                    //console.log(icmd)
+                    //console.log($(ecmd).text())
+                    if ($(ecmd).hasClass('gp_town_link')) {
+                    report.linia[ind].text += " "+_cmd_town;
+                    } else if ($(ecmd).hasClass('gp_player_link')) {
+                    report.linia[ind].text += "\n"+_cmd_player;
+                    } else if ($(ecmd).attr('onclick') != undefined) {
+                    report.linia[ind].text += " "+_cmd_ally;
+                    } else if ($(ecmd).text().replace(/(\(|\))/,'').trim().length > 0) {
+                    report.linia[ind].text += " "+$(ecmd).text().trim();
+                    }
+                })
+                ind++;
+            });
+        }
+
+    }
     // ========================================================================================================
 
     function _generateReport(){
@@ -2199,6 +2345,9 @@ function _GRCRTConverterCtrl(wnd) {
                 break;
             case "main" :
                 _main();
+                break;
+            case "olympus_temple_info" :
+                _olympus();
                 break;
 	    }
 	    RepConv.Debug && console.log(report);
@@ -2538,7 +2687,21 @@ function _GRCRTConverterCtrl(wnd) {
         var ramka = RepConvTool.RamkaLight(RepConvTool.GetLabel('MSGQUEST'), tag, 125);
         _formbody.append(ramka);
     }
-    
+    function optionsOlymp() {
+        olympOwner = genCheckBox('OLYMPOWNER', true), 
+        olympTroop = genCheckBox('OLYMPTROOP', true), 
+        olympAcCom = genCheckBox('OLYMPACCOM', true), 
+        olympDesc = genCheckBox('OLYMPDESC', false);
+        var tag = $('<div/>')
+                    .append(olympOwner)
+                    .append(olympDesc)
+                    .append(olympTroop)
+                    .append(olympAcCom)
+                ;
+        var ramka = RepConvTool.RamkaLight(RepConvTool.GetLabel('MSGQUEST'), tag, 125);
+        _formbody.append(ramka);
+    }
+
     function readyGenerate(){
         try{
             if ($('#repConvArea').length == 1) {
@@ -2747,8 +2910,11 @@ function _GRCRTConverterCtrl(wnd) {
             //cSpoiler = genCheckBox('MSGSPOILER', false),
             btnGenerate, btnView, btnBBCode, btnLeft, btnRight,
             repconvValue, __repconvValueArray,
-            __currRow = 0, __rowRes = 0;
-
+            __currRow = 0, __rowRes = 0,
+            olympOwner = genCheckBox('OLYMPOWNER', true), 
+            olympTroop = genCheckBox('OLYMPTROOP', true), 
+            olympAcCom = genCheckBox('OLYMPACCOM', true), 
+            olympDesc = genCheckBox('OLYMPDESC', false);
         try {
             (WM.getWindowByType("grcrt_convert")[0]).close()
         } catch (e){}
@@ -2783,6 +2949,10 @@ function _GRCRTConverterCtrl(wnd) {
                 break;
             case "wall"	:
                 optionsWall();
+                _ramkaHeight = 220;
+                break;
+            case "olympus_temple_info" :
+                optionsOlymp();
                 _ramkaHeight = 220;
                 break;
         }

@@ -2309,7 +2309,7 @@ function _RepConvGRC() {
                         }
                     })
                     .mousePopup(new MousePopup(RepConvTool.GetLabel('POPINSERTLASTREPORT')))
-            ),
+            )
         }
     }
 

@@ -1928,7 +1928,6 @@ function _GRCRTConverterCtrl(wnd) {
 
     function _espionage() {
         var newForm = (_content.find('div#spy_buildings>div.spy_success_left_align').length != 0);
-        console.log('newForm='+newForm);
         __getReportTitle(),
         __getReportTime(),
         report.morale = '',
@@ -1968,9 +1967,16 @@ function _GRCRTConverterCtrl(wnd) {
         if (report.iron.count != '') {
             report.iron.count = RepConvTool.AddSize(report.iron.count,8);
         }
-        report.god = {
-            title : (newForm ? _content.find($('#right_side>h4')).eq(2).html() : ""),
-            img_url : (newForm ? RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((_content.find($('div#right_side>.spy_success_left_align')).eq(2).find($('.god_display .god_mini')).attr('class').split(/\s+/)[1] || 'nogod')), "img") : "")
+        try {
+            report.god = {
+                title : (newForm ? _content.find($('#right_side>h4')).eq(2).html() : ""),
+                img_url : (newForm ? RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((_content.find($('div#right_side>.spy_success_left_align')).eq(2).find($('.god_display .god_mini')).attr('class').split(/\s+/)[1] || 'nogod')), "img") : "")
+            }
+        } catch (__err){
+            report.god = {
+                title : "",
+                img_url : ""
+            }
         }
     }
 

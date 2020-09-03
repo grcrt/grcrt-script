@@ -8,6 +8,7 @@ function _GRCRTtpl() {
         A: {
             outside: false,
             town: "town",
+            ghost_town: "town",
             player: "player",
             ally: "ally",
             island: "island",
@@ -62,6 +63,7 @@ function _GRCRTtpl() {
         E: {
             outside: true,
             town: "b",
+            ghost_town: "b",
             player: "b",
             ally: "b",
             island: "b",
@@ -116,6 +118,7 @@ function _GRCRTtpl() {
         I: {
             outside: false,
             town: "town",
+            ghost_town: "town",
             player: "player",
             ally: "ally",
             island: "island",

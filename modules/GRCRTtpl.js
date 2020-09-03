@@ -8,9 +8,11 @@ function _GRCRTtpl() {
         A: {
             outside: false,
             town: "town",
+            ghost_town: "town",
             player: "player",
             ally: "ally",
             island: "island",
+            temple: "temple",
             tag: "quote",
             fonttag: "monospace",
             blank: "..........", //				"          ",
@@ -61,9 +63,11 @@ function _GRCRTtpl() {
         E: {
             outside: true,
             town: "b",
+            ghost_town: "b",
             player: "b",
             ally: "b",
             island: "b",
+            temple: "b",
             tag: "code",
             fonttag: "Courier New",
             blank: "          ",
@@ -114,9 +118,11 @@ function _GRCRTtpl() {
         I: {
             outside: false,
             town: "town",
+            ghost_town: "town",
             player: "player",
             ally: "ally",
             island: "island",
+            temple: "temple",
             tag: "quote",
             fonttag: "monospace",
             blank: "..........", //             "          ",
@@ -215,6 +221,12 @@ function _GRCRTtpl() {
 '<%if (resources.title != ""){%>'+
 '<%=GRCRTtpl.AddSize(resources.title,8)%>\\n'+
 '<%=resources.img_url%>\\n'+
+'<%}%>'+
+'',
+            spyGod : ''+
+'<%if (god.title != ""){%>'+
+'<%=GRCRTtpl.AddSize(god.title,8)%>\\n'+
+'<%=god.img_url%>\\n'+
 '<%}%>'+
 '',
             resource : ''+
@@ -451,28 +463,6 @@ _spliter+
 '<%=RepConvTool.addLine(265)%>'+
 '<%=GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
 '',
-//        conquestTroops : ''+
-//'<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColBegin%>'+
-//'[b]<%=GRCRTtpl.AddSize(command.title,9)%>[/b]\\n'+
-//'<%=RepConvTool.addLine(698)%>\\n'+
-//'<%=GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
-//'<%for(ind in linia){%>'+
-//'<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColBegin%>'+
-//'<%=linia[ind].img%>'+
-//'<%=GRCRTtpl.rct.tplColSep%>'+
-//'<%=RepConvTool.AddFont(GRCRTtpl.AddSize(\'(\'+linia[ind].time+\')\\n\'+linia[ind].text,10), GRCRTtpl.rct.fonttag)%>'+
-//'<%=GRCRTtpl.rct.tplColSep%>'+
-//'<%  if(Object.size(linia[ind+1])>0){%>'+
-//'<%=linia[ind+1].img%>'+
-//'<%=GRCRTtpl.rct.tplColSep%>'+
-//'<%=RepConvTool.AddFont(GRCRTtpl.AddSize(\'(\'+linia[ind+1].time+\')\\n\'+linia[ind+1].text,10), GRCRTtpl.rct.fonttag)%>'+
-//'<%  } else {%>'+
-//'<%=GRCRTtpl.rct.tplColSep%>'+
-//'<%  }%>'+
-//'<%=GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
-//_spliter+
-//'<%}%>'+
-//'',
         conquest : ''+
 '<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColSpan4%>'+
 '<%=GRCRTtpl.rct.tplFontBegin %>'+
@@ -719,6 +709,12 @@ _spliter+
 '<%=resources.img_url%>\\n'+
 '<%}%>'+
 '',
+        spyGod : ''+
+'<%if (god.title != ""){%>'+
+'\\n\\n[b]<%=god.title%>[/b]\\n'+
+'<%=god.img_url%>\\n'+
+'<%}%>'+
+'',
         agoraLine : ''+
 '<%for(ind in linia){%>'+
 '<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColBegin + GRCRTtpl.rct.tplFontBegin + GRCRTtpl.rct.tplSize9%>'+
@@ -884,16 +880,6 @@ _spliter+
                 result +=
                     templ.txt.command;
                 break;
-            //case "raise" 		:
-            //    result +=
-            //        templ.txt.attacker +
-            //        templ.txt.attUnit +
-            //        templ.txt.single +
-            //        templ.txt.defender +
-            //        templ.txt.defUnit +
-            //        templ.txt.single +
-            //        ((pReport.showCost) ? templ.txt.units_cost : '');
-            //    break;
             case "conquer" 		:
             case "illusion" 		:
                 result +=
@@ -925,8 +911,6 @@ _spliter+
                         _spliter +
                         templ.txt.conquestTroops
                     : '' )
-                    //_spliter +
-                    //templ.txt.conquestTroops
                     ;
                 break;
             case "commandList" 	:
@@ -968,7 +952,8 @@ _spliter+
                     templ.txt.spyUnit +
                     templ.txt.spyBuild +
                     templ.txt.spyIron +
-                    templ.txt.spyResource;
+                    templ.txt.spyResource +
+                    templ.txt.spyGod;
                 break;
             case "powers"	:
                 result +=
@@ -1022,7 +1007,6 @@ _spliter+
 		
         result = RepConvTool.Adds(RepConvTool.AddFont(result, GRCRTtpl.rct.fonttag), GRCRTtpl.rct.tag);
         result = (((pReport.showRT || false) && pReport.rtrevolt != '') ? templ.txt.revoltTool:"") + result;
-        //return result;
         return tmpl(result, pReport)
     }
 
@@ -1166,6 +1150,7 @@ _spliter+
                             GRCRTtpl.rct.tplFontBegin+GRCRTtpl.rct.tplSize9 +
                                 templ.tbl.spyIron +
                                 templ.tbl.spyResource +
+                                templ.tbl.spyGod +
                             GRCRTtpl.rct.tplSizeEnd+GRCRTtpl.rct.tplFontEnd +
                             GRCRTtpl.rct.tplColEnd +
                         GRCRTtpl.rct.tplRowEnd +
@@ -1203,12 +1188,6 @@ _spliter+
                         templ.tbl.detail +
                     GRCRTtpl.rct.tplTableEnd;
                 break;
-            //case "found"		:
-            //    result += attacker +
-            //            defender +
-            //            single +
-            //            conquer;
-            //    break;
             case "conquest"	    :
                 result =
                     GRCRTtpl.rct.tplTableBegin +
@@ -1244,9 +1223,14 @@ _spliter+
             case "bbcode_alliance" :
                 result = templ.tbl.bbcode_ipa;
                 break;
+            case "olympus_temple_info" :
+                result =
+                    GRCRTtpl.rct.tplTableBegin + "aqq"
+                    GRCRTtpl.rct.tplTableEnd;
+                break;
+
         }
 		
-        //result = tmpl(RepConvTool.Adds(result, GRCRTtpl.rct.tag), pReport);
         return tmpl(RepConvTool.Adds(result, GRCRTtpl.rct.tag), pReport);
     }
 
@@ -1339,52 +1323,6 @@ _spliter+
         return tmpl(str, data);
     }
     
-    // definicja okna
-/*
-    var
-        wndRadar = function() {
-            "use strict";
-            function a(a) {
-                this.wnd = a
-            }
-            a.inherits(window.WndHandlerDefault),
-            a.prototype.getDefaultWindowOptions = function() {
-                var a = {
-                    position: ["center", "center"],
-                    maxHeight: 580,
-                    maxWidth: 840,
-                    height: 580,
-                    width: 840,
-                    resizable: false,
-                    yOverflowHidden: true,
-                    title: RepConv.Scripts_name
-                };
-                return a
-            },
-            GPWindowMgr.addWndType("GRCRT_CONVERTER", null, a, 1)
-        }()
-    
-    GPWindowMgr.extendLayoutGRCRToolsConverter = function(a) {
-        function b(a) {
-            this.open = function() {
-                var b = GPWindowMgr.getOpenFirst(a),
-                    c = Array.prototype.slice.call(arguments);
-                if (!b) c.unshift(a, "", {}), GPWindowMgr.Create.apply(GPWindowMgr, c);
-                else b.maximizeWindow(), b.sendMessage("openIndex", Game.townId), b.toTop()
-            }, this.close = function(b) {
-                var c = GPWindowMgr.getOpenFirst(a);
-                if (c)
-                    if (!b) c.close()
-            }, this.getWnd = function() {
-                return GPWindowMgr.getOpenFirst(a)
-            }
-        }
-        a.gcrrtConverter = function() {},
-        a.gcrrtConverter.prototype = new b(GPWindowMgr.TYPE_GRCRT_CONVERTER),
-        a.gcrrtConverter.prototype.constructor = b,
-        a.gcrrtConverter = new a.gcrrtConverter
-    }
-*/
     
     // style dla modułu
     $('head')

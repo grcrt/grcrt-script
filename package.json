@@ -19,7 +19,7 @@
     "file": "GrepolisReportConverterV2"
   },
   "dependencies": {
-    "google-closure-compiler": "^20180204.0.0"
+    "google-closure-compiler": "^20200830.0.0"
   },
   "devDependencies": {
     "semantic-release": "^17.0.0"

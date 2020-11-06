@@ -335,7 +335,7 @@ function _GRCRTConverterCtrl(wnd) {
             $.each(__repconvValueArray, function(ind,repconvValue){
                 var _res = $('<div/>');
                 var params = {message: repconvValue};
-                RepConv.Debug && console.log(value.length);
+                RepConv.Debug && console.log(repconvValue.length);
                 gpAjax._ajax(
                     'message',
                     'preview',
@@ -659,7 +659,7 @@ function _GRCRTConverterCtrl(wnd) {
             }
             _UA = {
                 i : RepConvTool.GetUnit(RCunit),
-                b : $(elem).children('span').html()
+                b : ($(elem).children('div.value').length >0 ? $(elem).children('div.value') : $(elem).children('span')).html()
             }
             report[site].full.ua.push(_UA),
             report[site].splits[rowNumber].ua.push(_UA)
@@ -717,8 +717,8 @@ function _GRCRTConverterCtrl(wnd) {
         // );
         result.town       = _getTown(item);
         result.town_type  = _getTownType(item);
-        result.player     = (result.town_type == "town") ? _getPlayer(item) : "";
-        result.ally       = (result.town_type == "town") ? _getAlly(item) : _getAllyFromOwner(item);
+        result.player     = (result.town_type == "town" || _reportType == "powers" ) ? _getPlayer(item) : "";
+        result.ally       = (result.town_type == "town" || _reportType == "powers") ? _getAlly(item) : _getAllyFromOwner(item);
         result.townName   = _getTownName(item);
         result.playerName = _getPlayerName(item);
         // result.island       = _getIsland(item);
@@ -1691,13 +1691,13 @@ function _GRCRTConverterCtrl(wnd) {
         // przybywające ataki,wsparcia
         report.unit_movements = { 'support':0, 'attack':0}
         if(MM.getCollections().Support && MM.getCollections().Support[0] && MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId)){
-            report.unit_movements.support = MM.getCollections().Support[0].length;
+            report.unit_movements.support = MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId).getIncoming();
             // $.each(MM.getCollections().Support[0].getIncomingSupportsForTown(Game.townId), function(ind, command){
             //     report.unit_movements.support += ((command.getIncoming()==1) ? 1 : 0)
             // })
         }
         if(MM.getCollections().Attack && MM.getCollections().Attack[0] && MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId)){
-            report.unit_movements.attack = MM.getCollections().Attack[0].length;
+            report.unit_movements.attack = MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId).getIncoming();
             // $.each(MM.getCollections().Attack[0].getIncomingAttacksForTown(Game.townId), function(ind, command){
             //     report.unit_movements.attack += ((command.getIncoming()==1) ? 1 : 0)
             // })
@@ -2191,7 +2191,8 @@ function _GRCRTConverterCtrl(wnd) {
 
     function _olympus(){
         var temple = MM.getCollections().Temple[0].getTempleById(wnd.attributes.args.target_id);
-        report.title = RepConvTool.Adds((GRCRTtpl.rct.outside) ? temple.getName() : temple.getId(), GRCRTtpl.rct.temple);
+        RepConv.TEMPL = MM.getCollections().Temple[0].getTempleById(wnd.attributes.args.target_id);
+        report.title = wnd.getTitle();
         report.type = '';
         report.time = '';
         report.power = '';
@@ -2202,56 +2203,63 @@ function _GRCRTConverterCtrl(wnd) {
         report.attacker = {};
         report.defender = {};
         report.command = {};
-        // report.attacker.title = $(_content.find($('h4'))[0]).html();
-        // report.attacker.player = RepConvTool.Adds(_content.find($('a.gp_player_link')).html(), GRCRTtpl.rct.player);
-        // report.defender.town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob(_content.find($('a.gp_town_link')).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town);
 
-        // report.attacker.units_title = _content.find($('div.clearfix div.bold')).html();
-        // if (cAttUnit.isChecked()) {
-        //     __getUnitDetail1Way('attacker', 'div.report_unit', 11);
-        // }else{
-        //     report.attacker.full = {'img_url' : RepConvTool.Adds(RepConvTool.GetLabel('HIDDEN'), 'i') };
-        // }
+        __getUnitDetail1Way('defender', 'div.troops_support>div.unit_slots>div.unit', 9);
+
         report.temple = {
-            owner : RepConvTool.Adds(olympOwner.isChecked() ? temple.getAllianceName() : RepConvTool.GetLabel('HIDDEN'), GRCRTtpl.rct.ally),
-            god   : RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((temple.getGod() || 'nogod')), "img")
+            owner : (temple.getAllianceName()) ? RepConvTool.Adds(olympOwner.isChecked() ? temple.getAllianceName() : RepConvTool.GetLabel('HIDDEN'), GRCRTtpl.rct.ally) : "",
+            god   : {
+                img_url : RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((temple.getGod() || 'nogod')), "img"),
+                name : DM.getl10n('layout').powers_menu.gods[temple.getGod() || 'nogod']
+            },
+            name  : RepConvTool.Adds(((GRCRTtpl.rct.outside || (rBbcode.getValue() == 'BBCODEI')) ? temple.getName() : temple.getId())+"", GRCRTtpl.rct.temple),
+            buff : ''
 
         };
+        report.addInfo = _content.find($('div.state_text')).text();
+        report.movements_count = {
+            attack : _content.find($('.troops_movements_count>.incoming_attacks>.value')).html(),
+            support : _content.find($('.troops_movements_count>.incoming_support>.value')).html()
+        }
+
+        $.each(temple.getBuff(), function (ii,ee){
+            var tmp = GameDataPowers.getTooltipPowerData(GameData.powers[ii], ee, 0);
+            report.temple.buff += ((report.temple.buff != '') ? "\n" : "")+tmp.i_descr;
+        })
         
         report.linia = {};
-        if (_content.find($('ul#unit_movements')).length == 0) {
-            report.command.title = "\n[i]" + (_content.find($('.conquest_info_wrapper>span')).html()||'') + "[/i]";
+
+        var ti = MM.getModels().TempleInfo[wnd.attributes.args.target_id];
+
+        if (ti.getMovements().length == 0) {
+            report.command.title = "\n[i]" + (_content.find($('.troops_movements>.content>.centered_text')).html()||'') + "[/i]";
         } else {
-            report.linia = {};
-            $.each(_content.find($('ul#unit_movements>li')), function(ind, elem) {
+            $.each(ti.getMovements(), function(ind, elem) {
                 report.linia[ind] = {};
-                report.linia[ind].inout = RepConvTool.Adds(RepConv.Const.staticImg + (($(elem).attr('class').replace(/.*(incoming).*/, '$1').length == 0) ? 'out' : 'in') + '.png', 'img');
-                report.linia[ind].img = RepConvTool.Adds($(elem).find($('img.command_type')).attr('src'), 'img');
+                report.linia[ind].inout = RepConvTool.Adds(RepConv.Const.staticImg + 'in' + '.png', 'img');
+                report.linia[ind].img = RepConvTool.Adds('https://cdn.grcrt.net/ui/c/'+elem.type+'.png', 'img');
                 var
-                        _tbtime = $(elem).find('div>span.eta').html().split(':'),
-                        _sec = (parseInt(_tbtime[0])*60*60+parseInt(_tbtime[1])*60+parseInt(_tbtime[2])),
-                        _time = readableUnixTimestamp(Timestamp.server()+parseInt(_sec), 'player_timezone', {with_seconds: true, extended_date : true})//formatDateTimeNice(Timestamp.server()+parseInt(_sec), true)
+                        // _tbtime = $(elem).find('div>span.eta').html().split(':'),
+                        // _sec = (parseInt(_tbtime[0])*60*60+parseInt(_tbtime[1])*60+parseInt(_tbtime[2])),
+                        _time = readableUnixTimestamp(elem.arrival_at, 'player_timezone', {with_seconds: true, extended_date : true})//formatDateTimeNice(Timestamp.server()+parseInt(_sec), true)
                     report.linia[ind].time = _time;
-                    //report.linia[ind].time = $(elem).find('div>span.eta').html();
                 var
-                    _cmd_town = RepConvTool.Adds(JSON.parse(RepConvTool.Atob($($($(elem).find('div')[2]).html()).eq(3).attr('href')))[GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town),
-                    _cmd_player = RepConvTool.Adds(JSON.parse(RepConvTool.Atob($($($(elem).find('div')[2]).html()).eq(5).attr('href'))).name, GRCRTtpl.rct.player),
-                    _cmd_ally = '('+RepConvTool.Adds($($($(elem).find('div')[2]).html()).eq(7).html(), GRCRTtpl.rct.ally)+')' || '';
+                    _cmd_town = RepConvTool.Adds( elem['origin_town_'+GRCRTtpl.rct.getTown].toString(), GRCRTtpl.rct.town),
+                    _cmd_player = RepConvTool.Adds(elem.sender_name, GRCRTtpl.rct.player),
+                    _cmd_ally = '';
                 report.linia[ind].text = '';
-                $.each($($($(elem).find('div')[2]).html().replace(/.*<span.*span>(.*)/, '$1')), function(icmd, ecmd){
-                    //console.log(icmd)
-                    //console.log($(ecmd).text())
-                    if ($(ecmd).hasClass('gp_town_link')) {
+                // $.each($($($(elem).find('div')[2]).html().replace(/.*<span.*span>(.*)/, '$1')), function(icmd, ecmd){
+                //     if ($(ecmd).hasClass('gp_town_link')) {
                     report.linia[ind].text += " "+_cmd_town;
-                    } else if ($(ecmd).hasClass('gp_player_link')) {
-                    report.linia[ind].text += "\n"+_cmd_player;
-                    } else if ($(ecmd).attr('onclick') != undefined) {
-                    report.linia[ind].text += " "+_cmd_ally;
-                    } else if ($(ecmd).text().replace(/(\(|\))/,'').trim().length > 0) {
-                    report.linia[ind].text += " "+$(ecmd).text().trim();
-                    }
-                })
-                ind++;
+                    // } else if ($(ecmd).hasClass('gp_player_link')) {
+                    report.linia[ind].text += " ("+_cmd_player+")";
+                    // } else if ($(ecmd).attr('onclick') != undefined) {
+                    // report.linia[ind].text += " "+_cmd_ally;
+                    // } else if ($(ecmd).text().replace(/(\(|\))/,'').trim().length > 0) {
+                    // report.linia[ind].text += " "+$(ecmd).text().trim();
+                    // }
+                // })
+                // ind++;
             });
         }
 
@@ -2688,10 +2696,10 @@ function _GRCRTConverterCtrl(wnd) {
         _formbody.append(ramka);
     }
     function optionsOlymp() {
-        olympOwner = genCheckBox('OLYMPOWNER', true), 
-        olympTroop = genCheckBox('OLYMPTROOP', true), 
-        olympAcCom = genCheckBox('OLYMPACCOM', true), 
-        olympDesc = genCheckBox('OLYMPDESC', false);
+        // olympOwner = genCheckBox('OLYMPOWNER', true), 
+        // olympTroop = genCheckBox('OLYMPTROOP', true), 
+        // olympAcCom = genCheckBox('OLYMPACCOM', false), 
+        // olympDesc = genCheckBox('OLYMPDESC', true);
         var tag = $('<div/>')
                     .append(olympOwner)
                     .append(olympDesc)
@@ -2914,7 +2922,7 @@ function _GRCRTConverterCtrl(wnd) {
             olympOwner = genCheckBox('OLYMPOWNER', true), 
             olympTroop = genCheckBox('OLYMPTROOP', true), 
             olympAcCom = genCheckBox('OLYMPACCOM', true), 
-            olympDesc = genCheckBox('OLYMPDESC', false);
+            olympDesc = genCheckBox('OLYMPDESC', true);
         try {
             (WM.getWindowByType("grcrt_convert")[0]).close()
         } catch (e){}

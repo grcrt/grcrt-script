@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: cimg/node:lts-browsers
+    - image: cimg/openjdk:8.0.265-node
 
 jobs:
   build:
@@ -18,9 +18,6 @@ jobs:
           - git-cache-{{ .Branch }}-{{ .Revision }}
           - git-cache-{{ .Branch }}-
           - git-cache-
-      - run:
-          name: Install JDK
-          command: npm install jdk --save-dev
       - run:
           name: Install symantic-release
           command: |

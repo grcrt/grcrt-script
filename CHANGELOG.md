@@ -1,3 +1,19 @@
+# [5.1.0](https://github.com/grcrt/grcrt-script/compare/v5.0.10...v5.1.0) (2020-11-06)
+
+
+### Features
+
+* **reports:** add temple/Olympus conversion ([7bf648f](https://github.com/grcrt/grcrt-script/commit/7bf648fb8faca66bb6210329a5c32319ce341ea6))
+
+## [5.0.10](https://github.com/grcrt/grcrt-script/compare/v5.0.9...v5.0.10) (2020-09-05)
+
+
+### Bug Fixes
+
+* broken URL for mobile reports ([9414af7](https://github.com/grcrt/grcrt-script/commit/9414af7b273ce85fc664f68a1726793f0de2e5aa))
+* change readme, update buildscripts ([d4ad0dc](https://github.com/grcrt/grcrt-script/commit/d4ad0dc940e77fc73060482991cbcab08ab0575a))
+* various bugfixes and improvements ([ac7f18d](https://github.com/grcrt/grcrt-script/commit/ac7f18d46d12839d80516b5fded3f7c9a398c5dc)), closes [#48](https://github.com/grcrt/grcrt-script/issues/48)
+
 ## [5.0.9](https://github.com/grcrt/grcrt-script/compare/v5.0.8...v5.0.9) (2019-11-14)
 
 

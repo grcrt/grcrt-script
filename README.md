@@ -13,7 +13,6 @@
 [![GitHub issues](https://img.shields.io/github/issues-raw/grcrt/grcrt-script.svg)](https://github.com/grcrt/grcrt-script/issues?q=is%3Aopen)
 [![GitHub contributors](https://img.shields.io/github/contributors/grcrt/grcrt-script.svg)](https://github.com/grcrt/grcrt-script/graphs/contributors)
 [![license](https://img.shields.io/github/license/grcrt/grcrt-script.svg)](https://github.com/grcrt/grcrt-script/blob/master/LICENSE)
-[![Gitter](https://img.shields.io/gitter/room/grcrt/grcrt-script.svg)](https://gitter.im/GRCRT/Lobby)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ---

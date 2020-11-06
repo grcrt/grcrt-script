@@ -1,4 +1,5 @@
 function _GRCRTtpl() {
+    "use strict";
     var
         _spliter = '=#=#=',
         _site2site = ' (##/##)',
@@ -376,14 +377,19 @@ _spliter+
 '<%}%>'+
 '<%=GRCRTtpl.rct.singleline%>\\n'+
 '',
-//'<%=command.title%>\\n'+
-//'<%for(ind in linia){%>'+
-//'<%  if (ind > 0){%>'+
-//'<%=GRCRTtpl.rct.singleline%>\\n'+
-//'<%  }%>'+
-//'<%=linia[ind].img%> <%=linia[ind].inout%> (<%=linia[ind].time%>) <%=linia[ind].text%>\\n'+
-//'<%}%>'+
-//'',
+        olympus : ''+
+'[b]<%=GRCRTtpl.AddSize(title,9)%>[/b]\\n'+
+'<%=temple.god.img_url%> <%=temple.god.name%>\\n' +
+'[i]<%=temple.buff%>[/i]\\n'+
+'<%=GRCRTtpl.rct.singleline%>\\n'+
+'<%=temple.name%> \\n'+
+'<%  if (temple.owner!="") {%>'+
+'<%=temple.owner%> \\n'+
+'<%}%>'+
+'[img]https://cdn.grcrt.net/ui/attack.png[/img] <%=movements_count.attack%>     '+
+'[img]https://cdn.grcrt.net/ui/support.png[/img] <%=movements_count.support%>\\n'+
+'<%=GRCRTtpl.rct.singleline%>\\n'+
+'',
             conquestTroopsHead : ''+
 '[b]<%=GRCRTtpl.AddSize(command.title,9)%>[/b]'+_site2site+'\\n'+
 '',
@@ -404,6 +410,13 @@ _spliter+
             ownTropsInTheCity : ''+
 '<%=defender.full.img_url%>\\n'+
 '',
+            ownTropsInOlympus : ''+
+'<%=defender.full.img_url %>\\n'+
+'<% if ( addInfo != "" ) { %>'+
+'<%=addInfo %>\\n'+
+'<% } %>'+
+'',
+
             revoltTool : ''+
 '[quote][table]\\n'+
 '[*][|]<%=defender.town%>[/*]\\n'+
@@ -479,6 +492,33 @@ _spliter+
 '<%=  attacker.splits[ind].img_url%>\\n'+
 '<%}%>'+
 '<%=RepConvTool.addLine(698)%>'+
+'<%=GRCRTtpl.rct.tplSizeEnd + GRCRTtpl.rct.tplFontEnd%>'+
+'<%=GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
+'',
+        olympus : ''+
+'<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColBegin%>'+
+'<%=GRCRTtpl.rct.tplFontBegin %>'+
+'[b]<%=title%>[/b]\\n'+
+'<%=temple.god.img_url%> <%=temple.god.name%>\\n' +
+'[i]<%=temple.buff%>[/i]\\n'+
+'<%=GRCRTtpl.rct.tplFontEnd%>'+
+'<%=GRCRTtpl.rct.tplColSep%>'+
+'<%=GRCRTtpl.rct.tplFontBegin %>'+
+'<%=temple.name%> \\n'+
+'<%  if (temple.owner!="") {%>'+
+'<%=temple.owner%> \\n'+
+'<%}%>'+
+'[img]https://cdn.grcrt.net/ui/attack.png[/img] <%=movements_count.attack%>     '+
+'[img]https://cdn.grcrt.net/ui/support.png[/img] <%=movements_count.support%>\\n'+
+'<%=GRCRTtpl.rct.tplFontEnd%>'+
+'<%=GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
+'<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColBegin%>'+
+'<%=GRCRTtpl.rct.tplFontBegin + GRCRTtpl.rct.tplSize9 %>'+
+'<%=RepConvTool.addLine(345)%>'+
+'<%=GRCRTtpl.rct.tplSizeEnd + GRCRTtpl.rct.tplFontEnd%>'+
+'<%=GRCRTtpl.rct.tplColSep%>'+
+'<%=GRCRTtpl.rct.tplFontBegin + GRCRTtpl.rct.tplSize9 %>'+
+'<%=RepConvTool.addLine(345)%>'+
 '<%=GRCRTtpl.rct.tplSizeEnd + GRCRTtpl.rct.tplFontEnd%>'+
 '<%=GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
 '',
@@ -740,6 +780,15 @@ _spliter+
 '<%=defender.full.img_url %>\\n'+
 '<%=GRCRTtpl.rct.tplFontEnd + GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
 '',
+        ownTropsInOlympus : ''+
+'<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColSpan2 + GRCRTtpl.rct.tplFontBegin%>'+
+'<%=RepConvTool.addLine(698)%>\\n'+
+'<%=defender.full.img_url %>\\n'+
+'<% if ( addInfo != "" ) { %>'+
+'<%=addInfo %>\\n'+
+'<% } %>\\n'+
+'<%=GRCRTtpl.rct.tplFontEnd + GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
+'',
         wallDet : ''+
 '<%=GRCRTtpl.rct.tplRowBegin + GRCRTtpl.rct.tplColBegin %>'+
 '[b]<%=GRCRTtpl.AddSize(title,12)%>[/b]\\n'+
@@ -819,12 +868,12 @@ _spliter+
 '<%=GRCRTtpl.rct.tplColSep%>'+
 '<%=GRCRTtpl.rct.tplFontBegin %>'+
 '[b]<%=GRCRTtpl.AddSize(command.title,10)%>[/b]'+_site2site+'\\n'+
-'<%=RepConvTool.addLine(302)%>'+
+'<%=RepConvTool.addLine(304)%>'+
 '<%=GRCRTtpl.rct.tplFontEnd %>'+
 '<%=GRCRTtpl.rct.tplColSep%>'+
 '<%=RepConvTool.addLine(32)%>'+
 '<%=GRCRTtpl.rct.tplColSep%>'+
-'<%=RepConvTool.addLine(302)%>'+
+'<%=RepConvTool.addLine(304)%>'+
 '<%=GRCRTtpl.rct.tplColEnd + GRCRTtpl.rct.tplRowEnd%>'+
 '',
         conquestTroops : ''+
@@ -998,6 +1047,17 @@ _spliter+
             case "bbcode_alliance" :
                 result = templ.txt.bbcode_ipa;
                 printFooter = false;
+                break;
+            case "olympus_temple_info" :
+                result =
+                    templ.txt.olympus +
+                    templ.txt.ownTropsInOlympus +
+                    templ.txt.conquestTroopsHead +
+                    ((Object.size(pReport.linia)>0) ?
+                        _spliter +
+                        templ.txt.conquestTroops
+                    : '' )
+                  ;
                 break;
         }
         result += (printFooter) ?
@@ -1225,12 +1285,25 @@ _spliter+
                 break;
             case "olympus_temple_info" :
                 result =
-                    GRCRTtpl.rct.tplTableBegin + "aqq"
+                    GRCRTtpl.rct.tplTableBegin +
+                    templ.tbl.olympus + 
+                    ((GRCRTtpl.rct.outside) ? GRCRTtpl.rct.tplTableNBBegin : GRCRTtpl.rct.tplTableEnd) +
+                    templ.tbl.foot +
+                    ((GRCRTtpl.rct.outside) ? GRCRTtpl.rct.tplTableNBEnd : GRCRTtpl.rct.tplTableBegin) +
+                    GRCRTtpl.rct.tplRowBegin +
+                    templ.tbl.ownTropsInOlympus +
+                    GRCRTtpl.rct.tplRowEnd +
+                    ((GRCRTtpl.rct.outside) ? GRCRTtpl.rct.tplTableNBBegin : GRCRTtpl.rct.tplTableEnd) +
+                    ((GRCRTtpl.rct.outside) ? GRCRTtpl.rct.tplTableNBEnd : GRCRTtpl.rct.tplTableBegin) +
+                        templ.tbl.conquestTroopsHead+
+                        ((Object.size(pReport.linia)>0) ?
+                        _spliter+
+                        templ.tbl.conquestTroops
+                        : '' )+
                     GRCRTtpl.rct.tplTableEnd;
                 break;
 
         }
-		
         return tmpl(RepConvTool.Adds(result, GRCRTtpl.rct.tag), pReport);
     }
 
@@ -1276,7 +1349,7 @@ _spliter+
     }
     
     this.AddSize = function(value, size) {
-        if (value.length > 0 && this.rcts.A == this.rct)
+        if (value && value.length > 0 && this.rcts.A == this.rct)
             return "[size=" + size + "]" + value + "[/size]";
         return value;
     }

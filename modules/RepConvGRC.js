@@ -2415,7 +2415,8 @@ function _RepConvGRC() {
                 (RepConvTool.AddBtn('BTNCONV', wnd.getIdentifier())).click(function() {
                     window.GRCRTConvWnd = new _GRCRTConverterCtrl(wnd);
                 })
-                .insertBefore($('#window_'+wnd.getIdentifier()).find('.action_buttons.centered_text .btn_jump_to.button_new.square'))
+                .css({'top':'56px','right':'40px'})
+                .insertBefore($('#window_'+wnd.getIdentifier()).find('.temple_image_wrapper'))
             }
         })
     }
@@ -3186,9 +3187,9 @@ function _RepConvGRC() {
             case windowIds.NOTES:
                 addBtnPasteReport(wnd);
                 break;
-            // case windowIds.OLYMPUS_TEMPLE_INFO:
-            //     addBtnOlympusTempleInfo(wnd);
-            //     break;
+            case windowIds.OLYMPUS_TEMPLE_INFO:
+                addBtnOlympusTempleInfo(wnd);
+                break;
         }
     }
 

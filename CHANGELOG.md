@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/grcrt/grcrt-script/compare/v5.0.10...v5.1.0) (2020-11-06)
+
+
+### Features
+
+* **reports:** add temple/Olympus conversion ([7bf648f](https://github.com/grcrt/grcrt-script/commit/7bf648fb8faca66bb6210329a5c32319ce341ea6))
+
 ## [5.0.10](https://github.com/grcrt/grcrt-script/compare/v5.0.9...v5.0.10) (2020-09-05)
 
 

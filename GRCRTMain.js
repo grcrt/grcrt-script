@@ -220,6 +220,10 @@ function _GRCRTMain(){
         "calydonian_boar" : "K3",
         "griffin" : "L3",
         "godsent" : "M3",
+        "satyr" : "N3",
+        "siren" : "O3",
+        "spartoi" : "P3",
+        "ladon" : "Q3",
         "militia" : "A4",
 
         "atalanta" : "A5",
@@ -236,6 +240,7 @@ function _GRCRTMain(){
         "odysseus" : "L5",
         "iason" : "M5",
         "apheledes" : "N5",
+
         "democritus" : "O5",
         "hector" : "P5",
 

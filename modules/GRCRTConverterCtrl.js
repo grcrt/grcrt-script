@@ -1846,7 +1846,7 @@ function _GRCRTConverterCtrl(wnd) {
         report.power = RepConvTool.Adds(RepConv.Const.staticImg + _content.find($('div#report_power_symbol')).attr('class').replace(/power_icon86x86 (.*)/, '$1') + '_30x30.png', "img");
 
         report.powerinfo = {};
-        report.powerinfo.id = _content.find($('div#report_power_symbol')).attr('class').replace(/power_icon86x86 (.*)/, '$1');
+        report.powerinfo.id = _content.find($('div#report_power_symbol')).attr('class').replace(/power_icon86x86 (.*)/, '$1').split(' ')[0];
         switch (report.powerinfo.id) {
             case "happiness"		        :
             case "fertility_improvement"        :

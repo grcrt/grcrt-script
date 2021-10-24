@@ -1,3 +1,10 @@
+## [5.1.2](https://github.com/grcrt/grcrt-script/compare/v5.1.1...v5.1.2) (2021-10-24)
+
+
+### Bug Fixes
+
+* Ares sacrifice ([bb80323](https://github.com/grcrt/grcrt-script/commit/bb80323a855335898bab25cbb27d136fde8aab56))
+
 ## [5.1.1](https://github.com/grcrt/grcrt-script/compare/v5.1.0...v5.1.1) (2021-07-05)
 
 

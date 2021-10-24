@@ -1868,6 +1868,7 @@ function _GRCRTConverterCtrl(wnd) {
             case "demoralizing_plague"	        :
             case "sudden_aid"                   :
             case "demoralized_army"             :
+            case "ares_sacrifice"               :
                 report.type = 2;
                 break;
 

@@ -1,3 +1,12 @@
+## [5.1.1](https://github.com/grcrt/grcrt-script/compare/v5.1.0...v5.1.1) (2021-07-05)
+
+
+### Bug Fixes
+
+* adds new mythical units ([c7c3856](https://github.com/grcrt/grcrt-script/commit/c7c385649728deee9dd66bec0ba229d870468b71))
+* parses additional label for wedding spell ([004ea45](https://github.com/grcrt/grcrt-script/commit/004ea4519ebc4c325bac05650e67ce38e3a987f9))
+* repairs missing name of farming village ([c12b580](https://github.com/grcrt/grcrt-script/commit/c12b5802e43b4a70572f75178f98c9bdb9cfde2d))
+
 # [5.1.0](https://github.com/grcrt/grcrt-script/compare/v5.0.10...v5.1.0) (2020-11-06)
 
 

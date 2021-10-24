@@ -183,7 +183,7 @@ function _RepConvForm(){
 						'min: 0,\n'+
 						'max: 100,\n'+
 						'step: 5,\n'+
-						'value: '+params.volume+',\n'+
+						'value: parseInt('+params.volume+'),\n'+
 						'template: \'tpl_grcrt_slider\'\n'+
 						'}).on(\'sl:change:value\', function (e, _sl, value) {\n'+
 						'$(\'#grcrt_'+params.name+'_value\').attr(\'value\',value);\n'+

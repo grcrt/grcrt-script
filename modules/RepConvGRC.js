@@ -302,7 +302,12 @@ function _RepConvGRC() {
     }
 
     function wrapForumTabs(RCGP){ // forum sojuszu - zakładki w liniach
-        if (RepConv.active.ftabs) {
+        if (RepConv.active.ftabs 
+            && 
+            RCGP.getWindowVeryMainNode().find($('div.menu_wrapper.minimize.menu_wrapper_scroll')).parent().find($('a.next')).length != 0
+        ) {
+            $('#grcrt_ft').text("")
+            RCGP.getWindowVeryMainNode().addClass('grcrt_ft')
             var
                 Q_DivWrapper    = RCGP.getWindowVeryMainNode().find($('div.menu_wrapper.minimize.menu_wrapper_scroll')),
                 Q_DivWrapperUl  = RCGP.getWindowVeryMainNode().find($('div.menu_wrapper.minimize.menu_wrapper_scroll>ul')),
@@ -320,14 +325,23 @@ function _RepConvGRC() {
                 $(Q_DivWrapper).parent().find($('a.next')).remove(),
                 $(Q_DivWrapper).parent().find($('a.prev')).remove();
                 
+                var linia = 0, Q_Mnoznik = 1;
+
+                $.each(RCGP.getWindowVeryMainNode().find($('ul.menu_inner>li')), function(il, li){
+                    if(linia+$(li).width() > RCGP.getWindowVeryMainNode().find($('ul.menu_inner')).width()){
+                        linia = 0, Q_Mnoznik++
+                    } else {
+                        linia+=$(li).width()
+                    }
+                })
                 var
-                    Q_Mnoznik = $($('ul.menu_inner li')[$('ul.menu_inner li').length-1]).position().top / 22 + 1,//Math.ceil(Q_DivWrapperUl.width() / Q_DivWrapper.width());
+                    // Q_Mnoznik = $($('ul.menu_inner li')[$('ul.menu_inner li').length-1]).position().top / 22 + 1,//Math.ceil(Q_DivWrapperUl.width() / Q_DivWrapper.width());
                     Q_zindex = $('#gptop'+Q_Mnoznik).css('z-index');
                 
-                
-                (RCGP.getJQElement()).find($('div.gpwindow_content')).css('top', Q_DivWrapper.height() * (Q_Mnoznik + 1)),
-                Q_DivWrapper.height(Q_DivWrapper.height() * Q_Mnoznik),
-        RCGP.setHeight(RCGP.getOptions().maxHeight+22*(Q_Mnoznik - 1));
+                $('#grcrt_ft').text('.grcrt_ft .menu_wrapper { height: '+(Q_DivWrapper.height() * Q_Mnoznik)+'px !important;} .grcrt_ft .gpwindow_frame>.gpwindow_content { top: '+(Q_DivWrapper.height() * (Q_Mnoznik + 1))+'px !important;}'),
+                // (RCGP.getJQElement()).find($('div.gpwindow_content')).css('top', Q_DivWrapper.height() * (Q_Mnoznik + 1)),
+                // Q_DivWrapper.height(Q_DivWrapper.height() * Q_Mnoznik),
+                RCGP.setHeight(RCGP.getOptions().maxHeight+22*(Q_Mnoznik - 1));
                 //(RCGP.getJQElement()).height(
                 //    Q_DivForm.height() + Q_DivWrapper.height() * (Q_Mnoznik) + 22
                 //    //(RCGP.getJQElement()).height() + Q_DivWrapper.height() * (Q_Mnoznik - 1)
@@ -360,6 +374,7 @@ function _RepConvGRC() {
             }
         }
     }
+
     function islandBBCode(RCGP){ // info o graczach na wyspie - dodanie listy miast w BBCode
         function addDetails(RCGP, itemId){
             if ((RCGP.getJQElement()).find($('#'+itemId+' li span.player_name a.gp_player_link')).length == 0) {

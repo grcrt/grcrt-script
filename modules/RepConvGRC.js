@@ -1287,7 +1287,7 @@ function _RepConvGRC() {
                 _townsDD =
                     register(
                         'grcrt_towns',
-                        $('<div/>',{'id':'grcrt_towns','class':'dropdown default','style':'margin-left:5px;width: 180px;'})
+                        $('<div/>',{'id':'grcrt_towns','class':'dropdown default','style':'margin-left:5px;width: 140px;'})
                             .dropdown({
                                 list_pos : 'left',
                                 value : (!cmGet('grcrt_townsDD')) ? Options.value : cmGet('grcrt_townsDD').getValue(),
@@ -1306,15 +1306,15 @@ function _RepConvGRC() {
                                 $('<span/>',{'class':"grcrt_filter"})
                                     .html(RCGP.getJQElement().find($('#command_filter>span')).html())
                             )
-                            .append(
-                                $('<span/>',{'class':"overview_incoming icon grcrt_filter"})
-                                    .mousePopup(new MousePopup(RepConvTool.GetLabel('COMMAND.INCOMING')))
-                                    .addClass((parseInt(cmGet('grcrt_FI').getValue())==0)?'grcrt_disabled':'')
-                                    .click(function(){
-                                        $(this).toggleClass('grcrt_disabled'),
-                                        cmGet('grcrt_FI').setValue($(this).hasClass('grcrt_disabled')?'0':'1')
-                                    })
-                            )
+                            // .append(
+                            //     $('<span/>',{'class':"overview_incoming icon grcrt_filter"})
+                            //         .mousePopup(new MousePopup(RepConvTool.GetLabel('COMMAND.INCOMING')))
+                            //         .addClass((parseInt(cmGet('grcrt_FI').getValue())==0)?'grcrt_disabled':'')
+                            //         .click(function(){
+                            //             $(this).toggleClass('grcrt_disabled'),
+                            //             cmGet('grcrt_FI').setValue($(this).hasClass('grcrt_disabled')?'0':'1')
+                            //         })
+                            // )
                             .append(
                                 $('<span/>',{'class':"overview_outgoing icon grcrt_filter"})
                                     .mousePopup(new MousePopup(RepConvTool.GetLabel('COMMAND.OUTGOING')))
@@ -1333,9 +1333,9 @@ function _RepConvGRC() {
                                         cmGet('grcrt_FR').setValue($(this).hasClass('grcrt_disabled')?'0':'1')
                                     })
                             )
-                            .append(
-                                $('<label/>').text(RepConvTool.GetLabel('COMMAND.FORTOWN'))
-                            )
+                            // .append(
+                            //     $('<label/>').text(RepConvTool.GetLabel('COMMAND.FORTOWN'))
+                            // )
                             .append(_townsDD)
                     )
                 if (parseInt(cmGet('grcrt_townsDD').getValue()) == 0) {

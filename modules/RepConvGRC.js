@@ -42,96 +42,111 @@ function _RepConvGRC() {
         }
     }
     function addSpell(RCGP){
-        var
+        var _powers = {},
+            _power_div = $('<div/>', {'class' : "powers_container clearfix"}),
             power_id = undefined,
-            _god = undefined;
+            _god = undefined,
+            _pow_ena = false;
         switch(RCGP.getController()){
             case "building_barracks":
                 $.each(MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getProductionOverview(), function(ind, elem){
                     if (ind == 'hera') {
                         power_id = 'fertility_improvement',
-                        _god = 'hera'
+                        // _god = 'hera'
+                        _powers[ind] = power_id
+                    }
+                    if (ind == 'ares') {
+                        power_id = 'spartan_training',
+                        // _god = 'hera'
+                        _powers[ind] = power_id
                     }
                 })
+                _pow_ena = MM.checkAndPublishRawModel('Town',{id:Game.townId}).getBuildings().getBuildingLevel('barracks') > 0;
                 break;
             case "building_docks":
                 $.each(MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getProductionOverview(), function(ind, elem){
                     if (ind == 'poseidon') {
                         power_id = 'call_of_the_ocean',
-                        _god = 'poseidon'
+                        // _god = 'poseidon'
+                        _powers[ind] = power_id
                     }
                 })
+                _pow_ena = MM.checkAndPublishRawModel('Town',{id:Game.townId}).getBuildings().getBuildingLevel('docks') > 0;
                 break;
         }
-        if (power_id != undefined && $('#unit_order .grcrt_power').length == 0) {
-            var
-                casted_power = HelperPower.createCastedPowerModel(power_id, Game.townId),
-                _disable = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).get(_god+'_favor') < GameData.powers[power_id].favor,
-                _classAdd = (_disable) ? ' disabled' : '',
-                casted = HelperPower.createCastedPowerModel(power_id, Game.townId)
-                $.each(MM.checkAndPublishRawModel('Town',{id:Game.townId}).getCastedPowers(), function(ind,elem){
-                    if(elem.getPowerId() == power_id){
-                        casted = elem,
-                        _classAdd = ' active_animation extendable';
-                    }
-                })
-                ;    
-            RCGP.getJQElement().find($('.game_inner_box'))
-                .append(
-                    $('<div/>', {'class' : "grcrt_power"})
-                        .append(
-                            $('<div/>', {'class' : "powers_container clearfix"})
-                                .append(
-                                    $('<div/>', {'class' : "power_icon45x45 "+power_id+" new_ui_power_icon js-power-icon"+_classAdd, 'data-power_id' : power_id, 'rel' : _god})
-                                        .append(
-                                            $('<div/>', {'class' : "extend_spell"})
-                                                .append(
-                                                    $('<div/>', {'class' : "gold"})
-                                                )
-                                                .append(
-                                                    $('<div/>', {'class' : "amount"})
-                                                )
-                                        )
-                                        .append(
-                                            $('<div/>', {'class' : "js-caption"})
-                                        )
-                                        .on('mouseover', function(e) {
-                                            var _tooltipParam = {
-                                                show_costs: true
-                                            }
-                                            if (typeof casted.getId != 'undefined') {
-                                                _tooltipParam.casted_power_end_at = casted.getEndAt(),
-                                                _tooltipParam.extendable = casted.isExtendable()
-                                            }
-                                            $(this).tooltip(TooltipFactory.createPowerTooltip(casted_power.getPowerId(), _tooltipParam)).showTooltip(e);
-                                        })
-                                        .on('click', function(e){
-                                            CM.unregister({main : RCGP.getContext().main, sub:"casted_powers"},'grcrt_power_'+casted.getId());
-                                            var
-                                                _btn = CM.register(
-                                                    {main : RCGP.getContext().main, sub:"casted_powers"},
-                                                    'grcrt_power_'+casted.getId(),
-                                                    RCGP.getJQElement().find($('.grcrt_power .new_ui_power_icon .gold')).button()
-                                                ),
-                                                power = HelperPower.createCastedPowerModel(power_id, Game.townId);
-                                            if (casted.getId() == undefined) {
-                                                power.cast();
-                                            } else {
-                                                if (casted.isExtendable()) {
-                                                    BuyForGoldWindowFactory.openExtendPowerForGoldWindow(_btn, casted);
-                                                    $(this).addClass(_classAdd);
-                                                }
-                                            }
-                                        })
-                                )
-                        )
-                )
-                if (_disable && !casted.isExtendable()) {
+        if (/*power_id != undefined*/ _pow_ena && $('#unit_order .grcrt_power').length == 0) {
+            $.each(_powers, function(_god, power_id){
+                var
+                    casted_power = HelperPower.createCastedPowerModel(power_id, Game.townId),
+                    _disable = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).get(_god+'_favor') < GameData.powers[power_id].favor,
+                    _classAdd = (_disable) ? ' disabled' : '',
+                    casted = HelperPower.createCastedPowerModel(power_id, Game.townId)
+                    $.each(MM.checkAndPublishRawModel('Town',{id:Game.townId}).getCastedPowers(), function(ind,elem){
+                        if(elem.getPowerId() == power_id){
+                            casted = elem,
+                            _classAdd = ' active_animation extendable animated_power_icon animated_power_icon_45x45';
+                        }
+                    })                    ;    
+                $(_power_div)
+                    .append(
+                        $('<div/>', {'class' : "js-power-icon power_icon45x45 "+power_id+" power"+_classAdd, 'data-power_id' : power_id, 'rel' : _god})
+                            .append(
+                                $('<div/>', {'class' : "extend_spell"})
+                                    .append(
+                                        $('<div/>', {'class' : "gold"})
+                                    )
+                                    .append(
+                                        $('<div/>', {'class' : "amount"})
+                                    )
+                            )
+                            .append(
+                                $('<div/>', {'class' : "js-caption"})
+                            )
+                            .on('mouseover', function(e) {
+                                var _tooltipParam = {
+                                    show_costs: true
+                                }
+                                if (typeof casted.getId != 'undefined') {
+                                    _tooltipParam.casted_power_end_at = casted.getEndAt(),
+                                    _tooltipParam.extendable = casted.isExtendable()
+                                }
+                                $(this).tooltip(TooltipFactory.createPowerTooltip(casted_power.getPowerId(), _tooltipParam)).showTooltip(e);
+                            })
+                            .on('click', function(e){
+                                CM.unregister({main : RCGP.getContext().main, sub:"casted_powers"},'grcrt_power_'+casted.getId());
+                                var
+                                    _btn = CM.register(
+                                        {main : RCGP.getContext().main, sub:"casted_powers"},
+                                        'grcrt_power_'+casted.getId(),
+                                        RCGP.getJQElement().find($('.grcrt_power .new_ui_power_icon .gold')).button()
+                                    ),
+                                    power = HelperPower.createCastedPowerModel(power_id, Game.townId);
+                                if (casted.getId() == undefined) {
+                                    power.cast();
+                                } else {
+                                    if (casted.isExtendable()) {
+                                        BuyForGoldWindowFactory.openExtendPowerForGoldWindow(_btn, casted);
+                                        $(this).addClass(_classAdd);
+                                    }
+                                }
+                            })
+                    );
+                RCGP.getJQElement().find($('.game_inner_box'))
+                    .append(
+                        $('<div/>', {'class' : "grcrt_power"})
+                            .append(
+                                _power_div
+                            )
+                    )
+            })
+            $.each(_powers, function(_god, power_id){
+
+//                if (_disable && !casted.isExtendable()) {
                     var
                         power = GameData.powers[power_id],
-            god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[_god],
+                        god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[_god],
                         _godCurr = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id})[_god+'_favor_delta_property'].calculateCurrentValue().unprocessedCurrentValue,
-            marg =42,
+                        marg =33,
                         _elem =
                             $('<div/>',{
                                 'style': 'margin-top:'+marg+'px;color:black;text-shadow: 2px 2px 2px gray;font-size:10px;z-index:3000;font-weight: bold;',
@@ -146,11 +161,12 @@ function _RepConvGRC() {
                                 $(this).remove()
                             })
                     );
-                    RCGP.getJQElement().find($('.new_ui_power_icon'))
+                    RCGP.getJQElement().find($('.power_icon45x45.power.'+power_id))
                         .append(
                             _elem
                         )
-                }
+//                }
+            })
         }
                 
     }

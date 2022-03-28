@@ -2562,7 +2562,7 @@ function _RepConvGRC() {
                             ? 
                                 /*((RepConv.requests.player && RepConv.requests.player.url) ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : RCGP.getOptions().player_id)*/
                                 RepConvTool.getPlayerId4Name(RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val())
-                            : JSON.parse(atob(__tmp[1] || __tmp[0])).id,AQQ
+                            : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
                 _days = parseFloat(RepConvGRC.idle.JSON[_player]||'-1');
             $(elem).addClass('grcrt_idle_days'),
             $(elem).addClass('grcrt_idle_dg'),
@@ -3547,6 +3547,10 @@ function _RepConvGRC() {
                     });
                 });
             observer_attack.observe(document.querySelector('div.activity.attack_indicator'), { attributes: true, childList: true, characterData: true });
+            if($('div.activity.attack_indicator').hasClass('active')){
+                attackIncoming(parseInt($('div.activity.attack_indicator div.count').html()))
+            }
+
         }
 
     }
@@ -3573,10 +3577,11 @@ function _RepConvGRC() {
         new _grcrtWindowGrcRT();
         new _grcrtWindowStats();
         new _grcrtWindowAnalysis();
-        $.Observer(require("data/events").attack.incoming)
-            .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
-                attackIncoming(b.count);
-            });
+        // $.Observer(require("data/events").attack.incoming)
+        //     .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
+        //         console.log('GameEvents.grcrt.attackIncomming '+b.count) /* AQQ */
+        //         attackIncoming(b.count);
+        //     });
         if(require("helpers/commands").getTotalCountOfIncomingAttacks() > 0) {
             attackIncoming(require("helpers/commands").getTotalCountOfIncomingAttacks());
         }

@@ -141,6 +141,7 @@ RepConvLangArray.en = {
             HASRESEARCH:'DO',
             NORESEARCH:'DO NOT',
             SETTINGSAVED:'Settings for [city] have been saved',
+            BTNRESET:'reset',
         },
         RESWND:{
             RESLEFT:'resources left to send',

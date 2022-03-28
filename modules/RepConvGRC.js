@@ -462,9 +462,10 @@ function _RepConvGRC() {
         // statystyki gracza
         if ( (RCGP.getJQElement()).find($(WndId+'RepConvStatsPlayer')).length == 0) {
             var
-                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
-                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
+                // __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
+                // _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? ((RepConv.requests.player && RepConv.requests.player.url) ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : RCGP.getOptions().player_id) : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
                 _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val(),
+                _player = RepConvTool.getPlayerId4Name(_player_name),
                 _link = $('<a/>',{
                             'href' : "#n",
                             'id' : WndName + 'RepConvStatsPlayer',
@@ -491,9 +492,10 @@ function _RepConvGRC() {
         // radar dla miast gracza
         if ( (RCGP.getJQElement()).find($(WndId+'RepConvRadarPlayer')).length == 0) {
             var
-                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
-                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
-                _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val();
+                // __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
+                // _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? ((RepConv.requests.player && RepConv.requests.player.url) ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : RCGP.getOptions().player_id) : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
+                _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val(),
+                _player = RepConvTool.getPlayerId4Name(_player_name);
             RCGP.getJQElement()
                 .find($('#player_info>h3'))
                     .before(
@@ -1745,6 +1747,17 @@ function _RepConvGRC() {
                         $(_parent).find($('.curr4')).html('');
                     }
                 });
+            if(RCGP.getJQElement().find($('.content div#unit_order_booty')).length == 0){
+                RCGP.getJQElement().find($('.content div#duration_container'))
+                    .before(
+                        $('<div/>',{'id':'unit_order_booty','style':'position: relative;top: -28px;cursor: pointer;'})
+                        .click(function(){
+                            $('#trade_type_wood input').select().val(Math.floor(ITowns.getTown(Game.townId).getAvailableTradeCapacity()/3)).blur()
+                            $('#trade_type_stone input').select().val(Math.floor(ITowns.getTown(Game.townId).getAvailableTradeCapacity()/3)).blur()
+                            $('#trade_type_iron input').select().val(Math.floor(ITowns.getTown(Game.townId).getAvailableTradeCapacity()/3)).blur()
+                        })
+                    )
+            }
         }
             $.each(RCGP.getJQElement().find($('.amounts .curr4')), function(ind, elem){
                 var _parent = $(elem).parent();
@@ -2183,7 +2196,7 @@ function _RepConvGRC() {
     }
 
     function emotsTabs(wndType, action){//insertArea){
-        var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px;'}),
+        var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px; top: 44px !important;'}),
             contentLinks = $('<ul/>', {'class':'menu_inner grcrt_menu_inner', 'style':'padding: 0px;left:0px;'}),
             tabs = 
             $('<div/>', {'id': 'emots_popup_' + wndType, 'style': 'display:none; z-index: 5000; min-height: 180px;max-height: 265px;','class':'grcrtbb'})
@@ -2537,8 +2550,19 @@ function _RepConvGRC() {
     function addIdleDays(RCGP){
         $.each(RCGP.getJQElement().find($('.grcrt_idle')), function(ind, elem){
             var
-                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
-                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
+                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") 
+                    ? 
+                        btoa(JSON.stringify({id:RCGP.getOptions().player_id})) 
+                    : 
+                        $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
+                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) 
+                    ? Game.player_id 
+                    : 
+                        (RCGP.getContext().sub == "player_get_profile_html") 
+                            ? 
+                                /*((RepConv.requests.player && RepConv.requests.player.url) ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : RCGP.getOptions().player_id)*/
+                                RepConvTool.getPlayerId4Name(RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val())
+                            : JSON.parse(atob(__tmp[1] || __tmp[0])).id,AQQ
                 _days = parseFloat(RepConvGRC.idle.JSON[_player]||'-1');
             $(elem).addClass('grcrt_idle_days'),
             $(elem).addClass('grcrt_idle_dg'),
@@ -3456,6 +3480,9 @@ function _RepConvGRC() {
                     '.grcrt_brackets:before { content: "("}\n'+
                     '.grcrt_brackets:after { content: ")"}'
                 )
+        )
+        .append(
+            $('<style/>', {'id':'grcrt_ft'})
         );
     // obsługa YT
     $('#ui_box')

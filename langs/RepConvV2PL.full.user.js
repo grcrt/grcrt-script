@@ -157,6 +157,7 @@ RepConvLangArray.pl = {
 			HASRESEARCH:'MASZ',
 			NORESEARCH:'NIE MASZ',
 			SETTINGSAVED:'Ustawienia dla miasta [city] zostały zapisane',
+			BTNRESET:'usuń ustawienia',
 		},
 		RESWND:{
 			RESLEFT:'pozostało do wysłania',

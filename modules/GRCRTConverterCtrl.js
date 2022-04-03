@@ -489,6 +489,44 @@ function _GRCRTConverterCtrl(wnd) {
         })
         genImage(report.resources, 30, GRCRTtpl.rct.genImgM+5, 7.5)
     }
+    function __getReportResourcesSpy(){
+        RepConv.Debug && console.log("__getReportResources2");
+        var _UA = {};
+        report.resources = __initResources(),
+        report.resources.title = _content.find($('#right_side>h4')).eq(1).html()||' ',
+        $.each(_content.find($('#right_side>div.spy_success_left_align')).eq(1).find($('li>div.res_background32')), function(indR, elemR){
+            switch($(elemR).children()[0].className){
+            case "resources_small wood":
+                        _UA = {
+                            i : 'S1',
+                            b : $(elemR).nextAll().text()
+                        },
+                        report.resources.ua.push(_UA),
+                report.resources.wood = $(elemR).nextAll().text();
+                //report.resources.count += RepConvTool.Unit(report.resources.wood, "000") + GRCRTtpl.rct.separator;
+                break;
+            case "resources_small stone":
+                        _UA = {
+                            i : 'S2',
+                            b : $(elemR).nextAll().text()
+                        },
+                        report.resources.ua.push(_UA),
+                report.resources.stone = $(elemR).nextAll().text();
+                //report.resources.count += RepConvTool.Unit(report.resources.stone, "000") + GRCRTtpl.rct.separator;
+                break;
+            case "resources_small iron":
+                        _UA = {
+                            i : 'S3',
+                            b : $(elemR).nextAll().text()
+                        },
+                        report.resources.ua.push(_UA),
+                report.resources.iron = $(elemR).nextAll().text();
+                //report.resources.count += RepConvTool.Unit(report.resources.iron, "000") + GRCRTtpl.rct.separator;
+                break;
+            }
+        })
+        genImage(report.resources, 30, GRCRTtpl.rct.genImgM+5, 7.5)
+    }
     function __getReportBunt(){
         RepConv.Debug && console.log("__getReportBunt");
         report.bunt = '';
@@ -663,6 +701,7 @@ function _GRCRTConverterCtrl(wnd) {
             }
             report[site].full.ua.push(_UA),
             report[site].splits[rowNumber].ua.push(_UA)
+            // console.log(report);
             colCount++;
         }),
         genImage(report[site].full),
@@ -1964,14 +2003,14 @@ function _GRCRTConverterCtrl(wnd) {
                 || (_content.find($('div#right_side>.spy_success_left_align')) && _content.find($('div#right_side>.spy_success_left_align')).eq(0).text().trim())
                 || _content.find($('div#right_side>p'))[0].innerHTML.replace(/.*:([0-9]*)/, '$1').trim()
                 : '',
-        (newForm ? __getReportResources2() : (__getReportResources(), report.resources.title = _content.find($('#right_side>#resources')).prev().html()))
+        (newForm ? __getReportResourcesSpy() : (__getReportResources(), report.resources.title = _content.find($('#right_side>#resources')).prev().html()))
         if (report.iron.count != '') {
             report.iron.count = RepConvTool.AddSize(report.iron.count,8);
         }
         try {
             report.god = {
-                title : (newForm ? _content.find($('#right_side>h4')).eq(2).html() : ""),
-                img_url : (newForm ? RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((_content.find($('div#right_side>.spy_success_left_align')).eq(2).find($('.god_display .god_mini')).attr('class').split(/\s+/)[1] || 'nogod')), "img") : "")
+                title : (newForm ? _content.find($('#right_side>h4')).eq(2).html() + "("+_content.find($('div#right_side>.spy_success_left_align')).eq(2).find($('.god_display .god_micro')).attr('title')+")" : ""),
+                img_url : (newForm ? RepConvTool.Adds((RepConv.grcrt_cdn+"ui/3/{0}.png").RCFormat((_content.find($('div#right_side>.spy_success_left_align')).eq(2).find($('.god_display .god_micro')).attr('class').split(/\s+/)[1] || 'nogod')), "img") : "")
             }
         } catch (__err){
             report.god = {

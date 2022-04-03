@@ -867,4 +867,15 @@ function _RepConvTool() {
         $('<script/>',{'type':"text/template", 'id':"tpl_grcrt_button"})
             .text('<div class="left"></div><div class="right"></div><div class="caption js-caption"><% if (icon && icon_position === \'left\') { %><div class="icon"></div><% } %><img src="https://cdn.grcrt.net/img/octopus.png" style="width: 20px;float:left;margin: 0px 5px 0px -6px"><%= caption %><% if (icon && icon_position === \'right\') { %><div class="icon"></div><% } %><div class="effect js-effect"></div></div>')
     );
+    this.getPlayerId4Name = function(pName){
+        var _ret = undefined;
+        try{
+            $.each(RepConv.cachePlayers, function(pId,pData){
+                if (pData.name == pName) 
+                    _ret = pData.id;
+            })
+            return _ret;
+        } catch(e){}
+        return null;
+    }
 }

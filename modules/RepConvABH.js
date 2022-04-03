@@ -64,8 +64,8 @@ function _RepConvABH(){
                     .append(
                         '.grcrt_abh_unit_wrapper {'+
                             'position: absolute;'+
-                            'top: 135px;'+
-                            'left: 120px;'+
+                            'top: 190px;'+
+                            'left: 35px;'+
                             'cursor:pointer;'+
                         '}'
                     )
@@ -326,6 +326,24 @@ function _RepConvABH(){
 					setTimeout(function(){
 						HumanMessage.success(RepConvTool.GetLabel('ABH.WND.SETTINGSAVED').replace('[city]',Game.townName))
 					},0)
+                }
+            )
+            .appendTo("#GRCRT_abh_settings .GRCRT_abh_buttons")
+            .css("margin", "auto"),
+        $(RepConvForm.button(RepConvTool.GetLabel('ABH.WND.BTNRESET')))
+            .click(
+                function(){
+                    var storeArr = RepConvABH.savedArr || {},
+                    thisTown = Game.townId;
+                    delete storeArr[thisTown]
+                    RepConvABH.savedArr = storeArr,
+                    RepConvTool.setItem(RepConv.CookieUnitsABH,JSON.stringify(RepConvABH.savedArr));
+                    if (RepConv.Debug) console.log(JSON.stringify(storeArr));
+                    //GRCRTabhWnd.close();
+                    (GRCRTabhWnd.getJQElement()).find($('.tech_tree_box span.research_icon')).addClass('inactive is_researched grcrt_set')
+                    setTimeout(function(){
+                        HumanMessage.success(RepConvTool.GetLabel('ABH.WND.SETTINGSAVED').replace('[city]',Game.townName))
+                    },0)
                 }
             )
             .appendTo("#GRCRT_abh_settings .GRCRT_abh_buttons")

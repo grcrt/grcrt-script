@@ -42,96 +42,111 @@ function _RepConvGRC() {
         }
     }
     function addSpell(RCGP){
-        var
+        var _powers = {},
+            _power_div = $('<div/>', {'class' : "powers_container clearfix"}),
             power_id = undefined,
-            _god = undefined;
+            _god = undefined,
+            _pow_ena = false;
         switch(RCGP.getController()){
             case "building_barracks":
                 $.each(MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getProductionOverview(), function(ind, elem){
                     if (ind == 'hera') {
                         power_id = 'fertility_improvement',
-                        _god = 'hera'
+                        // _god = 'hera'
+                        _powers[ind] = power_id
+                    }
+                    if (ind == 'ares') {
+                        power_id = 'spartan_training',
+                        // _god = 'hera'
+                        _powers[ind] = power_id
                     }
                 })
+                _pow_ena = MM.checkAndPublishRawModel('Town',{id:Game.townId}).getBuildings().getBuildingLevel('barracks') > 0;
                 break;
             case "building_docks":
                 $.each(MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getProductionOverview(), function(ind, elem){
                     if (ind == 'poseidon') {
                         power_id = 'call_of_the_ocean',
-                        _god = 'poseidon'
+                        // _god = 'poseidon'
+                        _powers[ind] = power_id
                     }
                 })
+                _pow_ena = MM.checkAndPublishRawModel('Town',{id:Game.townId}).getBuildings().getBuildingLevel('docks') > 0;
                 break;
         }
-        if (power_id != undefined && $('#unit_order .grcrt_power').length == 0) {
-            var
-                casted_power = HelperPower.createCastedPowerModel(power_id, Game.townId),
-                _disable = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).get(_god+'_favor') < GameData.powers[power_id].favor,
-                _classAdd = (_disable) ? ' disabled' : '',
-                casted = HelperPower.createCastedPowerModel(power_id, Game.townId)
-                $.each(MM.checkAndPublishRawModel('Town',{id:Game.townId}).getCastedPowers(), function(ind,elem){
-                    if(elem.getPowerId() == power_id){
-                        casted = elem,
-                        _classAdd = ' active_animation extendable';
-                    }
-                })
-                ;    
-            RCGP.getJQElement().find($('.game_inner_box'))
-                .append(
-                    $('<div/>', {'class' : "grcrt_power"})
-                        .append(
-                            $('<div/>', {'class' : "powers_container clearfix"})
-                                .append(
-                                    $('<div/>', {'class' : "power_icon45x45 "+power_id+" new_ui_power_icon js-power-icon"+_classAdd, 'data-power_id' : power_id, 'rel' : _god})
-                                        .append(
-                                            $('<div/>', {'class' : "extend_spell"})
-                                                .append(
-                                                    $('<div/>', {'class' : "gold"})
-                                                )
-                                                .append(
-                                                    $('<div/>', {'class' : "amount"})
-                                                )
-                                        )
-                                        .append(
-                                            $('<div/>', {'class' : "js-caption"})
-                                        )
-                                        .on('mouseover', function(e) {
-                                            var _tooltipParam = {
-                                                show_costs: true
-                                            }
-                                            if (typeof casted.getId != 'undefined') {
-                                                _tooltipParam.casted_power_end_at = casted.getEndAt(),
-                                                _tooltipParam.extendable = casted.isExtendable()
-                                            }
-                                            $(this).tooltip(TooltipFactory.createPowerTooltip(casted_power.getPowerId(), _tooltipParam)).showTooltip(e);
-                                        })
-                                        .on('click', function(e){
-                                            CM.unregister({main : RCGP.getContext().main, sub:"casted_powers"},'grcrt_power_'+casted.getId());
-                                            var
-                                                _btn = CM.register(
-                                                    {main : RCGP.getContext().main, sub:"casted_powers"},
-                                                    'grcrt_power_'+casted.getId(),
-                                                    RCGP.getJQElement().find($('.grcrt_power .new_ui_power_icon .gold')).button()
-                                                ),
-                                                power = HelperPower.createCastedPowerModel(power_id, Game.townId);
-                                            if (casted.getId() == undefined) {
-                                                power.cast();
-                                            } else {
-                                                if (casted.isExtendable()) {
-                                                    BuyForGoldWindowFactory.openExtendPowerForGoldWindow(_btn, casted);
-                                                    $(this).addClass(_classAdd);
-                                                }
-                                            }
-                                        })
-                                )
-                        )
-                )
-                if (_disable && !casted.isExtendable()) {
+        if (/*power_id != undefined*/ _pow_ena && $('#unit_order .grcrt_power').length == 0) {
+            $.each(_powers, function(_god, power_id){
+                var
+                    casted_power = HelperPower.createCastedPowerModel(power_id, Game.townId),
+                    _disable = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).get(_god+'_favor') < GameData.powers[power_id].favor,
+                    _classAdd = (_disable) ? ' disabled' : '',
+                    casted = HelperPower.createCastedPowerModel(power_id, Game.townId)
+                    $.each(MM.checkAndPublishRawModel('Town',{id:Game.townId}).getCastedPowers(), function(ind,elem){
+                        if(elem.getPowerId() == power_id){
+                            casted = elem,
+                            _classAdd = ' active_animation extendable animated_power_icon animated_power_icon_45x45';
+                        }
+                    })                    ;    
+                $(_power_div)
+                    .append(
+                        $('<div/>', {'class' : "js-power-icon power_icon45x45 "+power_id+" power"+_classAdd, 'data-power_id' : power_id, 'rel' : _god})
+                            .append(
+                                $('<div/>', {'class' : "extend_spell"})
+                                    .append(
+                                        $('<div/>', {'class' : "gold"})
+                                    )
+                                    .append(
+                                        $('<div/>', {'class' : "amount"})
+                                    )
+                            )
+                            .append(
+                                $('<div/>', {'class' : "js-caption"})
+                            )
+                            .on('mouseover', function(e) {
+                                var _tooltipParam = {
+                                    show_costs: true
+                                }
+                                if (typeof casted.getId != 'undefined') {
+                                    _tooltipParam.casted_power_end_at = casted.getEndAt(),
+                                    _tooltipParam.extendable = casted.isExtendable()
+                                }
+                                $(this).tooltip(TooltipFactory.createPowerTooltip(casted_power.getPowerId(), _tooltipParam)).showTooltip(e);
+                            })
+                            .on('click', function(e){
+                                CM.unregister({main : RCGP.getContext().main, sub:"casted_powers"},'grcrt_power_'+casted.getId());
+                                var
+                                    _btn = CM.register(
+                                        {main : RCGP.getContext().main, sub:"casted_powers"},
+                                        'grcrt_power_'+casted.getId(),
+                                        RCGP.getJQElement().find($('.grcrt_power .new_ui_power_icon .gold')).button()
+                                    ),
+                                    power = HelperPower.createCastedPowerModel(power_id, Game.townId);
+                                if (casted.getId() == undefined) {
+                                    power.cast();
+                                } else {
+                                    if (casted.isExtendable()) {
+                                        BuyForGoldWindowFactory.openExtendPowerForGoldWindow(_btn, casted);
+                                        $(this).addClass(_classAdd);
+                                    }
+                                }
+                            })
+                    );
+                RCGP.getJQElement().find($('.game_inner_box'))
+                    .append(
+                        $('<div/>', {'class' : "grcrt_power"})
+                            .append(
+                                _power_div
+                            )
+                    )
+            })
+            $.each(_powers, function(_god, power_id){
+
+//                if (_disable && !casted.isExtendable()) {
                     var
                         power = GameData.powers[power_id],
-            god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[_god],
+                        god = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id}).getCurrentProductionOverview()[_god],
                         _godCurr = MM.checkAndPublishRawModel('PlayerGods', {id : Game.player_id})[_god+'_favor_delta_property'].calculateCurrentValue().unprocessedCurrentValue,
-            marg =42,
+                        marg =33,
                         _elem =
                             $('<div/>',{
                                 'style': 'margin-top:'+marg+'px;color:black;text-shadow: 2px 2px 2px gray;font-size:10px;z-index:3000;font-weight: bold;',
@@ -146,11 +161,12 @@ function _RepConvGRC() {
                                 $(this).remove()
                             })
                     );
-                    RCGP.getJQElement().find($('.new_ui_power_icon'))
+                    RCGP.getJQElement().find($('.power_icon45x45.power.'+power_id))
                         .append(
                             _elem
                         )
-                }
+//                }
+            })
         }
                 
     }
@@ -286,7 +302,12 @@ function _RepConvGRC() {
     }
 
     function wrapForumTabs(RCGP){ // forum sojuszu - zakładki w liniach
-        if (RepConv.active.ftabs) {
+        if (RepConv.active.ftabs 
+            && 
+            RCGP.getWindowVeryMainNode().find($('div.menu_wrapper.minimize.menu_wrapper_scroll')).parent().find($('a.next')).length != 0
+        ) {
+            $('#grcrt_ft').text("")
+            RCGP.getWindowVeryMainNode().addClass('grcrt_ft')
             var
                 Q_DivWrapper    = RCGP.getWindowVeryMainNode().find($('div.menu_wrapper.minimize.menu_wrapper_scroll')),
                 Q_DivWrapperUl  = RCGP.getWindowVeryMainNode().find($('div.menu_wrapper.minimize.menu_wrapper_scroll>ul')),
@@ -304,14 +325,23 @@ function _RepConvGRC() {
                 $(Q_DivWrapper).parent().find($('a.next')).remove(),
                 $(Q_DivWrapper).parent().find($('a.prev')).remove();
                 
+                var linia = 0, Q_Mnoznik = 1;
+
+                $.each(RCGP.getWindowVeryMainNode().find($('ul.menu_inner>li')), function(il, li){
+                    if(linia+$(li).width() > RCGP.getWindowVeryMainNode().find($('ul.menu_inner')).width()){
+                        linia = 0, Q_Mnoznik++
+                    } else {
+                        linia+=$(li).width()
+                    }
+                })
                 var
-                    Q_Mnoznik = $($('ul.menu_inner li')[$('ul.menu_inner li').length-1]).position().top / 22 + 1,//Math.ceil(Q_DivWrapperUl.width() / Q_DivWrapper.width());
+                    // Q_Mnoznik = $($('ul.menu_inner li')[$('ul.menu_inner li').length-1]).position().top / 22 + 1,//Math.ceil(Q_DivWrapperUl.width() / Q_DivWrapper.width());
                     Q_zindex = $('#gptop'+Q_Mnoznik).css('z-index');
                 
-                
-                (RCGP.getJQElement()).find($('div.gpwindow_content')).css('top', Q_DivWrapper.height() * (Q_Mnoznik + 1)),
-                Q_DivWrapper.height(Q_DivWrapper.height() * Q_Mnoznik),
-        RCGP.setHeight(RCGP.getOptions().maxHeight+22*(Q_Mnoznik - 1));
+                $('#grcrt_ft').text('.grcrt_ft .menu_wrapper { height: '+(Q_DivWrapper.height() * Q_Mnoznik)+'px !important;} .grcrt_ft .gpwindow_frame>.gpwindow_content { top: '+(Q_DivWrapper.height() * (Q_Mnoznik + 1))+'px !important;}'),
+                // (RCGP.getJQElement()).find($('div.gpwindow_content')).css('top', Q_DivWrapper.height() * (Q_Mnoznik + 1)),
+                // Q_DivWrapper.height(Q_DivWrapper.height() * Q_Mnoznik),
+                RCGP.setHeight(RCGP.getOptions().maxHeight+22*(Q_Mnoznik - 1));
                 //(RCGP.getJQElement()).height(
                 //    Q_DivForm.height() + Q_DivWrapper.height() * (Q_Mnoznik) + 22
                 //    //(RCGP.getJQElement()).height() + Q_DivWrapper.height() * (Q_Mnoznik - 1)
@@ -344,6 +374,7 @@ function _RepConvGRC() {
             }
         }
     }
+
     function islandBBCode(RCGP){ // info o graczach na wyspie - dodanie listy miast w BBCode
         function addDetails(RCGP, itemId){
             if ((RCGP.getJQElement()).find($('#'+itemId+' li span.player_name a.gp_player_link')).length == 0) {
@@ -431,9 +462,10 @@ function _RepConvGRC() {
         // statystyki gracza
         if ( (RCGP.getJQElement()).find($(WndId+'RepConvStatsPlayer')).length == 0) {
             var
-                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
-                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
+                // __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
+                // _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? ((RepConv.requests.player && RepConv.requests.player.url) ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : RCGP.getOptions().player_id) : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
                 _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val(),
+                _player = RepConvTool.getPlayerId4Name(_player_name),
                 _link = $('<a/>',{
                             'href' : "#n",
                             'id' : WndName + 'RepConvStatsPlayer',
@@ -460,9 +492,10 @@ function _RepConvGRC() {
         // radar dla miast gracza
         if ( (RCGP.getJQElement()).find($(WndId+'RepConvRadarPlayer')).length == 0) {
             var
-                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
-                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
-                _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val();
+                // __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
+                // _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? ((RepConv.requests.player && RepConv.requests.player.url) ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : RCGP.getOptions().player_id) : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
+                _player_name = RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val(),
+                _player = RepConvTool.getPlayerId4Name(_player_name);
             RCGP.getJQElement()
                 .find($('#player_info>h3'))
                     .before(
@@ -1256,7 +1289,7 @@ function _RepConvGRC() {
                 _townsDD =
                     register(
                         'grcrt_towns',
-                        $('<div/>',{'id':'grcrt_towns','class':'dropdown default','style':'margin-left:5px;width: 180px;'})
+                        $('<div/>',{'id':'grcrt_towns','class':'dropdown default','style':'margin-left:5px;width: 140px;'})
                             .dropdown({
                                 list_pos : 'left',
                                 value : (!cmGet('grcrt_townsDD')) ? Options.value : cmGet('grcrt_townsDD').getValue(),
@@ -1275,15 +1308,15 @@ function _RepConvGRC() {
                                 $('<span/>',{'class':"grcrt_filter"})
                                     .html(RCGP.getJQElement().find($('#command_filter>span')).html())
                             )
-                            .append(
-                                $('<span/>',{'class':"overview_incoming icon grcrt_filter"})
-                                    .mousePopup(new MousePopup(RepConvTool.GetLabel('COMMAND.INCOMING')))
-                                    .addClass((parseInt(cmGet('grcrt_FI').getValue())==0)?'grcrt_disabled':'')
-                                    .click(function(){
-                                        $(this).toggleClass('grcrt_disabled'),
-                                        cmGet('grcrt_FI').setValue($(this).hasClass('grcrt_disabled')?'0':'1')
-                                    })
-                            )
+                            // .append(
+                            //     $('<span/>',{'class':"overview_incoming icon grcrt_filter"})
+                            //         .mousePopup(new MousePopup(RepConvTool.GetLabel('COMMAND.INCOMING')))
+                            //         .addClass((parseInt(cmGet('grcrt_FI').getValue())==0)?'grcrt_disabled':'')
+                            //         .click(function(){
+                            //             $(this).toggleClass('grcrt_disabled'),
+                            //             cmGet('grcrt_FI').setValue($(this).hasClass('grcrt_disabled')?'0':'1')
+                            //         })
+                            // )
                             .append(
                                 $('<span/>',{'class':"overview_outgoing icon grcrt_filter"})
                                     .mousePopup(new MousePopup(RepConvTool.GetLabel('COMMAND.OUTGOING')))
@@ -1302,9 +1335,9 @@ function _RepConvGRC() {
                                         cmGet('grcrt_FR').setValue($(this).hasClass('grcrt_disabled')?'0':'1')
                                     })
                             )
-                            .append(
-                                $('<label/>').text(RepConvTool.GetLabel('COMMAND.FORTOWN'))
-                            )
+                            // .append(
+                            //     $('<label/>').text(RepConvTool.GetLabel('COMMAND.FORTOWN'))
+                            // )
                             .append(_townsDD)
                     )
                 if (parseInt(cmGet('grcrt_townsDD').getValue()) == 0) {
@@ -1714,6 +1747,17 @@ function _RepConvGRC() {
                         $(_parent).find($('.curr4')).html('');
                     }
                 });
+            if(RCGP.getJQElement().find($('.content div#unit_order_booty')).length == 0){
+                RCGP.getJQElement().find($('.content div#duration_container'))
+                    .before(
+                        $('<div/>',{'id':'unit_order_booty','style':'position: relative;top: -28px;cursor: pointer;'})
+                        .click(function(){
+                            $('#trade_type_wood input').select().val(Math.floor(ITowns.getTown(Game.townId).getAvailableTradeCapacity()/3)).blur()
+                            $('#trade_type_stone input').select().val(Math.floor(ITowns.getTown(Game.townId).getAvailableTradeCapacity()/3)).blur()
+                            $('#trade_type_iron input').select().val(Math.floor(ITowns.getTown(Game.townId).getAvailableTradeCapacity()/3)).blur()
+                        })
+                    )
+            }
         }
             $.each(RCGP.getJQElement().find($('.amounts .curr4')), function(ind, elem){
                 var _parent = $(elem).parent();
@@ -2152,7 +2196,7 @@ function _RepConvGRC() {
     }
 
     function emotsTabs(wndType, action){//insertArea){
-        var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px;'}),
+        var content = $('<div/>', {'class': 'gpwindow_content', 'style': 'overflow-y:auto !important; max-height: 185px; min-height: 120px; top: 44px !important;'}),
             contentLinks = $('<ul/>', {'class':'menu_inner grcrt_menu_inner', 'style':'padding: 0px;left:0px;'}),
             tabs = 
             $('<div/>', {'id': 'emots_popup_' + wndType, 'style': 'display:none; z-index: 5000; min-height: 180px;max-height: 265px;','class':'grcrtbb'})
@@ -2506,8 +2550,19 @@ function _RepConvGRC() {
     function addIdleDays(RCGP){
         $.each(RCGP.getJQElement().find($('.grcrt_idle')), function(ind, elem){
             var
-                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") ? btoa(JSON.stringify({id:RCGP.getOptions().player_id})) : $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
-                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) ? Game.player_id : (RCGP.getContext().sub == "player_get_profile_html") ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
+                __tmp = ((RCGP.getContext().sub == "player_get_profile_html") 
+                    ? 
+                        btoa(JSON.stringify({id:RCGP.getOptions().player_id})) 
+                    : 
+                        $(elem).nextAll('.gp_player_link').attr('href')).split(/#/),
+                _player = (RCGP.getType() == Layout.wnd.TYPE_PLAYER_PROFILE_EDIT) 
+                    ? Game.player_id 
+                    : 
+                        (RCGP.getContext().sub == "player_get_profile_html") 
+                            ? 
+                                /*((RepConv.requests.player && RepConv.requests.player.url) ? JSON.parse(unescape(RepConv.requests.player.url).match(/({.*})/)[0]).player_id : RCGP.getOptions().player_id)*/
+                                RepConvTool.getPlayerId4Name(RCGP.getJQElement().find($('#write_message_form input[name="recipients"]')).val())
+                            : JSON.parse(atob(__tmp[1] || __tmp[0])).id,
                 _days = parseFloat(RepConvGRC.idle.JSON[_player]||'-1');
             $(elem).addClass('grcrt_idle_days'),
             $(elem).addClass('grcrt_idle_dg'),
@@ -3425,6 +3480,9 @@ function _RepConvGRC() {
                     '.grcrt_brackets:before { content: "("}\n'+
                     '.grcrt_brackets:after { content: ")"}'
                 )
+        )
+        .append(
+            $('<style/>', {'id':'grcrt_ft'})
         );
     // obsługa YT
     $('#ui_box')
@@ -3489,6 +3547,10 @@ function _RepConvGRC() {
                     });
                 });
             observer_attack.observe(document.querySelector('div.activity.attack_indicator'), { attributes: true, childList: true, characterData: true });
+            if($('div.activity.attack_indicator').hasClass('active')){
+                attackIncoming(parseInt($('div.activity.attack_indicator div.count').html()))
+            }
+
         }
 
     }
@@ -3515,10 +3577,11 @@ function _RepConvGRC() {
         new _grcrtWindowGrcRT();
         new _grcrtWindowStats();
         new _grcrtWindowAnalysis();
-        $.Observer(require("data/events").attack.incoming)
-            .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
-                attackIncoming(b.count);
-            });
+        // $.Observer(require("data/events").attack.incoming)
+        //     .subscribe('GameEvents.grcrt.attackIncomming',function(a,b){
+        //         console.log('GameEvents.grcrt.attackIncomming '+b.count) /* AQQ */
+        //         attackIncoming(b.count);
+        //     });
         if(require("helpers/commands").getTotalCountOfIncomingAttacks() > 0) {
             attackIncoming(require("helpers/commands").getTotalCountOfIncomingAttacks());
         }

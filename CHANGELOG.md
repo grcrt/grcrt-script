@@ -1,3 +1,15 @@
+# [5.3.0](https://github.com/grcrt/grcrt-script/compare/v5.2.0...v5.3.0) (2022-05-12)
+
+
+### Bug Fixes
+
+* wall units displayed as smart numbers ([701566c](https://github.com/grcrt/grcrt-script/commit/701566ced16086615c6195879703ec0ce1a8213a))
+
+
+### Features
+
+* adds hero icon to town list ([da8d091](https://github.com/grcrt/grcrt-script/commit/da8d09118b6b93964c0cfef4ef52c0e754921987))
+
 # [5.2.0](https://github.com/grcrt/grcrt-script/compare/v5.1.2...v5.2.0) (2022-04-03)
 
 

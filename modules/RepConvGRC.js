@@ -2193,13 +2193,27 @@ function _RepConvGRC() {
     function townPopup(){
         if (RepConv.settings[RepConv.Cookie+'_town_popup']){
             var acc = {}, 
-                alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName()
+                alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName(),
+                heroes = MM.getCollections()['PlayerHero'][0], heroArray = {},
+                i = DM.getl10n("heroes", "common")
+            $.each(heroes.getHeroes(), function(idh, hhero){
+                var o = GameData.heroes[hhero.getId()];
+                heroArray[hhero.getOriginTownId()] = {
+                    id: hhero.getId(),
+                    level: hhero.getLevel(), 
+                    name: hhero.getName(),
+                    category: i.hero_of[o.category],
+                    txt_lvl: i.level(hhero.getLevel())
+                }
+                
+            })
             $.each(ITowns.towns, function(ind,town){
                 var cc = town;
                 cc.points = cc.getPoints(),
                 cc.player_name = Game.player_name,
                 cc.alliance_name = alliance_name,
                 cc.tooltip = new MousePopup(WMap.createTownTooltip('town',cc)),
+                cc.grcrt_hero = heroArray[cc.getId()],
                 acc[ind]=cc
                 
             })
@@ -2208,6 +2222,10 @@ function _RepConvGRC() {
                 // $(et).find($('.town_name')).mousePopup(new MousePopup(WMap.createTownTooltip('town',cc)))
                 $(et).find($('.town_name')).mousePopup(cc.tooltip)
                 $(et).addClass('grcrtPopup')
+                if(cc.grcrt_hero){
+                    $(et).prepend('<div class="grcrt_hero hero_icon hero25x25 '+cc.grcrt_hero.id+'"><div class="value">'+cc.grcrt_hero.level+'</div></div>')
+                    $(et).find($('.grcrt_hero.hero_icon')).tooltip('<div class="ui_hero_tooltip_small"><div class="icon_border"><div class="icon hero50x50 ' + cc.grcrt_hero.id + '"></div></div><b>' + cc.grcrt_hero.name + '</b><br />' + cc.grcrt_hero.category + '<br /><br /><b>' + cc.grcrt_hero.txt_lvl + '</b><br /></div>')
+                }
             })
             
         }
@@ -3497,6 +3515,10 @@ function _RepConvGRC() {
                 .append(
                     '.grcrt_brackets:before { content: "("}\n'+
                     '.grcrt_brackets:after { content: ")"}'
+                )
+                .append(
+                    '.grcrt_hero { float: left; margin: 0 2px;}\n'+
+                    '.grcrt_hero.hero_icon .value { color: white; float: right; text-shadow: 1px 1px 0 #000; padding-top: 5px;}'
                 )
         )
         .append(

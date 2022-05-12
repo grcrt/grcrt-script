@@ -7,6 +7,7 @@ function _RepConvGRC() {
     var idleInterval = 1000*60*15;
     var stopCount = 0;
     var wonders = {};
+    var typUnits = {1: ['defAtt', 'losAtt'], 2: ['defDef', 'losDef']};
 
     function genCheckBox(pName, pChecked, pLabel) {
         return $('<div/>', {'class':'checkbox_new', 'style':'margin-bottom: 10px; display: block;'})
@@ -747,8 +748,9 @@ function _RepConvGRC() {
                         RepConv.Debug && console.log(elemGr.getElementsByClassName('wall_report_unit').length);
                         $.each($(elemGr).find($('.grcrt_wall_units')), function(indUn, elemUn) {
                             var
-                                unitName = RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
-                                unitKill = $(elemUn).find($('.place_unit_black')).html();
+                                unitName = $(elemUn).find($('.wall_report_unit')).data('type'),//RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
+                                unitKill = $(elemUn).find($('.wall_report_unit')).data('unit_count');
+                                //$(elemUn).find($('.place_unit_black')).html();
                             cookie[typUnits[indLi][indGr]][unitName] = unitKill;
                         });
                     });
@@ -759,8 +761,9 @@ function _RepConvGRC() {
                         RepConv.Debug && console.log(elemGr.getElementsByClassName('wall_report_unit').length);
                         $.each($(elemGr).find($('.grcrt_wall_units')), function(indUn, elemUn) {
                             var
-                                unitName = RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
-                                unitKill = $(elemUn).find($('.place_unit_black')).html();
+                                unitName = $(elemUn).find($('.wall_report_unit')).data('type'),//RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
+                                unitKill = $(elemUn).find($('.wall_report_unit')).data('unit_count');
+                                //$(elemUn).find($('.place_unit_black')).html();
                             cookie[typUnits[indLi][indGr + 1]][unitName] = unitKill;
                         });
                     });
@@ -833,6 +836,7 @@ function _RepConvGRC() {
     
                 RepConv.Debug && console.log('Load wall...');
                 var unitDiff;
+                var hun = require("helpers/unit_numbers");
                 $.each(RCGP.getJQElement().find($('div#building_wall li.odd')), function(indLi, elemLi) {
                     if (indLi > 0) {
                         // lewa strona
@@ -842,8 +846,9 @@ function _RepConvGRC() {
                             RepConv.Debug && console.log(elemGr.getElementsByClassName('wall_report_unit').length);
                             $.each($(elemGr).find($('.grcrt_wall_units')), function(indUn, elemUn) {
                                 var
-                                    unitName = RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
-                                    unitKill = $(elemUn).find($('.place_unit_black')).html(),
+                                    unitName = $(elemUn).find($('.wall_report_unit')).data('type'),//RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
+                                    unitKill = $(elemUn).find($('.wall_report_unit')).data('unit_count'),
+                                    //$(elemUn).find($('.place_unit_black')).html(),
                                     unitSave = units[typUnits[indLi][indGr]][unitName];
                                 RepConv.Debug && console.log(unitName + ' ' + unitSave + '/' + unitKill);
                                 unitDiff = unitKill;
@@ -851,7 +856,7 @@ function _RepConvGRC() {
                                     unitDiff = unitKill - unitSave;
                                 }
                                 RepConv.Debug && console.log('unitDiff = ' + unitDiff);
-                                $(elemUn).find($('.grcrt_wall_diff')).html((unitDiff != 0) ? unitDiff : '');
+                                $(elemUn).find($('.grcrt_wall_diff')).html((unitDiff != 0) ? hun.shortenNumber(unitDiff) : '');
                             });
                         });
                         // prawa strona
@@ -861,8 +866,9 @@ function _RepConvGRC() {
                             RepConv.Debug && console.log(elemGr.getElementsByClassName('wall_report_unit').length);
                             $.each($(elemGr).find($('.grcrt_wall_units')), function(indUn, elemUn) {
                                 var
-                                    unitName = RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
-                                    unitKill = $(elemUn).find($('.place_unit_black')).html(),
+                                    unitName = $(elemUn).find($('.wall_report_unit')).data('type'),//RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit'))),
+                                    unitKill = $(elemUn).find($('.wall_report_unit')).data('unit_count'),
+                                    //$(elemUn).find($('.place_unit_black')).html(),
                                     unitSave = units[typUnits[indLi][indGr + 1]][unitName];
                                 RepConv.Debug && console.log(unitName + ' ' + unitSave + '/' + unitKill);
                                 unitDiff = unitKill;
@@ -870,7 +876,7 @@ function _RepConvGRC() {
                                     unitDiff = unitKill - unitSave;
                                 }
                                 RepConv.Debug && console.log('unitDiff = ' + unitDiff);
-                                $(elemUn).find($('.grcrt_wall_diff')).html((unitDiff != 0) ? unitDiff : '');
+                                $(elemUn).find($('.grcrt_wall_diff')).html((unitDiff != 0) ? hun.shortenNumber(unitDiff) : '');
                             });
                         });
                     }
@@ -888,6 +894,7 @@ function _RepConvGRC() {
             var
                 units = RepConvTool.getItem(RepConv.Cookie),
                 _walls = RepConvTool.getItem(RepConv.CookieWall) || [];
+            // var typUnits = {1: ['defAtt', 'losAtt'], 2: ['defDef', 'losDef']};
             if ((loadTimeStamp == _curTimestamp)) {
                 units = _currWallValues;
             } else {
@@ -897,6 +904,7 @@ function _RepConvGRC() {
                     }
                 })
             }
+            var hun = require("helpers/unit_numbers");
             saveBtn.disable(!(loadTimeStamp == _curTimestamp));
             $.each(RCGP.getJQElement().find($('div#building_wall li.odd')), function(indLi, elemLi) {
                 if (indLi > 0) {
@@ -907,9 +915,13 @@ function _RepConvGRC() {
                         RepConv.Debug && console.log(elemGr.getElementsByClassName('wall_report_unit').length);
                         $.each($(elemGr).find($('.grcrt_wall_units')), function(indUn, elemUn) {
                             var
-                                unitName = RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit')));
-                            $(elemUn).find($('.place_unit_black')).html(units[typUnits[indLi][indGr]][unitName]),
-                            $(elemUn).find($('.place_unit_white')).html(units[typUnits[indLi][indGr]][unitName]);
+                                unitName = $(elemUn).find($('.wall_report_unit')).data('type');
+                                // RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit')));
+                            if(units[typUnits[indLi][indGr]][unitName]){
+                                $(elemUn).find($('.wall_report_unit')).data('unit_count',units[typUnits[indLi][indGr]][unitName]),
+                                $(elemUn).find($('.place_unit_black')).html(hun.shortenNumber(units[typUnits[indLi][indGr]][unitName])),
+                                $(elemUn).find($('.place_unit_white')).html(hun.shortenNumber(units[typUnits[indLi][indGr]][unitName]));
+                            }
                         });
                     });
                     // prawa strona
@@ -920,8 +932,11 @@ function _RepConvGRC() {
                         $.each($(elemGr).find($('.grcrt_wall_units')), function(indUn, elemUn) {
                             var
                                 unitName = RepConvTool.getUnitName($(elemUn).find($('.wall_report_unit')));
-                            $(elemUn).find($('.place_unit_black')).html(units[typUnits[indLi][indGr + 1]][unitName]),
-                            $(elemUn).find($('.place_unit_white')).html(units[typUnits[indLi][indGr + 1]][unitName]);
+                            if(units[typUnits[indLi][indGr]][unitName]){
+                                $(elemUn).find($('.wall_report_unit')).data('unit_count',units[typUnits[indLi][indGr + 1]][unitName]),
+                                $(elemUn).find($('.place_unit_black')).html(hun.shortenNumber(units[typUnits[indLi][indGr + 1]][unitName])),
+                                $(elemUn).find($('.place_unit_white')).html(hun.shortenNumber(units[typUnits[indLi][indGr + 1]][unitName]));
+                            }
                         });
                     });
                 }
@@ -2177,14 +2192,16 @@ function _RepConvGRC() {
 
     function townPopup(){
         if (RepConv.settings[RepConv.Cookie+'_town_popup']){
-            var acc = {}, alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName()
+            var acc = {}, 
+                alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName()
             $.each(ITowns.towns, function(ind,town){
                 var cc = town;
-                cc.points = cc.getPoints();
-                cc.player_name = Game.player_name
-                cc.alliance_name = alliance_name
-                cc.tooltip = new MousePopup(WMap.createTownTooltip('town',cc))
+                cc.points = cc.getPoints(),
+                cc.player_name = Game.player_name,
+                cc.alliance_name = alliance_name,
+                cc.tooltip = new MousePopup(WMap.createTownTooltip('town',cc)),
                 acc[ind]=cc
+                
             })
             $.each($('#town_groups_list .item.town_group_town:not(.grcrtPopup)'), function(it,et){
                 var cc = acc[$(et).data('townid')];
@@ -2192,6 +2209,7 @@ function _RepConvGRC() {
                 $(et).find($('.town_name')).mousePopup(cc.tooltip)
                 $(et).addClass('grcrtPopup')
             })
+            
         }
     }
 

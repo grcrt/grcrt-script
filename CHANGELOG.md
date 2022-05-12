@@ -1,3 +1,19 @@
+# [5.2.0](https://github.com/grcrt/grcrt-script/compare/v5.1.2...v5.2.0) (2022-04-03)
+
+
+### Bug Fixes
+
+* **alarm:** stop turning off on counter decrease ([21ef8e3](https://github.com/grcrt/grcrt-script/commit/21ef8e358ad79d8369cdfcf6da77f6b0e92118be))
+* **alliance forum:** stop scrolling down in certain situations ([5189814](https://github.com/grcrt/grcrt-script/commit/5189814051d0e657b91e2d2dcdf58d4243f35386))
+* **commands:** adjust settings in activity commands window ([d8eab3b](https://github.com/grcrt/grcrt-script/commit/d8eab3b6547dc0ee04266ce40f445bc7ca61a2e6))
+* **spy report:** minor fixes to spy report conversion ([a039a50](https://github.com/grcrt/grcrt-script/commit/a039a50909cbb65f6ff9a05e017d8499bac9d42a))
+
+
+### Features
+
+* **ABH:** add reset button ([eef0865](https://github.com/grcrt/grcrt-script/commit/eef08653b12199618e90f4be65cfbf1c01636bdf))
+* **barracks:** add spartan training spell to the barracks ([548606f](https://github.com/grcrt/grcrt-script/commit/548606f667418e2aa558e7b220689064cee1ffdf))
+
 ## [5.1.2](https://github.com/grcrt/grcrt-script/compare/v5.1.1...v5.1.2) (2021-10-24)
 
 

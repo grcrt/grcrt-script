@@ -421,7 +421,7 @@ function _GRCRT_AO() {
                     '.grcrt_ao_scroll .textbox {margin: 0px '+_aoMargin+'px; width: 40px; float: left;}'
                 )
                 .append(
-                    '.grcrt_ao_bl, .grcrt_ao_br, .grcrt_ao_green, .grcrt_ao_gray, .grcrt_ao_red {float: left; height: 24px; background: url('+Game.img()+'/game/survey/survey_sprite.png) no-repeat scroll 0px -39px;}\n'+
+                    '.grcrt_ao_bl, .grcrt_ao_br, .grcrt_ao_green, .grcrt_ao_gray, .grcrt_ao_red {float: left; height: 24px; background: url('+RepConv.grcrt_cdn+'/img/survey_sprite.png) no-repeat scroll 0px -39px;}\n'+
                     '.grcrt_ao_bl, .grcrt_ao_br {width: 2px;}\n'+
                     '.grcrt_ao_green, .grcrt_ao_gray, .grcrt_ao_red {width: 36px;}\n'+
                     '.grcrt_ao_bl {background-position: 0px -39px;}\n'+

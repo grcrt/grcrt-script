@@ -1,3 +1,10 @@
+## [5.3.1](https://github.com/grcrt/grcrt-script/compare/v5.3.0...v5.3.1) (2022-07-20)
+
+
+### Bug Fixes
+
+* **ao:** restore research colors ([1158f79](https://github.com/grcrt/grcrt-script/commit/1158f79363a21b6bf50826d01e8246c3065b0fbd)), closes [#69](https://github.com/grcrt/grcrt-script/issues/69)
+
 # [5.3.0](https://github.com/grcrt/grcrt-script/compare/v5.2.0...v5.3.0) (2022-05-12)
 
 

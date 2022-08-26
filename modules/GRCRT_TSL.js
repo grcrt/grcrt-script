@@ -39,7 +39,7 @@ function _GRCRT_TSL() {
             $('<style/>')
                 .append(
                     '#grcrtTslGroup {'+
-                        'width: 190px;'+
+                        'width: 290px;'+
                     '}'
                 )
                 .append(
@@ -70,7 +70,7 @@ function _GRCRT_TSL() {
                 .append(
                     '.TSLwrapper {'+
                         'height: 16px;'+
-                        'width: 160px;'+
+                        'width: 260px;'+
                         'position: absolute;'+
                         'top: 0;'+
                         'right: 0;'+
@@ -97,7 +97,7 @@ function _GRCRT_TSL() {
                         'display: inline-block;'+
                         'vertical-align: top;'+
                         'color: #FFF;'+
-                        'width: 124px;'+
+                        'width: 224px;'+
                         'text-align: center;'+
                     '}'
                 )
@@ -143,7 +143,7 @@ function _GRCRT_TSL() {
                         'border-left: 7px solid #423515;'+
                         'padding-right: 10px;'+
                         'background-color: rgba(0, 0, 0, 0.1);'+
-                        'width: 213px;'+
+                        'width: 313px;'+
                         'padding-left: 5px;'+
                     '}'
                 )
@@ -392,7 +392,7 @@ function _GRCRT_TSL() {
                     window_type: g,
                     minheight: 440,
                     maxheight: 440,
-                    width: 250,
+                    width: 350,
                     tabs: [{
                         type: f.INDEX,
                         title: 'none',

@@ -1,3 +1,10 @@
+## [5.3.2](https://github.com/grcrt/grcrt-script/compare/v5.3.1...v5.3.2) (2022-08-26)
+
+
+### Bug Fixes
+
+* change TSL window size ([1265bfe](https://github.com/grcrt/grcrt-script/commit/1265bfe4f2931c16f39c5da8d93d3ccb45f5ed3b))
+
 ## [5.3.1](https://github.com/grcrt/grcrt-script/compare/v5.3.0...v5.3.1) (2022-07-20)
 
 

@@ -2196,17 +2196,19 @@ function _RepConvGRC() {
                 alliance_name = MM.checkAndPublishRawModel('Player',{id:Game.player_id}).getAllianceName(),
                 heroes = MM.getCollections()['PlayerHero'][0], heroArray = {},
                 i = DM.getl10n("heroes", "common")
-            $.each(heroes.getHeroes(), function(idh, hhero){
-                var o = GameData.heroes[hhero.getId()];
-                heroArray[hhero.getOriginTownId()] = {
-                    id: hhero.getId(),
-                    level: hhero.getLevel(), 
-                    name: hhero.getName(),
-                    category: i.hero_of[o.category],
-                    txt_lvl: i.level(hhero.getLevel())
-                }
-                
-            })
+            if(heroes){
+                $.each(heroes.getHeroes(), function(idh, hhero){
+                    var o = GameData.heroes[hhero.getId()];
+                    heroArray[hhero.getOriginTownId()] = {
+                        id: hhero.getId(),
+                        level: hhero.getLevel(), 
+                        name: hhero.getName(),
+                        category: i.hero_of[o.category],
+                        txt_lvl: i.level(hhero.getLevel())
+                    }
+                    
+                })
+            }
             $.each(ITowns.towns, function(ind,town){
                 var cc = town;
                 cc.points = cc.getPoints(),

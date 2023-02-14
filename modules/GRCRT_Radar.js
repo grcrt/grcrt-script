@@ -6,10 +6,9 @@ function _GRCRT_Radar() {
         find_btn : "grcrt:radar:find_btn",
         display_towns : "grcrt:radar:display_towns"
     };
-    //this.wndName = 'grcrt_radar'
     var _IdS = 'grcrt_radar';
     var
-        radius = WMap.getChunkSize()*7,
+        // radius = WMap.getChunkSize()*7,
         _tList,
         _Tlist,
         _Tdist,
@@ -35,6 +34,8 @@ function _GRCRT_Radar() {
     var cbx_meteorology, cbx_cartography, cbx_set_sail, cbx_unit_movement_boost, cbx_lighthouse, hero_picker, hero_bonus = 0;
     var _adds = null;
     var _pagination;
+    var _grcrtData = [];
+    var __allyColors = {};
 
     function genCheckBox(pName, pChecked) {
         return $('<div/>', {'class':'checkbox_new'})
@@ -98,17 +99,17 @@ function _GRCRT_Radar() {
     //this.getMargin = function(){
     //    return margin;
     //}
-    //
+    // 
     //this.setMargin = function(value){
     //    margin = value;
     //}
-    //
+    // 
     //this.getResData = function(){
     //    return resData;
     //}
-    //
+    // 
     // this.getDdTownList = function(){
-    //     return dd_town_lists;
+    //    return dd_town_lists;
     // }
 
     this.getThtmlPage = function(){
@@ -172,55 +173,58 @@ function _GRCRT_Radar() {
     }
     function getUnitSpeed4Town(townId){
         // var _speed = 0
+if (RepConv.Debug) console.group("getUnitSpeed4Town")
+if (RepConv.Debug) console.log(townId)
         var bonus = 0,boost=0;
         bonus += (GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[townId].getResearches().get('cartography'))?GameData.research_bonus.cartography_speed:0
         bonus += (GameData.buildings.academy.max_level>30 && dd_units.getValue()=="colonize_ship" && MM.getModels().Town[townId].getResearches().get('set_sail'))?GameData.research_bonus.colony_ship_speed:0
         bonus += (GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[townId].getBuildings().get('lighthouse')==1)?GameData.additional_runtime_modifier.lighthouse_speed_bonus:0
         bonus += (!GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[townId].getResearches().get('meteorology'))?GameData.research_bonus.meteorology_speed:0
         boost += (cbx_unit_movement_boost.isChecked() && !$('.grcrt_modifiers .modifier_icon.unit_movement_boost').hasClass('inactive'))?0.3:0
+if (RepConv.Debug) console.log("bonus="+bonus)
+if (RepConv.Debug) console.log("boost="+boost)
+if (RepConv.Debug) console.log('result = '+GameData.units[dd_units.getValue()].speed*(1+bonus))*(1+hero_bonus+boost)
+if (RepConv.Debug) console.groupEnd()
         return (GameData.units[dd_units.getValue()].speed*(1+bonus))*(1+hero_bonus+boost)
         // *(1+(cbx_unit_movement_boost.isChecked() && !$('.grcrt_modifiers .modifier_icon.unit_movement_boost').hasClass('inactive'))?0.3:0)
     }
     function getUnitSpeed(){
         var bonus = 0,boost=0;
+if (RepConv.Debug) console.group("getUnitSpeed")
         bonus += (GameData.units[dd_units.getValue()].is_naval && cbx_cartography.isChecked() && !$('.grcrt_modifiers .modifier_icon.cartography').hasClass('inactive'))?GameData.research_bonus.cartography_speed:0
         bonus += (GameData.buildings.academy.max_level>30 && dd_units.getValue()=="colonize_ship" && cbx_set_sail.isChecked() && !$('.grcrt_modifiers .modifier_icon.set_sail').hasClass('inactive'))?GameData.research_bonus.colony_ship_speed:0
         bonus += (GameData.units[dd_units.getValue()].is_naval && cbx_lighthouse.isChecked() && !$('.grcrt_modifiers .modifier_icon.lighthouse').hasClass('inactive'))?GameData.additional_runtime_modifier.lighthouse_speed_bonus:0
         bonus += (!GameData.units[dd_units.getValue()].is_naval && cbx_meteorology.isChecked() && !$('.grcrt_modifiers .modifier_icon.meteorology').hasClass('inactive'))?GameData.research_bonus.meteorology_speed:0
         boost += (cbx_unit_movement_boost.isChecked() && !$('.grcrt_modifiers .modifier_icon.unit_movement_boost').hasClass('inactive'))?0.3:0
+if (RepConv.Debug) console.log("bonus="+bonus)
+if (RepConv.Debug) console.log("boost="+boost)
+if (RepConv.Debug) console.log('result = '+GameData.units[dd_units.getValue()].speed*(1+bonus))*(1+hero_bonus+boost)
+if (RepConv.Debug) console.groupEnd()
         return (GameData.units[dd_units.getValue()].speed*(1+bonus))*(1+hero_bonus+boost)
         // return (GameData.units[dd_units.getValue()].speed*(1+bonus))
         // *(1+(cbx_unit_movement_boost.isChecked() && !$('.grcrt_modifiers .modifier_icon.unit_movement_boost').hasClass('inactive'))?0.3:0)
     }
     function setUnitSpeed(){
+if (RepConv.Debug) console.group("setUnitSpeed")
         if(__town != null){
             // curTown = MM.getModels().Town[Game.townId],
             curTownX = __town.ix,
             curTownY = __town.iy,
             curChunk = WMap.toChunk(curTownX,curTownY).chunk,
-            resData[__town.id] = resData[__town.id]||{},
+            resData[__town.id] = {},//resData[__town.id]||{},
             _unitSpeed = getUnitSpeed()//GameData.units[dd_units.getValue()].speed
+if (RepConv.Debug) console.log("__town "+_unitSpeed)
         } else {
             // var bonus = 0;
             curTown = MM.getModels().Town[Game.townId],
             curTownX = curTown.get('island_x'),
             curTownY = curTown.get('island_y'),
             curChunk = WMap.toChunk(curTownX,curTownY).chunk,
-            resData[Game.townId] = resData[Game.townId]||{},
-
-//             bonus += (GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[Game.townId].getResearches().get('cartography'))?GameData.research_bonus.cartography_speed:0
-//             bonus += (dd_units.getValue()=="colonize_ship" && MM.getModels().Town[Game.townId].getResearches().get('set_sail'))?GameData.research_bonus.colony_ship_speed:0
-//             bonus += (GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[Game.townId].getBuildings().get('lighthouse')==1)?GameData.additional_runtime_modifier.lighthouse_speed_bonus:0
-
-//             bonus += (GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[Game.townId].getResearches().get('meteorology'))?GameData.research_bonus.meteorology_speed:0
-// console.log(bonus)
+            resData[Game.townId] = {},//resData[Game.townId]||{},
             _unitSpeed = getUnitSpeed4Town(Game.townId) //GameData.units[dd_units.getValue()].speed*(1+bonus)
-
-            // *(1
-            //     +(MM.getModels().Town[Game.townId].getResearches().get('cartography')?GameData.research_bonus.cartography_speed:0)
-            //     +(MM.getModels().Town[Game.townId].getResearches().get('set_sail')?GameData.research_bonus.colony_ship_speed:0)
-            // )
+if (RepConv.Debug) console.log("! __town "+_unitSpeed)
         }
+if (RepConv.Debug) console.groupEnd()
         $('.grcrt_modifiers .modifier_icon').removeClass('inactive')
         cbx_meteorology.enable()
         cbx_cartography.enable()
@@ -239,7 +243,8 @@ function _GRCRT_Radar() {
         }
 
         var pk = GameData.units.colonize_ship.speed;
-        var maxH = Math.floor(-1.875*1/pk*GameData.units[dd_units.getValue()].speed+25.875)*60*60
+        var maxH = Math.max(4,Math.floor(-1.875*1/pk*GameData.units[dd_units.getValue()].speed+25.875))*60*60
+// console.log(maxH);
         sp_cs_lifetime.setMax(DateHelper.readableSeconds(maxH))
         if(sp_cs_lifetime.getTimeValueAsSeconds()>maxH){
             sp_cs_lifetime.setValue(DateHelper.readableSeconds(maxH))
@@ -286,9 +291,9 @@ function _GRCRT_Radar() {
         _Tlist = {},
         _Tdist = [],
         setUnitSpeed()
-        setTimeout(function(){
-            checkReload()
-        },500)
+        // setTimeout(function(){
+        //     checkReload()
+        // },500)
         
     }
     function hex2rgba(hex,opacity){
@@ -300,9 +305,27 @@ function _GRCRT_Radar() {
             result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
         return result;
     }
-    function checkReload(){
+    function getServerData(){//checkReload(){
+        $.ajax({
+            type: "GET",
+            url: RepConv.grcrt_domain+'json_rpc.php',
+            data : { 
+                'method' : 'getTown4Radar',
+                'world' : Game.world_id,
+                'town_id' : (__town) ? __town.id : Game.townId,
+                'margin' : sp_cs_lifetime.getTimeValueAsSeconds()*_unitSpeed/50
+            },
+            dataType: "json",
+            async : false,
+            cache: true
+        })
+        .done(function(data) {
+            _grcrtData = data
+        })
+/*
         var gChunks=[], wmapChanged = false;
         var chunksArray = [];
+
         for(var xx = curChunk.x-getMargin(); xx <= curChunk.x+getMargin(); xx++){
             for(var yy = curChunk.y-getMargin(); yy <= curChunk.y+getMargin(); yy++){
                 try {
@@ -351,40 +374,41 @@ function _GRCRT_Radar() {
         setTimeout(function(){
             getChunks(chunksArray);
         },10);
+*/
     }
 
-    function getChunks(chunksArray){
-        var c = {
-            chunks: chunksArray[0]
-        };
-        WMap.ajaxloader.ajaxGet("map_data", "get_chunks", c, !0, function(res, c) {
-            $.each(res.data, function(ii, data){
-                chunk[data.chunk.x+'_'+data.chunk.y] = {
-                    timestamp: data.chunk.timestamp,
-                    towns: data.towns
-                }
-            })
-        })
-        chunksArray.remove(0,0);
-        if(chunksArray.length>0){
-            setTimeout(function(){
-                getChunks(chunksArray);
-            },300);
-        }
-    }
+    // function getChunks(chunksArray){
+    //     var c = {
+    //         chunks: chunksArray[0]
+    //     };
+    //     WMap.ajaxloader.ajaxGet("map_data", "get_chunks", c, !0, function(res, c) {
+    //         $.each(res.data, function(ii, data){
+    //             chunk[data.chunk.x+'_'+data.chunk.y] = {
+    //                 timestamp: data.chunk.timestamp,
+    //                 towns: data.towns
+    //             }
+    //         })
+    //     })
+    //     chunksArray.remove(0,0);
+    //     if(chunksArray.length>0){
+    //         setTimeout(function(){
+    //             getChunks(chunksArray);
+    //         },300);
+    //     }
+    // }
 
     function getData(){
+        resData[curTownId()] = {}
         if (Object.size(resData[curTownId()]) == 0) {
-            $.each(chunk, function(indd,data){
-                $.each(data.towns, function(indt,town){
+            // $.each(chunk, function(indd,data){
+                $.each(_grcrtData.towns, function(indt,town){
                     if (checker(town) == 'town') {
                         resData[curTownId()][town.id] = town;
                     }
                 })
-            })
+            // })
         }
         return resData[curTownId()];
-        //return WMap.mapData.getData(curTownX-radius,curTownY-radius,curTownX+radius,curTownY+radius, ["towns", "islands"]).towns
     }
     function curTownId(){
         if(__town != null)
@@ -397,7 +421,7 @@ function _GRCRT_Radar() {
             var 
                 __tmp = MM.getModels().Town[Game.townId],
                 chunks = WMap.toChunk(__tmp.get('island_x'),__tmp.get('island_y')).chunk,
-                data = chunk[chunks.x+'_'+chunks.y];
+                data = _grcrtData;//chunk[chunks.x+'_'+chunks.y];
             $.each(data.towns, function(indt,town){
                 if (checker(town) == 'town'){
                     if(town.id == __tmp.id) {
@@ -409,7 +433,10 @@ function _GRCRT_Radar() {
         } else {
             var 
                 chunks = WMap.toChunk(__town.ix,__town.iy).chunk,
-                data = chunk[chunks.x+'_'+chunks.y];
+                data = _grcrtData;//chunk[chunks.x+'_'+chunks.y];
+if (RepConv.Debug) console.group("__town")
+if (RepConv.Debug) console.log(__town)
+if (RepConv.Debug) console.groupEnd()
             $.each(data.towns, function(indt,town){
                 if (checker(town) == 'town'){
                     if(town.id == __town.id) {
@@ -429,8 +456,8 @@ function _GRCRT_Radar() {
                     'id' : a.id,
                     'ix' : a.x,
                     'iy' : a.y,
-                    // 'abs_x' : 0,
-                    // 'abs_y' : 0,
+                    'abs_x' : a.abs_x,
+                    'abs_y' : a.abs_y,
                     'name' : a.name,
                     'player_id' : a.player_id,
                     'player_name' : a.player_name,
@@ -453,70 +480,47 @@ function _GRCRT_Radar() {
                                     }
                                 )
                         ),
-                    //'popup' : (!WMap.createTownPopup)?WMap.createTownTooltip('town',a):WMap.createTownPopup('town',a),
+                    // 'popup' : (!WMap.createTownPopup)?WMap.createTownTooltip('town',a):WMap.createTownPopup('town',a),
                     'flag_type' : a.flag_type,
-                    'fc' : a.fc
+                    'fc' : getPlayerColor(a.player_id, a.alliance_id)
         }
-        a.id += "", a.id = a.id.replace("=", "");
-        var d = (require("map/helpers")).map2Pixel(a.x, a.y)
-/*
-        ,
-            e = (require("map/helpers")).getTownType(a),
-            f = "" === a.player_name,
-            g = e + "_" + a.id;
-        // elTown.abs_x = a.abs_x||d.x+a.ox
-        // elTown.abs_y = a.abs_y||d.y+a.oy
-
-        var h = MapTiles.cssOffset.x + d.x,
-            i = MapTiles.cssOffset.y + d.y,
-            j = MapTiles.tOffset[a.dir] || MapTiles.ftOffset,
-            k = h + a.ox,// - a.fx,
-            l = i + a.oy;// - a.fy;
-        if (j) k += j.x, l += j.y;
-        var m = MapTiles.d.createElement("a");
-        if (m.className = "tile",
-            m.href = "#" +
-                btoa('{"id":"' + a.id + '","ix":' + a.x + ',"iy":' + a.y + ',"tp":"' + e + '"' +
-                    ("free" === e
-                        ? (a.invitation_spot
-                           ? ',"inv_spo":true'
-                           : "") + ',"nr":' + a.nr : "") +
-                    (void 0 !== a.player_town_id && null !== a.player_town_id
-                        ? ',"player_town_id":' + a.player_town_id
-                        : "") +
-                    (void 0 !== a.nr && null !== a.nr
-                        ? ',"number_on_island":' + a.nr
-                        : "")
-                    + "}"),
-            "farm_town" === e) {
-                var n = "";
-                var o = MapTiles.d.createElement("div");
-                o.className = "tile" + n, o.appendChild(m), o.style.left = k + "px", o.style.top = l + "px", o.id = g
-        } else {
-            elTown.abs_x = k,
-            elTown.abs_y = l,
-            // elTown.abs_x = d.x+a.ox,
-            // elTown.abs_y = d.y+a.oy,
-            m.id = g;
-        }
-            elTown.abs_x = k,
-            elTown.abs_y = l
-*/
-            elTown.abs_x = d.x+a.ox,
-            elTown.abs_y = d.y+a.oy
+//         a.id += "", a.id = a.id.replace("=", "");
+//         var d = (require("map/helpers")).map2Pixel(a.x, a.y)
+//         elTown.abs_x = d.x+a.ox,
+//         elTown.abs_y = d.y+a.oy
         return elTown;
     }
 
     function genTownList() {
+        var what;
+        __allyColors[Game.alliance_id]='OWN_ALLIANCE';
+        $.each(MM.getOnlyCollectionByName("AlliancePact").models, function(ii,ee){
+            if(!ee.getInvitationPending()){
+                switch (ee.getRelation()){
+                    case "war":
+                        what = "ENEMY";
+                        break;
+                    case "peace":
+                        what = "PACT";
+                        break;
+                }
+                __allyColors[(ee.getAlliance1Id() == Game.alliance_id) ? ee.getAlliance2Id() : ee.getAlliance1Id()] = what
+            }
+        })
         if (__player != null) {
+if (RepConv.Debug) console.log('genPlayer();')
             genPlayer();
         } else if (__ally != null) {
+if (RepConv.Debug) console.log('genAlly();')
             genAlly();
         } else if (__town != null) {
+if (RepConv.Debug) console.log('genTown();')
             genTown();
         } else if (rGhostAll.getValue() != 'RGHOST'){
+if (RepConv.Debug) console.log('genAll();')
             genAll();
         } else {
+if (RepConv.Debug) console.log('genGhost();')
             genGhost();
         }
         return true;
@@ -556,7 +560,7 @@ function _GRCRT_Radar() {
         _tList = []
         $.each(getData(), function(ind, elem){
             var res = generateTown(elem);
-            if (res != null && res.player_id != Game.player_id) {
+            if (elem.id != Game.townId && res != null) {
                 _tList.push(res);
             }
         })
@@ -605,13 +609,14 @@ function _GRCRT_Radar() {
                 !(GameData.units[dd_units.getValue()].flying || GameData.units[dd_units.getValue()].is_naval)){
             } else {
                 ___unitSpeed = (MM.getModels().Town[elTown.id]) ? getUnitSpeed4Town(elTown.id) : _unitSpeed,
-                __timeInSec = Math.floor(50*_dist/___unitSpeed+_offset)
+                __timeInSec = Math.round(50*_dist/___unitSpeed+_offset)
+if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _unitSpeed="+_unitSpeed)
                 if (_Tlist[__timeInSec] == undefined){
                     _Tlist[__timeInSec] = {'time':0, 'towns' : []};
                     _Tdist.push(__timeInSec)
                 }
                 _Tlist[__timeInSec]['towns'].push(elTown),
-                _Tlist[__timeInSec].timeInSec = Math.floor(50*_dist/___unitSpeed+_offset),
+                _Tlist[__timeInSec].timeInSec = Math.round(50*_dist/___unitSpeed+_offset),
                 _Tlist[__timeInSec].time = DateHelper.readableSeconds(_Tlist[__timeInSec].timeInSec)
             }
         })
@@ -732,6 +737,7 @@ function _GRCRT_Radar() {
                             }
                             eeT.timeInSec = _Tlist[_key].timeInSec
                             eeT.time = _Tlist[_key].time
+//                            eeT.fc = getPlayerColor(eeT.player_id, eeT.alliance_id)//(eeT.href,__allyColors)
                             _Thtml[Math.floor(_qq++/20).toString()].push(eeT);
                         }
                     }
@@ -828,9 +834,8 @@ function _GRCRT_Radar() {
                 __addons += (GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[eeT.id].getResearches().get('cartography'))?'<div class="grcrt_bonuses grcrt_cartography"></div>':'',
                 __addons += (dd_units.getValue()=="colonize_ship" && MM.getModels().Town[eeT.id].getResearches().get('set_sail'))?'<div class="grcrt_bonuses grcrt_set_sail"></div>':'',
                 __addons += (GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[eeT.id].getBuildings().get('lighthouse')==1)?'<div class="grcrt_bonuses grcrt_lighthouse"></div>':'',
-                __addons += (!GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[eeT.id].getResearches().get('meteorology'))?'<div class="grcrt_bonuses grcrt_meteorology"></div>':''
+                __addons += !(GameData.units[dd_units.getValue()].is_naval && MM.getModels().Town[eeT.id].getResearches().get('meteorology'))?'<div class="grcrt_bonuses grcrt_meteorology"></div>':''
             }
-
             $('#grcrt_radar_result ul')
                 .append(
                     $('<li/>', {'class':((++_qq%2)?'even':'odd')})
@@ -944,6 +949,63 @@ function _GRCRT_Radar() {
             return rGhostAll;
             //return DM.getl10n('common','ghost_town');
         }
+    }
+
+    function getPlayerColor(player_id, alliance_id){
+        var 
+            _mmcc = MM.getOnlyCollectionByName("CustomColor"),
+            _defc = require("helpers/default_colors"),
+            _ffty = require("enums/filters"),
+            // _json = JSON.parse(RepConvTool.Atob(hash)),
+            _color = undefined;
+        if (player_id == Game.player_id) {
+            _color = _defc.getDefaultColorForPlayer(Game.player_id)
+        }
+        if(!_color && !player_id && !alliance_id){
+            _color = '666666';
+        }
+
+        if(!_color){
+            _color = _mmcc.getCustomColorByIdAndType(_ffty.FILTER_TYPES.PLAYER,player_id) && _mmcc.getCustomColorByIdAndType(_ffty.FILTER_TYPES.PLAYER,player_id).getColor()
+        }
+
+        if(!_color){
+            if(player_id && alliance_id){
+                if(alliance_id == Game.alliance_id){
+                    _color = (
+                            _mmcc.getCustomColorByIdAndType(_ffty.ALLIANCE_TYPES.OWN_ALLIANCE,alliance_id) &&
+                            _mmcc.getCustomColorByIdAndType(_ffty.ALLIANCE_TYPES.OWN_ALLIANCE,alliance_id).getColor()
+                            ||
+                            _defc.getDefaultColorForAlliance(alliance_id)
+                        )
+                } else {
+                    _color = (
+                        (
+                            __allyColors[alliance_id] && 
+                            (
+                                _mmcc.getCustomColorByIdAndType(_ffty.FILTER_TYPES[__allyColors[alliance_id]],alliance_id)  && 
+                                _mmcc.getCustomColorByIdAndType(_ffty.FILTER_TYPES[__allyColors[alliance_id]],alliance_id).getColor()
+                                ||
+                                _defc.getDefaultColorForAlliance(alliance_id)
+                            )
+                        )
+                        ||
+                        (
+                            alliance_id && 
+                            (
+                                _mmcc.getCustomColorByIdAndType(_ffty.FILTER_TYPES.ALLIANCE,alliance_id) && 
+                                _mmcc.getCustomColorByIdAndType(_ffty.FILTER_TYPES.ALLIANCE,alliance_id).getColor()
+                                ||
+                                _defc.getDefaultColorForAlliance(alliance_id)
+                            )
+                        )
+                    )
+                }
+            } else {
+                _color = _defc.getDefaultColorForPlayer(player_id,Game.player_id)
+            }
+        }
+        return _color;
     }
 
     function header(){
@@ -1244,6 +1306,7 @@ function _GRCRT_Radar() {
                         a.prototype.initialize.apply(this, arguments),
                         default_timeCS = RepConvTool.getSettings(RepConv.Cookie+'radar_cs', '06:00:00'),
                         default_points = parseInt(RepConvTool.getSettings(RepConv.Cookie+'radar_points', 0)),
+                        this.unregisterListeners()
                         this._radarMode(),
                         this.registerListeners(),
                         this.render(),
@@ -1262,7 +1325,7 @@ function _GRCRT_Radar() {
                     registerListeners: function() {
                         if (RepConv.Debug) console.log('registerListeners')
                         $.Observer(GameEvents.town.town_switch)
-                            .subscribe('GRCRT_Radar_town_town_switch', this._setCurrentTown.bind(this)),
+                            .subscribe('GRCRT_Radar_town_town_switch', this._setCurrentTown.bind(this))
                         $.Observer(GameEvents.grcrt.radar.find_btn)
                             .subscribe('GRCRT_Radar_grcrt_radar_find_btn', this._findTowns.bind(this))
                         $.Observer(GameEvents.grcrt.radar.display_towns)
@@ -1298,7 +1361,7 @@ function _GRCRT_Radar() {
                         sp_cs_lifetime = $("#grcrt_cs_time").spinner({
                                                                         value: default_timeCS,
                                                                         step: "00:30:00",
-                                                                        max: "24:00:00",
+                                                                        max: "48:00:00",
                                                                         min: "00:00:00",
                                                                         type: "time"
                                                 }),
@@ -1348,16 +1411,25 @@ function _GRCRT_Radar() {
                         },10)
                     },
                     _findTowns: function(){
+                        $.Observer(GameEvents.grcrt.radar.find_btn)
+                            .unsubscribe('GRCRT_Radar_grcrt_radar_find_btn')
                         var _wnd = this.getWindowModel(),
                         that = this;
-                        this.getWindowModel().showLoading();
-                        setTimeout(function(){
-                            $('#grcrt_radar_result').html(""),
-                            genTownList(),
-                            generateTime(),
-                            displayTownListHeader(),
-                            _wnd.hideLoading()
-                        },50)
+                        if(!this.working){
+                            this.getWindowModel().showLoading();
+                            setTimeout(function(){
+                                that.working = true;
+                                $('#grcrt_radar_result').html(""),
+                                getServerData(),
+                                genTownList(),
+                                generateTime(),
+                                displayTownListHeader(),
+                                that.unregisterListeners(),
+                                that.registerListeners(),
+                                _wnd.hideLoading(),
+                                that.working = false;
+                            },500)
+                        }
                     },
                     registerComponent: function(a, b, c) {
                         var d = {
@@ -1408,7 +1480,8 @@ function _GRCRT_Radar() {
                         } catch(e){
                             setGhost()
                         }
-                    }
+                    },
+                    toWork: false
                 });
             window.GameViews['GrcRTView_'+_IdS] = c
         }(),
@@ -1444,4 +1517,3 @@ function _GRCRT_Radar() {
         }()
     }
 }
-

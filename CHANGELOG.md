@@ -1,3 +1,10 @@
+# [5.4.0](https://github.com/grcrt/grcrt-script/compare/v5.3.2...v5.4.0) (2023-02-14)
+
+
+### Features
+
+* **radar:** improve Radar module ([4c9f0c9](https://github.com/grcrt/grcrt-script/commit/4c9f0c972e8ff919b25318a0dedc17e354df1dcd))
+
 ## [5.3.2](https://github.com/grcrt/grcrt-script/compare/v5.3.1...v5.3.2) (2022-08-26)
 
 

@@ -1,3 +1,10 @@
+## [5.4.1](https://github.com/grcrt/grcrt-script/compare/v5.4.0...v5.4.1) (2023-04-30)
+
+
+### Bug Fixes
+
+* **radar:** change spinners ([e7fce0a](https://github.com/grcrt/grcrt-script/commit/e7fce0a30a343eeed706c139b416c40ced87386a)), closes [#75](https://github.com/grcrt/grcrt-script/issues/75)
+
 # [5.4.0](https://github.com/grcrt/grcrt-script/compare/v5.3.2...v5.4.0) (2023-02-14)
 
 

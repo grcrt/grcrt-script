@@ -112,6 +112,10 @@ function _GRCRT_Radar() {
     //    return dd_town_lists;
     // }
 
+    this.getSpCs = function(){
+        return sp_cs_lifetime;
+    }
+
     this.getThtmlPage = function(){
         return _ThtmlPage;
     }
@@ -1029,7 +1033,7 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                             .on("sp:change:value", function(a, b, c) {
                                 hero_bonus = GameData.heroes[hero_picker.getValue()].description_args[1].value + GameData.heroes[hero_picker.getValue()].description_args[1].level_mod * b,
                                 setUnitSpeed()
-                            })
+                            }).css({'width':'75px','text-align': 'left'})
                         : null;
 
 
@@ -1082,7 +1086,7 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                                     .html(RepConvTool.GetLabel('RADAR.MAXUNITTIME'))
                             )
                             .append(
-                                $('<div/>', {'id': 'grcrt_cs_time','class':'spinner','style':'width: 70px; float: right; margin: 2px;'})
+                                $('<div/>', {'id': 'grcrt_cs_time','class':'spinner','style':'width: 100px; float: right; margin: 2px;'})
                             )
                     )
                     .append(
@@ -1094,8 +1098,8 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                             .append(
                                 $('<div/>', {
                                     'id': 'grcrt_town_points',
-                                    'class':'spinner',
-                                    'style':'width: 65px; float: right; margin: 2px;'
+                                    'class':'spinner_horizontal',
+                                    'style':'width: 100px; float: right; margin: 2px;'
                                 })
                             )
                     )
@@ -1108,8 +1112,8 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                             .append(
                                 $('<div/>', {
                                     'id': 'grcrt_player_idle',
-                                    'class':'spinner',
-                                    'style':'width: 40px; float: right; margin: 2px;'
+                                    'class':'spinner_horizontal',
+                                    'style':'width: 80px; float: right; margin: 2px;'
                                 })
                             )
                     )
@@ -1123,14 +1127,14 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                                 $('<div/>', {
                                     'id': 'grcrt_town_lists',
                                     'class':'dropdown default',
-                                    'style':'width: 150px; float: right; margin: 2px 2px 0px 2px;'
+                                    'style':'width: 155px; float: right; margin: 2px 2px 0px 2px;'
                                 })
                             )
                     )
                     .append(
                         $('<div/>', {'class':"runtime_info grcrt_modifiers", 'style':"float: left;"})
                             .append(
-                                $('<div/>', {'class':"modifiers_container", 'style':"max-width: 340px;margin-top: 0px;margin-left: 0px;"})
+                                $('<div/>', {'class':"modifiers_container", 'style':"max-width: 315px;margin-top: 0px;margin-left: 0px;"})
                                     .append(
                                         $('<div/>', {'class':"other_modifiers"})
                                             .append(
@@ -1261,6 +1265,9 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                 .append(
                     '.grcrt_pagination {padding: 5px;height: 20px;}'
                 )
+                .append(
+                    '#grcrt_cs_time>.body>input {text-align:center !important; left: 5px;}'
+                )
         )
         $('#tpl_grcrt_units_list').remove()
         $('<script/>',{'type':"text/template",'id':"tpl_grcrt_units_list"}).text(''+
@@ -1358,20 +1365,20 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                             $('.grcrt_modifiers .modifier_icon.'+o).tooltip(getTooltip(o))
                         })
 
-                        sp_cs_lifetime = $("#grcrt_cs_time").spinner({
-                                                                        value: default_timeCS,
-                                                                        step: "00:30:00",
-                                                                        max: "48:00:00",
-                                                                        min: "00:00:00",
-                                                                        type: "time"
-                                                }),
-                        sp_town_points = $("#grcrt_town_points").spinner({
+                        sp_cs_lifetime = $("#grcrt_cs_time").spinnerHorizontal({
+                                                                value: default_timeCS,
+                                                                step: "00:30:00",
+                                                                max: "48:00:00",
+                                                                min: "00:30:00",
+                                                                type: "time"
+                                                            }),
+                        sp_town_points = $("#grcrt_town_points").spinnerHorizontal({
                                                     value: default_points,
                                                     step: 500,
                                                     max: 18000,
                                                     min: 0
                                                 }),
-                        sp_player_idle = $("#grcrt_player_idle").spinner({
+                        sp_player_idle = $("#grcrt_player_idle").spinnerHorizontal({
                                                     value: 0,
                                                     step: 1,
                                                     max: 999,
@@ -1511,7 +1518,15 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                     activepagenr: 0,
                     minimizable: !0,
                     resizable: !1,
-                    title: RepConv.grcrt_window_icon + RepConvTool.GetLabel('RADAR.TOWNFINDER')
+                    title: RepConv.grcrt_window_icon + RepConvTool.GetLabel('RADAR.TOWNFINDER'),
+                    special_buttons: {
+                        help: {
+                            action: {
+                                type: "external_link",
+                                url: RepConv.Scripts_url+'module/grchowto#radar'
+                            }
+                        }
+                    }
                 }, b)
             }
         }()

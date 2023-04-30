@@ -3616,6 +3616,25 @@ function _RepConvGRC() {
                 })(jQuery);
             }
         } catch (e) {console.err(e)}
+
+        try{
+            if (typeof $.fn.spinnerHorizontal != 'undefined') {
+                (function($){
+                    if(!RepConv.spinnerHorizontal){
+                        RepConv.spinnerHorizontal = $.fn.spinnerHorizontal;
+                        $.fn.spinnerHorizontal = function(){
+                            var ret = RepConv.spinnerHorizontal.apply(this, arguments);
+                            ret.on('keyup','input',function(event){
+                                if (event.keyCode == 38)        { ret.stepUp()
+                                } else if (event.keyCode == 40) { ret.stepDown()
+                                }
+                            })
+                            return ret;
+                        };
+                    }
+                })(jQuery);
+            }
+        } catch (e) {console.err(e)}
         new _grcrtWindowGrcRT();
         new _grcrtWindowStats();
         new _grcrtWindowAnalysis();
@@ -3666,7 +3685,7 @@ function _RepConvGRC() {
                                 .append(
                                     $('<iframe/>', {
                                         'src': website,
-                                        'style': 'width: 995px; height: 625px; border: 0px',
+                                        'style': 'width: 995px; height: 625px; border: 0px'
                                         }
                                     ).bind('load', function() {
                                         $.each(WM.getWindowByType(_IdS), function(ii,ee){
@@ -3737,7 +3756,7 @@ function _RepConvGRC() {
                                 .append(
                                     $('<iframe/>', {
                                         'src': website,
-                                        'style': 'width: 995px; height: 625px; border: 0px',
+                                        'style': 'width: 995px; height: 625px; border: 0px'
                                         }
                                     ).bind('load', function() {
                                         $.each(WM.getWindowByType(_IdS), function(ii,ee){
@@ -3802,7 +3821,7 @@ function _RepConvGRC() {
                                 .append(
                                     $('<iframe/>', {
                                         'src': this.whatLoading(),
-                                        'style': 'width: 815px; height: 430px; border: 0px; float: left;',
+                                        'style': 'width: 815px; height: 430px; border: 0px; float: left;'
                                         }
                                     ).bind('load', function() {
                                         (WM.getWindowByType(_IdS)[0]).hideLoading();

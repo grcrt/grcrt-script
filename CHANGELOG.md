@@ -1,3 +1,10 @@
+## [5.4.2](https://github.com/grcrt/grcrt-script/compare/v5.4.1...v5.4.2) (2023-06-13)
+
+
+### Bug Fixes
+
+* **wall:** restores broken functionality ([463b753](https://github.com/grcrt/grcrt-script/commit/463b753bcd5c6c53b633ee20198ad6bf24f1b8c0))
+
 ## [5.4.1](https://github.com/grcrt/grcrt-script/compare/v5.4.0...v5.4.1) (2023-04-30)
 
 

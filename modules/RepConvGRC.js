@@ -28,14 +28,15 @@ function _RepConvGRC() {
                         .append(
                             $('<a/>',{'href':'#n','class':'grc_reload down_big reload', 'style':'float: right; height: 22px; margin: -1px 0 1px;','rel':RCGP.getID()})
                                 .click(function(){
-                                    switch(Layout.wnd.getWindowById($(this).attr('rel')).getController()){
-                                        case "building_barracks":
-                                            BarracksWindowFactory.openBarracksWindow();
-                                            break;
-                                        case "building_docks":
-                                            DocksWindowFactory.openDocksWindow();
-                                            break;
-                                    }
+                                    Layout.wnd.getWindowById($(this).attr('rel')).reloadContent()
+                                    // switch(Layout.wnd.getWindowById($(this).attr('rel')).getController()){
+                                    //     case "building_barracks":
+                                    //         BarracksWindowFactory.openBarracksWindow();
+                                    //         break;
+                                    //     case "building_docks":
+                                    //         DocksWindowFactory.openDocksWindow();
+                                    //         break;
+                                    // }
                                 })
                         );
                 }
@@ -836,7 +837,7 @@ function _RepConvGRC() {
     
                 RepConv.Debug && console.log('Load wall...');
                 var unitDiff;
-                var hun = require("helpers/unit_numbers");
+                var hun = require("helpers/short_numbers");
                 $.each(RCGP.getJQElement().find($('div#building_wall li.odd')), function(indLi, elemLi) {
                     if (indLi > 0) {
                         // lewa strona
@@ -904,7 +905,7 @@ function _RepConvGRC() {
                     }
                 })
             }
-            var hun = require("helpers/unit_numbers");
+            var hun = require("helpers/short_numbers");
             saveBtn.disable(!(loadTimeStamp == _curTimestamp));
             $.each(RCGP.getJQElement().find($('div#building_wall li.odd')), function(indLi, elemLi) {
                 if (indLi > 0) {

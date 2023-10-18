@@ -1,3 +1,10 @@
+## [5.4.3](https://github.com/grcrt/grcrt-script/compare/v5.4.2...v5.4.3) (2023-10-18)
+
+
+### Bug Fixes
+
+* island and radar playerlink formatting ([e66c194](https://github.com/grcrt/grcrt-script/commit/e66c19400128508ead2a0dce4f42fc092f799e6a))
+
 ## [5.4.2](https://github.com/grcrt/grcrt-script/compare/v5.4.1...v5.4.2) (2023-06-13)
 
 

@@ -168,9 +168,9 @@ function _RepConvAdds() {
             $('#ui_box')
                 .append(
                 $('<img/>', {
-                    'src':RepConv.grcrt_cdn+'img/octopus.png',
+                    'src':RepConv.grcrt_cdn+'/img/rip-64w.png',
                     'id': 'grcgrc',
-                    'style':'position:absolute;bottom:10px;left:10px;z-index:1000'})
+                    'style':'position:absolute;bottom:0px;left:0px;z-index:1000'})
                 );
             // this.addPlayerLedger();
             }

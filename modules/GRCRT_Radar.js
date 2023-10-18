@@ -819,14 +819,14 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
             __owner = (eeT.player_id == null)
                         ? DM.getl10n('common','ghost_town')
                         : '<img src="'+Game.img()+'/game/icons/player.png" />' + hCommon.player(
-                            btoa(
-                                JSON.stringify({"name":eeT.player_name,"id":eeT.player_id})
-                                    .replace(/[\u007f-\uffff]/g,
-                                        function(c) { 
-                                          return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
-                                        }
-                                    )
-                            ),
+                            // btoa(
+                            //     JSON.stringify({"name":eeT.player_name,"id":eeT.player_id})
+                            //         .replace(/[\u007f-\uffff]/g,
+                            //             function(c) { 
+                            //               return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+                            //             }
+                            //         )
+                            // ),
                             eeT.player_name,
                             eeT.player_id
                         ),
@@ -906,14 +906,14 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
         if (__player != null) {
             return '<img src="' + Game.img() + '/game/icons/player.png" />' +
                     hCommon.player(
-                                    btoa(
-                                        JSON.stringify({"name":__player.name,"id":__player.id})
-                                            .replace(/[\u007f-\uffff]/g,
-                                                function(c) { 
-                                                  return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
-                                                }
-                                            )
-                                    ),
+                                    // btoa(
+                                    //     JSON.stringify({"name":__player.name,"id":__player.id})
+                                    //         .replace(/[\u007f-\uffff]/g,
+                                    //             function(c) { 
+                                    //               return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+                                    //             }
+                                    //         )
+                                    // ),
                                     __player.name,
                                     __player.id
                                 );

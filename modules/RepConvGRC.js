@@ -385,14 +385,14 @@ function _RepConvGRC() {
                         if(etown.player == $(elem).html()){
                             $(elem).html(
                                 hCommon.player(
-                                    btoa(
-                                        JSON.stringify({"name":etown.player,"id":etown.pid})
-                                            .replace(/[\u007f-\uffff]/g,
-                                                function(c) { 
-                                                  return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
-                                                }
-                                            )
-                                    ),
+                                    // btoa(
+                                    //     JSON.stringify({"name":etown.player,"id":etown.pid})
+                                    //         .replace(/[\u007f-\uffff]/g,
+                                    //             function(c) { 
+                                    //               return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+                                    //             }
+                                    //         )
+                                    // ),
                                     etown.player,
                                     etown.pid
                                 )
@@ -3533,7 +3533,7 @@ function _RepConvGRC() {
             $('<img/>', {
                 'src':RepConv.grcrt_cdn+'img/mute.png',
                 'id' : 'grcrtSound',
-                'style': 'position:absolute; bottom: 45px; left: 15px;z-index: 1002;'
+                'style': 'position:absolute; bottom: 85px; left: 15px;z-index: 1002;'
             })
             .mousePopup(new MousePopup(RepConvTool.GetLabel('POPDISABLEALARM')))
             .click(function() {
@@ -3553,6 +3553,7 @@ function _RepConvGRC() {
             })
             .hide()
         );
+
     $('<div/>',{'id':'grcrtVideoContainers','style':'width:1px !important; height:1px !important'})
         .append($('<div/>',{'id':'grcrtVideoContainer'}))
         .append($('<div/>',{'id':'grcrtVideoContainerTest'}))
@@ -3660,6 +3661,12 @@ function _RepConvGRC() {
         // activity_commands_list();
         construction_queue_chg();
         addAttackObserver();
+        $('#grcgrc')
+            .css("cursor","pointer")
+            .mousePopup(new MousePopup("That's the end of GRCRTools"))
+            .click(function(){
+                RepConvGRC.openGRCRT('HELPTAB1');
+            })
     }
     // -- okienka
     function _grcrtWindowStats(){

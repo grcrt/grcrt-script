@@ -893,7 +893,11 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                 )
         })
         $.each(getAdds().split(" "), function(i,o){
-            $('#grcrt_radar_result ul .grcrt_'+o+':not(.grcrt_done)').tooltip(getTooltip(o)).addClass('grcrt_done')
+            try{
+                $('#grcrt_radar_result ul .grcrt_'+o+':not(.grcrt_done)').tooltip(getTooltip(o)).addClass('grcrt_done')
+            } catch(e){
+                console.log(e)
+            }
         })
         $.each($(".grcrt_rr_cs_time .arrival_time:not(.grcrt_done)"), function(i,elem){
            $(elem).text($(elem).data('sec')+"").updateTime().addClass('grcrt_done')
@@ -1362,7 +1366,11 @@ if (RepConv.Debug) console.log("generateTime ___unitSpeed="+___unitSpeed+" vs _u
                             setUnitSpeed()
                         })
                         $.each(getAdds().split(" "), function(i,o){
-                            $('.grcrt_modifiers .modifier_icon.'+o).tooltip(getTooltip(o))
+                            try{
+                                $('.grcrt_modifiers .modifier_icon.'+o).tooltip(getTooltip(o))
+                            } catch(e){
+                                console.log(e)
+                            }
                         })
 
                         sp_cs_lifetime = $("#grcrt_cs_time").spinnerHorizontal({

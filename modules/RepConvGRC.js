@@ -3533,7 +3533,7 @@ function _RepConvGRC() {
             $('<img/>', {
                 'src':RepConv.grcrt_cdn+'img/mute.png',
                 'id' : 'grcrtSound',
-                'style': 'position:absolute; bottom: 85px; left: 15px;z-index: 1002;'
+                'style': 'position:absolute; bottom: 45px; left: 15px;z-index: 1002;'
             })
             .mousePopup(new MousePopup(RepConvTool.GetLabel('POPDISABLEALARM')))
             .click(function() {
@@ -3661,12 +3661,12 @@ function _RepConvGRC() {
         // activity_commands_list();
         construction_queue_chg();
         addAttackObserver();
-        $('#grcgrc')
-            .css("cursor","pointer")
-            .mousePopup(new MousePopup("That's the end of GRCRTools"))
-            .click(function(){
-                RepConvGRC.openGRCRT('HELPTAB1');
-            })
+        // $('#grcgrc')
+        //     .css("cursor","pointer")
+        //     .mousePopup(new MousePopup("That's the end of GRCRTools or..."))
+        //     .click(function(){
+        //         RepConvGRC.openGRCRT('HELPTAB1');
+        //     })
     }
     // -- okienka
     function _grcrtWindowStats(){

@@ -1,3 +1,10 @@
+## [5.4.4](https://github.com/grcrt/grcrt-script/compare/v5.4.3...v5.4.4) (2024-07-27)
+
+
+### Bug Fixes
+
+* **radar:** fix broken search ([7d2fe24](https://github.com/grcrt/grcrt-script/commit/7d2fe24a1ca593d5a94fd18e8653d55343700b51))
+
 ## [5.4.3](https://github.com/grcrt/grcrt-script/compare/v5.4.2...v5.4.3) (2023-10-18)
 
 

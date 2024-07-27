@@ -83,7 +83,3 @@ workflows:
       - deploy:
           requires: 
             - test
-
-notify:
-  webhooks:
-    - url: https://webhooks.gitter.im/e/4ded253c643be4ece1d5

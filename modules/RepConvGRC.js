@@ -45,7 +45,7 @@ function _RepConvGRC() {
     }
     function addSpell(RCGP){
         var _powers = {},
-            _power_div = $('<div/>', {'class' : "powers_container clearfix"}),
+            _power_div = $('<div/>', {'class' : "powers_container clearfix", 'css' : {"padding-top" : "10px"}}),
             power_id = undefined,
             _god = undefined,
             _pow_ena = false;
